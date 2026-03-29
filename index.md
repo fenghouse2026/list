@@ -28,10 +28,9 @@
         .header p { color: #7A7571; font-size: 14px; margin-top: 6px; }
 
         /* =========================================
-           2. 頂部選單 (類別選擇 - 絕對保留不變)
+           2. 頂部選單
            ========================================= */
         .category-selector { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 30px; }
-        @media (max-width: 600px) { .category-selector { grid-template-columns: repeat(2, 1fr); } }
         
         .cat-btn {
             background: #FFFFFF; border: 2px solid #E4E4E4; border-radius: var(--card-radius);
@@ -49,7 +48,7 @@
         #mainFormArea { display: none; animation: fadeIn 0.4s ease; }
 
         /* =========================================
-           3. 表單介面樣式
+           3. 表單介面樣式 (電腦版預設)
            ========================================= */
         .card {
             background: #FFFFFF; border-radius: var(--card-radius); padding: 24px 20px;
@@ -79,23 +78,44 @@
 
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
         .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
-        @media (max-width: 600px) { .grid-3, .grid-2 { grid-template-columns: 1fr; } }
         
         .other-text-input { display: none; margin-top: 10px; animation: fadeIn 0.3s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
         
-        /* 填空題專用樣式 */
         .fill-blank-group { display: flex; align-items: center; gap: 8px; margin-top: 5px; flex-wrap: wrap; }
         .fill-blank-group input { padding: 10px; text-align: center; }
         .fill-blank-text { font-weight: bold; color: #555; }
 
-        /* 動態新增工具按鈕 */
         .btn-add-tool { background: rgba(0, 140, 74, 0.08); color: var(--brand-green); border: 1px dashed var(--brand-green); padding: 8px 15px; border-radius: 8px; font-size: 14px; font-weight: bold; cursor: pointer; margin-top: 5px; width: 100%; transition: all 0.2s; }
         .btn-add-tool:hover { background: rgba(0, 140, 74, 0.15); }
         .dynamic-row { display: flex; gap: 10px; margin-top: 10px; animation: fadeIn 0.3s; }
         .dynamic-row .dyn-key { width: 35%; }
         .dynamic-row .dyn-val { flex: 1; }
         .btn-remove-row { background: none; border: none; color: var(--brand-red); font-size: 20px; cursor: pointer; padding: 0 5px;}
+
+        /* =========================================
+           ✨ 3.1 手機版專屬最佳化 (解決畫面太大、一格一格填)
+           ========================================= */
+        @media (max-width: 600px) {
+            body { padding: 15px 10px 100px; }
+            .category-selector { grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 20px; }
+            .cat-btn { padding: 15px 8px; }
+            
+            /* 縮小卡片留白，讓畫面更緊湊 */
+            .card { padding: 16px 15px; margin-bottom: 15px; border-radius: 12px; }
+            .card-title { font-size: 16px; margin-bottom: 15px; padding-bottom: 8px; }
+            
+            /* 強制所有欄位變成「上下排 (一格一格)」 */
+            .grid-2, .grid-3 { grid-template-columns: 1fr; gap: 12px; }
+            
+            /* 縮小輸入框的內距，節省高度 */
+            .form-group { margin-bottom: 15px; }
+            label { margin-bottom: 6px; font-size: 13px; }
+            input[type="text"], input[type="number"], textarea, select, input[type="file"] {
+                padding: 12px 14px; 
+            }
+            .chip-label { padding: 8px 14px; font-size: 14px; }
+        }
 
         /* =========================================
            4. 底部懸浮按鈕 & Modal
@@ -158,7 +178,7 @@
         <div class="modal-actions">
             <button class="btn-back" id="backBtn">返回修改</button>
             <button class="btn-share" id="confirmDownloadBtn">分享圖片</button>
-            <button class="btn-line" id="copyLineBtn">複製 LINE 文案 (純文字)</button>
+            <button class="btn-line" id="copyLineBtn">複製 LINE 文案 (詳細純文字)</button>
         </div>
     </div>
 </div>
@@ -249,8 +269,8 @@
                 </div>
 
                 <div class="form-group"><label for="unitType">戶型</label><input type="text" id="unitType" placeholder="例：13樓A5戶、或無"></div>
-                <div class="form-group"><label for="totalHouseholds">總戶數</label><input type="text" id="totalHouseholds" placeholder="例：170戶(168戶住家、2戶店面)"></div>
-                <div class="form-group"><label for="manageFee">管理費</label><input type="text" id="manageFee" placeholder="例：等待管委會成立後訂定"></div>
+                <div class="form-group"><label for="totalHouseholds">總戶數</label><input type="text" id="totalHouseholds" placeholder="例：170戶"></div>
+                <div class="form-group"><label for="manageFee">管理費</label><input type="text" id="manageFee" placeholder="例：尚未定案"></div>
             </div>
 
             <div class="form-group">
@@ -275,7 +295,7 @@
                     <label>屋齡 / 建築完成日</label>
                     <div class="fill-blank-group" style="margin-bottom: 12px;">
                         <span class="fill-blank-text">屋齡：</span>
-                        <input type="text" id="buildingAge" style="width: 80px;" placeholder="手動填入">
+                        <input type="text" id="buildingAge" style="width: 80px;" placeholder="手填">
                         <span class="fill-blank-text">年</span>
                     </div>
                     <div class="fill-blank-group">
@@ -385,7 +405,6 @@
             <div id="dynamic-container-internal2"></div>
             <button type="button" class="btn-add-tool" onclick="addDynamicField('dynamic-container-internal2', 'text')">➕ 新增案件備註</button>
         </div>
-
     </form>
 </div>
 
@@ -469,13 +488,11 @@
         btn.addEventListener('click', function() {
             document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
             this.classList.add('active');
-            
             document.getElementById('mainFormArea').style.display = 'block';
             document.getElementById('bottomBar').style.display = 'flex';
             
             const selectedType = this.getAttribute('data-type');
             document.getElementById('out-type-tag').innerText = selectedType;
-
             setTimeout(() => { document.getElementById('mainFormArea').scrollIntoView({ behavior: 'smooth' }); }, 100);
         });
     });
@@ -547,7 +564,6 @@
         container.appendChild(row);
     }
 
-    // 取值小幫手
     const getVal = (id) => document.getElementById(id).value.trim() || '-';
     const getPing = (id) => { const v = document.getElementById(id).value.trim(); return v ? v + '坪' : '-'; };
 
@@ -565,9 +581,7 @@
         document.getElementById('out-ping').innerText = getVal('totalArea');
         document.getElementById('out-ping-tbl').innerText = getPing('totalArea');
 
-        // ==========================================
-        // 格局處理 (安全組裝 HTML 標籤)
-        // ==========================================
+        // 格局處理 (含紅色大字體特效)
         let lr = document.getElementById('layoutRoom').value.trim();
         let ll = document.getElementById('layoutLiving').value.trim();
         let lb = document.getElementById('layoutBath').value.trim();
@@ -576,14 +590,12 @@
         
         let layoutRawStr = ''; 
         let layoutHtml = '';   
-
         const sNum = 'style="font-size: 38px; color: var(--brand-red); font-weight: 900;"';
         const sTxt = 'style="font-size: 18px; color: #333; font-weight: normal;"';
 
         if (lr || ll || lb || lbal) {
             let pRaw = [];
             let pHtml = [];
-            // 分別精準組合，不再使用危險的正則表達式
             if (lr) { pRaw.push(lr + '房'); pHtml.push(`<span ${sNum}>${lr}</span><span ${sTxt}>房</span>`); }
             if (ll) { pRaw.push(ll + '廳'); pHtml.push(`<span ${sNum}>${ll}</span><span ${sTxt}>廳</span>`); }
             if (lb) { pRaw.push(lb + '衛'); pHtml.push(`<span ${sNum}>${lb}</span><span ${sTxt}>衛</span>`); }
@@ -593,20 +605,16 @@
             layoutHtml = pHtml.join('<span style="margin:0 2px;"></span>');
         } else if (lo) {
             layoutRawStr = lo;
-            // 防呆處理手動輸入的 <> 符號，避免破壞 HTML
             let safeLo = lo.replace(/</g, "&lt;").replace(/>/g, "&gt;"); 
             layoutHtml = `<span ${sTxt}>${safeLo.replace(/(\d+)/g, `<span ${sNum}>$1</span>`)}</span>`;
         } else {
             layoutRawStr = '-';
             layoutHtml = `<span ${sTxt}>-</span>`;
         }
-
         document.getElementById('out-layout').setAttribute('data-raw', layoutRawStr);
         document.getElementById('out-layout').innerHTML = layoutHtml;
-        // ==========================================
 
-
-        // 左欄：樓層處理 (並列整合)
+        // 樓層處理
         let fa = document.getElementById('floorAt').value.trim();
         let ft = document.getElementById('floorTotal').value.trim();
         let fo = document.getElementById('floorOther').value.trim();
@@ -615,7 +623,7 @@
         if(fo) floorParts.push(`(${fo})`);
         document.getElementById('out-floor').innerText = floorParts.length > 0 ? floorParts.join(' ') : '-';
 
-        // 左欄：車位處理 (並列整合)
+        // 車位處理
         let pkChecked = document.querySelector('input[name="parkKind"]:checked');
         let pkVal = pkChecked ? pkChecked.value : '';
         let pa = document.getElementById('parkAt').value.trim();
@@ -629,7 +637,7 @@
         if(po) parkParts.push(`(${po})`);
         document.getElementById('out-parkingDetails').innerText = parkParts.length > 0 ? parkParts.join(' ') : '-';
 
-        // 左欄其他
+        // 建築雜項
         document.getElementById('out-unitType').innerText = getVal('unitType');
         document.getElementById('out-parkingArea').innerText = getPing('parkingArea');
         document.getElementById('out-households').innerText = getVal('totalHouseholds');
@@ -640,7 +648,7 @@
         if (gasVal === '其他') gasVal = getVal('gasOther') === '-' ? '其他' : getVal('gasOther');
         document.getElementById('out-gas').innerText = gasVal;
 
-        // 日期與屋齡 (不連動)
+        // 日期屋齡
         const age = document.getElementById('buildingAge').value.trim();
         const by = document.getElementById('buildYear').value;
         const bm = document.getElementById('buildMonth').value;
@@ -655,7 +663,7 @@
         if(dateStr) finalAgeStr.push(dateStr);
         document.getElementById('out-age-date').innerText = finalAgeStr.length > 0 ? finalAgeStr.join(' / ') : '-';
 
-        // 動態左欄表格
+        // 動態左欄
         document.querySelectorAll('.out-dyn-row').forEach(e => e.remove());
         const bldRows = document.getElementById('dynamic-container-building').querySelectorAll('.dynamic-row');
         const leftTable = document.getElementById('out-table-left');
@@ -670,7 +678,7 @@
             }
         });
 
-        // 右欄
+        // 右欄法規
         document.getElementById('out-mainArea').innerText = getPing('mainArea');
         document.getElementById('out-subArea').innerText = getPing('subArea');
         document.getElementById('out-publicArea').innerText = getPing('publicArea');
@@ -697,14 +705,14 @@
         });
         document.getElementById('out-facility').innerText = facArr.length > 0 ? facArr.join('、') : '無';
 
-        // 特色 (生成圖面)
+        // 特色
         let featStr = document.getElementById('features').value;
         document.getElementById('dynamic-container-features').querySelectorAll('.dyn-val').forEach(input => {
             if(input.value.trim()) featStr += '\n- ' + input.value.trim(); 
         });
         document.getElementById('out-features').innerText = featStr;
 
-        // 開始截圖
+        // 截圖
         const exportArea = document.getElementById('exportArea');
         exportArea.classList.add('capturing'); 
 
@@ -740,44 +748,79 @@
         }
     });
 
-    // --- 複製純文字文案 (無 Emoji 版本) ---
+    // --- ✨ 更新：極致詳細版 LINE 純文字複製 ---
     document.getElementById('copyLineBtn').addEventListener('click', function() {
+        // 抓取各項詳細資訊
         const title = getVal('caseName');
         const price = getVal('price');
-        const layout = document.getElementById('out-layout').getAttribute('data-raw'); // 抓取純文字格局
-        const ping = getVal('totalArea');
-        const parkDet = document.getElementById('out-parkingDetails').innerText; 
+        const layout = document.getElementById('out-layout').getAttribute('data-raw');
         
+        const totalArea = getVal('totalArea');
+        const mainArea = getVal('mainArea');
+        const subArea = getVal('subArea');
+        const pubArea = getVal('publicArea');
+        
+        const parkDet = document.getElementById('out-parkingDetails').innerText; 
+        const parkArea = getVal('parkingArea');
+
+        const floor = document.getElementById('out-floor').innerText;
+        const unitType = getVal('unitType');
+        const households = getVal('totalHouseholds');
+        const ageDate = document.getElementById('out-age-date').innerText;
+        
+        const manageFee = getVal('manageFee');
+        const gas = document.getElementById('out-gas').innerText;
+        const material = document.getElementById('out-material').innerText;
+        const usage = getVal('mainUsage');
+        const zoning = document.getElementById('out-zoning').innerText;
+        const facility = document.getElementById('out-facility').innerText;
+
+        // 蒐集動態特色
+        let rawFeatures = document.getElementById('features').value;
+        document.getElementById('dynamic-container-features').querySelectorAll('.dyn-val').forEach(inp => { if(inp.value.trim()) rawFeatures += `\n- ${inp.value.trim()}`; });
+
         // 蒐集內部備註
         let intNotes = '';
         document.getElementById('dynamic-container-internal1').querySelectorAll('.dyn-val').forEach(inp => { if(inp.value.trim()) intNotes += `\n- ${inp.value.trim()}`; });
         document.getElementById('dynamic-container-internal2').querySelectorAll('.dyn-val').forEach(inp => { if(inp.value.trim()) intNotes += `\n- ${inp.value.trim()}`; });
 
-        // 蒐集純文字特色
-        let rawFeatures = document.getElementById('features').value;
-        document.getElementById('dynamic-container-features').querySelectorAll('.dyn-val').forEach(inp => { if(inp.value.trim()) rawFeatures += `\n- ${inp.value.trim()}`; });
-
+        // 組裝詳細文案
         const lineText = `【${title}】\n\n` +
-                         `總價：${price} 萬\n` +
-                         `權狀：${ping} 坪\n` +
-                         `格局：${layout}\n` +
-                         `車位：${parkDet}\n\n` +
-                         `物件特色：\n${rawFeatures}\n\n` +
+                         `💰 總價：${price} 萬\n` +
+                         `🛏️ 格局：${layout}\n` +
+                         `🏢 樓層：${floor}\n\n` +
+                         `【面積與車位】\n` +
+                         `📐 權狀：${totalArea} 坪\n` +
+                         (mainArea !== '-' ? `　🔸主建物：${mainArea} 坪\n` : '') +
+                         (subArea !== '-' ? `　🔸附屬建物：${subArea} 坪\n` : '') +
+                         (pubArea !== '-' ? `　🔸公設：${pubArea} 坪\n` : '') +
+                         `🚗 車位：${parkDet} ${parkArea !== '-' ? '('+parkArea+'坪)' : ''}\n\n` +
+                         `【建築與法規】\n` +
+                         `⏳ 屋齡/完工：${ageDate}\n` +
+                         `🏠 總戶數：${households} (戶型: ${unitType})\n` +
+                         `💳 管理費：${manageFee}\n` +
+                         `🔥 瓦斯：${gas}\n` +
+                         `🧱 建材/用途：${material} / ${usage}\n` +
+                         `📌 使用分區：${zoning}\n` +
+                         `🏊 公共設施：${facility}\n\n` +
+                         `【物件特色】\n${rawFeatures}\n\n` +
                          `====================\n` +
-                         `【內部機密資訊】\n` +
-                         `地址：${getVal('intAddress')}\n` +
-                         `鑰匙：${getVal('intKey')}\n` +
-                         `屋狀：${getVal('intCondition')}\n` +
-                         `備註：${getVal('intMemo')}${intNotes}\n` +
-                         `編號：${getVal('intNo')} (${document.getElementById('intEntrust').value})\n` +
-                         `開發：${getVal('intDev')} / 服務費：${getVal('intFee')} / 中人費：${document.getElementById('intMiddleman').value}\n\n` +
-                         `永義房屋成功莊敬店\n公司電話：05-534-1000`;
+                         `【內部機密資訊】(請勿外流)\n` +
+                         `📍 地址：${getVal('intAddress')}\n` +
+                         `🔑 鑰匙：${getVal('intKey')}\n` +
+                         `🛠️ 屋狀：${getVal('intCondition')}\n` +
+                         `📝 備註：${getVal('intMemo')}${intNotes}\n` +
+                         `📌 編號：${getVal('intNo')} (${document.getElementById('intEntrust').value})\n` +
+                         `🤝 開發：${getVal('intDev')} / 服務費：${getVal('intFee')} / 中人費：${document.getElementById('intMiddleman').value}\n\n` +
+                         `📞 永義房屋成功莊敬店\n公司電話：05-534-1000`;
 
         navigator.clipboard.writeText(lineText).then(() => {
             const btn = this;
             const originalText = btn.innerText;
-            btn.innerText = "已複製至剪貼簿";
+            btn.innerText = "已複製詳細文案！";
             setTimeout(() => { btn.innerText = originalText; }, 3000);
+        }).catch(err => {
+            alert('複製失敗，請檢查瀏覽器權限。');
         });
     });
 </script>
