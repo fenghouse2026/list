@@ -28,7 +28,7 @@
         .header p { color: #7A7571; font-size: 14px; margin-top: 6px; }
 
         /* =========================================
-           2. 頂部選單 (絕對保留)
+           2. 頂部選單
            ========================================= */
         .category-selector { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 30px; }
         @media (max-width: 600px) { .category-selector { grid-template-columns: repeat(2, 1fr); gap: 8px; } }
@@ -47,7 +47,7 @@
         #mainFormArea { display: none; animation: fadeIn 0.4s ease; }
 
         /* =========================================
-           3. 表單介面樣式 (手機版高度最佳化)
+           3. 表單介面樣式
            ========================================= */
         .card {
             background: #FFFFFF; border-radius: var(--card-radius); padding: 20px 16px;
@@ -82,7 +82,7 @@
         .other-text-input { display: none; margin-top: 8px; animation: fadeIn 0.3s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
         
-        /* ✨ 全新：高質感獨立方塊輸入 (解決手機不好點的問題) */
+        /* 高質感獨立方塊輸入 */
         .unified-grid { display: flex; gap: 8px; width: 100%; flex-wrap: wrap; margin-bottom: 8px; }
         .unified-item { 
             flex: 1; min-width: 60px; display: flex; align-items: center; justify-content: center;
@@ -100,7 +100,6 @@
         .unified-item label { margin: 0 0 0 4px; color: #555; font-weight: bold; font-size: 14px; white-space: nowrap; }
         .unified-prefix { margin: 0 4px 0 0; color: #555; font-weight: bold; font-size: 14px; white-space: nowrap; }
 
-        /* 動態新增工具按鈕 */
         .btn-add-tool { background: rgba(0, 140, 74, 0.08); color: var(--brand-green); border: 1px dashed var(--brand-green); padding: 10px 15px; border-radius: 8px; font-size: 14px; font-weight: bold; cursor: pointer; margin-top: 5px; width: 100%; transition: all 0.2s; }
         .dynamic-row { display: flex; gap: 8px; margin-top: 10px; animation: fadeIn 0.3s; }
         .dynamic-row .dyn-key { width: 35%; }
@@ -202,7 +201,7 @@
                         <div class="unified-item"><input type="tel" id="layoutBath" maxlength="1"><label>衛</label></div>
                         <div class="unified-item"><input type="tel" id="layoutBalcony" maxlength="1"><label>陽</label></div>
                     </div>
-                    <input type="text" id="layoutOther" placeholder="或自行輸入 (例：開放空間)">
+                    <input type="text" id="layoutOther" placeholder="或自行輸入 (例：開放空間、無隔間)">
                 </div>
             </div>
 
@@ -224,20 +223,20 @@
 
             <div class="form-group">
                 <label>車位詳情</label>
-                <div class="chip-group" style="margin-bottom: 8px;">
+                <div class="chip-group" style="margin-bottom: 10px;">
                     <input type="radio" name="parkKind" id="pk1" value="平面車位"><label class="chip-label" for="pk1">平面車位</label>
                     <input type="radio" name="parkKind" id="pk2" value="機械車位"><label class="chip-label" for="pk2">機械車位</label>
                 </div>
                 
                 <div class="unified-grid">
-                    <div class="unified-item" style="flex:1.5;"><span class="unified-prefix">位於 B</span><input type="tel" id="parkAt" maxlength="1"><label>層</label></div>
+                    <div class="unified-item" style="flex:1.5;"><span class="unified-prefix">位於地下</span><input type="tel" id="parkAt" maxlength="1"><label>層</label></div>
                     <div class="unified-item" style="flex:1.5;"><input type="text" id="parkNo"><label>號</label></div>
                 </div>
                 <div class="unified-grid">
                     <div class="unified-item"><span class="unified-prefix">總共地下</span><input type="tel" id="parkTotal" maxlength="1"><label>層</label></div>
                 </div>
 
-                <input type="text" id="parkOther" placeholder="其他車位狀況 (手動輸入)">
+                <input type="text" id="parkOther" placeholder="其他車位狀況 (如: 一樓車位、無車位等，手動輸入)">
             </div>
         </div>
 
@@ -254,8 +253,8 @@
                 </div>
 
                 <div class="form-group"><label for="unitType">戶型</label><input type="text" id="unitType" placeholder="例：13樓A5戶"></div>
-                <div class="form-group"><label for="totalHouseholds">總戶數</label><input type="tel" id="totalHouseholds" placeholder="例：170戶"></div>
-                <div class="form-group"><label for="manageFee">管理費</label><input type="text" id="manageFee" placeholder="例：未定案"></div>
+                <div class="form-group"><label for="totalHouseholds">總戶數</label><input type="tel" id="totalHouseholds" placeholder="例：170"></div>
+                <div class="form-group"><label for="manageFee">管理費</label><input type="text" id="manageFee" placeholder="例：尚未定案"></div>
             </div>
 
             <div class="form-group">
@@ -264,9 +263,9 @@
                     <input type="radio" name="gas" id="gas1" value="天然瓦斯" checked><label class="chip-label" for="gas1">天然瓦斯</label>
                     <input type="radio" name="gas" id="gas2" value="桶裝瓦斯"><label class="chip-label" for="gas2">桶裝瓦斯</label>
                     <input type="radio" name="gas" id="gas3" value="無瓦斯"><label class="chip-label" for="gas3">無瓦斯</label>
-                    <input type="radio" name="gas" id="gas4" value="其他"><label class="chip-label" for="gas4">其他</label>
+                    <input type="radio" name="gas" id="gas4" value="其他"><label class="chip-label" for="gas4">其他(自行輸入)</label>
                 </div>
-                <input type="text" id="gasOther" class="other-text-input" placeholder="請輸入">
+                <input type="text" id="gasOther" class="other-text-input" placeholder="請輸入其他瓦斯種類">
             </div>
             
             <div id="dynamic-container-building"></div>
@@ -301,7 +300,7 @@
                     <select id="mainMaterial" onchange="toggleSelectOtherSimple(this, 'materialOther')">
                         <option value="鋼筋混凝土RC">鋼筋混凝土RC</option><option value="磚造">磚造</option><option value="加強磚造">加強磚造</option><option value="其他">其他</option>
                     </select>
-                    <input type="text" id="materialOther" class="other-text-input" placeholder="請輸入">
+                    <input type="text" id="materialOther" class="other-text-input" placeholder="請輸入建材">
                 </div>
                 <div class="form-group"><label for="mainUsage">主要用途</label><input type="text" id="mainUsage" value="集合住宅" placeholder="手動輸入"></div>
                 <div class="form-group">
@@ -309,7 +308,7 @@
                     <select id="zoning" onchange="toggleSelectOtherSimple(this, 'zoningOther')">
                         <option value="住宅區">住宅區</option><option value="商業區">商業區</option><option value="甲種建築用地">甲種建築用地</option><option value="乙種建築用地">乙種建築用地</option><option value="丙種建築用地">丙種建築用地</option><option value="丁種建築用地">丁種建築用地</option><option value="都計內乙工">都計內乙工</option><option value="其他">其他</option>
                     </select>
-                    <input type="text" id="zoningOther" class="other-text-input" placeholder="請輸入">
+                    <input type="text" id="zoningOther" class="other-text-input" placeholder="請輸入使用分區">
                 </div>
             </div>
         </div>
@@ -411,11 +410,10 @@
                 <div class="table-row"><div class="th">戶型</div><div class="td" id="out-unitType">-</div></div>
                 <div class="table-row"><div class="th">樓層</div><div class="td" id="out-floor">-</div></div>
                 <div class="table-row"><div class="th">車位詳情</div><div class="td" id="out-parkingDetails">-</div></div>
-                <div class="table-row"><div class="th">車位坪數</div><div class="td" id="out-parkingArea">-</div></div>
                 <div class="table-row"><div class="th">總戶數</div><div class="td" id="out-households">-</div></div>
                 <div class="table-row"><div class="th">管理費</div><div class="td" id="out-manageFee">-</div></div>
                 <div class="table-row"><div class="th">瓦斯來源</div><div class="td" id="out-gas">-</div></div>
-                <div class="table-row"><div class="th">完成/屋齡</div><div class="td" id="out-age-date">-</div></div>
+                <div class="table-row"><div class="th">屋齡/完工日</div><div class="td" id="out-age-date">-</div></div>
             </div>
             <div id="out-table-right">
                 <div class="table-header">面積與法規</div>
@@ -423,6 +421,7 @@
                 <div class="table-row"><div class="th">- 主建物</div><div class="td" id="out-mainArea">-</div></div>
                 <div class="table-row"><div class="th">- 附屬建物</div><div class="td" id="out-subArea">-</div></div>
                 <div class="table-row"><div class="th">- 公設</div><div class="td" id="out-publicArea">-</div></div>
+                <div class="table-row"><div class="th">- 車位</div><div class="td" id="out-parkingArea">-</div></div>
                 <div class="table-row"><div class="th">登記原因</div><div class="td" id="out-regReason">-</div></div>
                 <div class="table-row"><div class="th">主要建材</div><div class="td" id="out-material">-</div></div>
                 <div class="table-row"><div class="th">主要用途</div><div class="td" id="out-usage">-</div></div>
@@ -452,7 +451,7 @@
         });
     });
 
-    // --- 自動跳行 (Auto-Focus) 邏輯 ---
+    // --- 自動跳行邏輯 ---
     function setupAutoAdvance(ids, length = 1) {
         ids.forEach((id, index) => {
             const el = document.getElementById(id);
@@ -466,13 +465,9 @@
             }
         });
     }
-    // 1. 格局自動跳行
     setupAutoAdvance(['layoutRoom', 'layoutLiving', 'layoutBath', 'layoutBalcony', 'layoutOther'], 1);
-    // 2. 樓層自動跳行 (考量可能是雙位數，設定輸入2碼跳行)
     setupAutoAdvance(['floorAt', 'floorTotal', 'floorOther'], 2);
-    // 3. 車位自動跳行
-    setupAutoAdvance(['parkAt', 'parkNo'], 1); // 假設地下幾層只有1碼
-    // 4. 日期選單自動跳行
+    setupAutoAdvance(['parkAt', 'parkNo'], 1);
     document.getElementById('buildYear').addEventListener('change', () => document.getElementById('buildMonth').focus());
     document.getElementById('buildMonth').addEventListener('change', () => document.getElementById('buildDay').focus());
 
@@ -490,12 +485,13 @@
     dSel.innerHTML = '<option value="">選擇</option>';
     for(let i = 1; i <= 31; i++) dSel.innerHTML += `<option value="${i}">${i}</option>`;
 
-    // --- 選單切換其他 ---
+    // --- 其他選項切換 ---
     function toggleSelectOtherSimple(selectObj, otherInputId) {
         const otherInput = document.getElementById(otherInputId);
         if(selectObj.value === '其他') { otherInput.style.display = 'block'; otherInput.focus(); }
         else { otherInput.style.display = 'none'; }
     }
+
     document.querySelectorAll('input[name="gas"]').forEach(radio => {
         radio.addEventListener('change', function() {
             const otherInput = document.getElementById('gasOther');
@@ -545,7 +541,7 @@
     const getVal = (id) => document.getElementById(id).value.trim() || '-';
     const getPing = (id) => { const v = document.getElementById(id).value.trim(); return v ? v + '坪' : '-'; };
 
-    // --- ✨ 產圖邏輯 (徹底解決亂碼) ---
+    // --- 產圖邏輯 ---
     document.getElementById('generateBtn').addEventListener('click', function() {
         const btn = this;
         const btnText = btn.querySelector('span');
@@ -558,7 +554,7 @@
         document.getElementById('out-ping').innerText = getVal('totalArea');
         document.getElementById('out-ping-tbl').innerText = getPing('totalArea');
 
-        // 格局：寫死標準色碼 #D82A29 確保 html2canvas 100% 讀取成功
+        // 格局：使用純色碼確保不亂碼
         let lr = document.getElementById('layoutRoom').value.trim();
         let ll = document.getElementById('layoutLiving').value.trim();
         let lb = document.getElementById('layoutBath').value.trim();
@@ -613,11 +609,15 @@
         if(po) parkParts.push(`(${po})`);
         document.getElementById('out-parkingDetails').innerText = parkParts.length > 0 ? parkParts.join(' ') : '-';
 
-        // 建築
+        // 建築雜項 (自動加戶、元)
         document.getElementById('out-unitType').innerText = getVal('unitType');
-        document.getElementById('out-parkingArea').innerText = getPing('parkingArea');
-        document.getElementById('out-households').innerText = getVal('totalHouseholds');
-        document.getElementById('out-manageFee').innerText = getVal('manageFee');
+        let hh = getVal('totalHouseholds');
+        if (hh !== '-' && !hh.includes('戶')) hh += '戶';
+        document.getElementById('out-households').innerText = hh;
+        let mf = getVal('manageFee');
+        if (mf !== '-' && !mf.includes('元') && /^\d+$/.test(mf.replace(/,/g, ''))) mf += '元';
+        document.getElementById('out-manageFee').innerText = mf;
+
         let gasChecked = document.querySelector('input[name="gas"]:checked');
         let gasVal = gasChecked ? gasChecked.value : '-';
         if (gasVal === '其他') gasVal = getVal('gasOther') === '-' ? '其他' : getVal('gasOther');
@@ -637,7 +637,7 @@
         if(dateStr) finalAgeStr.push(dateStr);
         document.getElementById('out-age-date').innerText = finalAgeStr.length > 0 ? finalAgeStr.join(' / ') : '-';
 
-        // 動態左欄表格
+        // 動態左欄
         document.querySelectorAll('.out-dyn-row').forEach(e => e.remove());
         const bldRows = document.getElementById('dynamic-container-building').querySelectorAll('.dynamic-row');
         const leftTable = document.getElementById('out-table-left');
@@ -656,6 +656,7 @@
         document.getElementById('out-mainArea').innerText = getPing('mainArea');
         document.getElementById('out-subArea').innerText = getPing('subArea');
         document.getElementById('out-publicArea').innerText = getPing('publicArea');
+        document.getElementById('out-parkingArea').innerText = getPing('parkingArea');
         
         let regVal = document.getElementById('regReason').value;
         if(regVal === '其他') regVal = getVal('regReasonOther') === '-' ? '其他' : getVal('regReasonOther');
@@ -722,7 +723,7 @@
         }
     });
 
-    // --- 複製 LINE ---
+    // --- 詳細純文字複製 ---
     document.getElementById('copyLineBtn').addEventListener('click', function() {
         const title = getVal('caseName');
         const price = getVal('price');
@@ -738,10 +739,10 @@
 
         const floor = document.getElementById('out-floor').innerText;
         const unitType = getVal('unitType');
-        const households = getVal('totalHouseholds');
+        const households = document.getElementById('out-households').innerText;
         const ageDate = document.getElementById('out-age-date').innerText;
         
-        const manageFee = getVal('manageFee');
+        const manageFee = document.getElementById('out-manageFee').innerText;
         const gas = document.getElementById('out-gas').innerText;
         const material = document.getElementById('out-material').innerText;
         const usage = getVal('mainUsage');
@@ -789,6 +790,8 @@
             const originalText = btn.innerText;
             btn.innerText = "已複製詳細文案！";
             setTimeout(() => { btn.innerText = originalText; }, 3000);
+        }).catch(err => {
+            alert('複製失敗，請檢查瀏覽器權限。');
         });
     });
 </script>
