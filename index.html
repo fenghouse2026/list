@@ -99,20 +99,19 @@
         .fixed-bottom-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(20px); padding: 15px 20px; box-shadow: 0 -5px 25px rgba(0, 0, 0, 0.05); display: flex; justify-content: center; z-index: 100; border-top: 1px solid rgba(255,255,255,0.5);}
         .submit-btn { width: 100%; max-width: 600px; background-color: var(--brand-green); color: white; border: none; padding: 18px; font-size: 18px; font-weight: 900; border-radius: 50px; cursor: pointer; box-shadow: 0 8px 20px rgba(0, 140, 74, 0.25); letter-spacing: 1px;}
 
-        /* Modal (支援原生長按儲存) */
+        /* Modal - 一鍵下載優化 */
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 2000; justify-content: center; align-items: center; padding: 20px; opacity: 0; transition: opacity 0.3s ease; }
         .modal.show { display: flex; opacity: 1; }
         .modal-content { background: #FFF; padding: 25px 20px; border-radius: 24px; width: 100%; max-width: 800px; max-height: 90vh; overflow-y: auto; text-align: center; }
         .modal-content h3 { margin-top: 0; color: var(--brand-dark); font-weight: 900; font-size: 20px;}
-        .modal-hint { font-size: 15px; font-weight: 700; color: var(--brand-red); margin-bottom: 15px; animation: pulse 2s infinite; }
-        @keyframes pulse { 0% { opacity: 0.7; } 50% { opacity: 1; } 100% { opacity: 0.7; } }
+        .modal-hint { font-size: 15px; font-weight: 700; color: var(--brand-red); margin-bottom: 15px; }
         
         #previewImg { width: 100%; border-radius: 12px; box-shadow: 0 5px 20px rgba(0,0,0,0.15); border: 1px solid #EEE; margin-bottom: 20px; -webkit-user-select: none; user-select: none; -webkit-touch-callout: default;}
         
         .modal-actions { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
         .modal-actions button { flex: 1; min-width: 140px; padding: 14px; border: none; border-radius: 12px; font-size: 15px; font-weight: 900; cursor: pointer; transition: 0.2s;}
         .btn-back { background: #F0F0F0; color: #555; }
-        .btn-dl-pc { background: var(--brand-yellow); color: var(--brand-dark); }
+        .btn-download { background: var(--brand-red); color: white; }
         .btn-line { background: #000; color: white; width: 100%;}
 
         /* =========================================
@@ -178,13 +177,13 @@
 <div id="previewModal" class="modal">
     <div class="modal-content">
         <h3>✨ 旗艦明細圖已生成 ✨</h3>
-        <p class="modal-hint">👇 手機版：請「長按圖片」即可儲存至相簿 👇</p>
+        <p class="modal-hint">👇 請點擊下方按鈕一鍵下載 👇</p>
         
         <img id="previewImg" src="" alt="物件明細圖">
         
         <div class="modal-actions">
             <button class="btn-back" id="backBtn">返回修改</button>
-            <button class="btn-dl-pc" id="pcDownloadBtn">💻 電腦版一鍵下載</button>
+            <button class="btn-download" id="downloadImageBtn">📥 一鍵下載圖片</button>
             <button class="btn-line" id="copyLineBtn">📋 複製公開純文字 (自動隱藏機密)</button>
         </div>
     </div>
@@ -654,7 +653,6 @@
         btn.querySelector('span').innerText = '圖片生成中...';
         btn.disabled = true; btn.style.backgroundColor = '#001F5B';
 
-        // 1. 第一欄
         document.getElementById('o-name').innerText = getV('caseName') || '空白';
         let price = getV('price'); document.getElementById('o-price').innerText = price ? price + '萬' : '空白';
         
@@ -693,7 +691,6 @@
         let so = getV('storeOther'); if(so) sList.push(so);
         document.getElementById('o-store').innerText = sList.length > 0 ? sList.join('、') : '空白';
 
-        // 2. 第二欄
         let age = getV('buildingAge'); document.getElementById('o-age').innerText = age ? age + '年' : '空白';
         let by = getV('bYear'), bm = getV('bMonth'), bd = getV('bDay'); document.getElementById('o-bDate').innerText = (by||bm||bd) ? `${by}年${bm}月${bd}日` : '空白';
         let fa = getV('floorAt'), ft = getV('floorTotal'); document.getElementById('o-floor').innerText = (fa||ft) ? `位於${fa||'_'}樓/總共${ft||'_'}樓` : '空白';
@@ -720,7 +717,6 @@
         let fo = getV('facOther'); if(fo) fList.push(fo);
         document.getElementById('o-facility').innerText = fList.length > 0 ? fList.join('、') : '空白';
 
-        // 3. 第三欄
         let featStr = getV('features');
         document.getElementById('dynamic-container-features').querySelectorAll('.dyn-val').forEach(input => {
             if(input.value.trim()) featStr += '\n' + input.value.trim(); 
@@ -731,7 +727,6 @@
         let ry = getV('rYear'), rm = getV('rMonth'), rd = getV('rDay'); document.getElementById('o-regDate').innerText = (ry||rm||rd) ? `${ry}年${rm}月${rd}日` : '空白';
         let moSel = getV('motive'), moO = getV('motiveOther'); document.getElementById('o-motive').innerText = (moSel === '其他' && moO) ? moO : moSel;
 
-        // 內部 (圖面顯示紅框)
         document.getElementById('o-iType').innerText = getV('entrustType');
         document.getElementById('o-iNo').innerText = getV('entrustNo') || '空白';
         document.getElementById('o-iDev').innerText = getV('devName') || '空白';
@@ -748,7 +743,8 @@
         const exportArea = document.getElementById('exportArea');
         exportArea.classList.add('capturing'); 
         setTimeout(() => {
-            html2canvas(exportArea, { scale: 3, useCORS: true, backgroundColor: null }).then(canvas => {
+            // 降回 scale: 2，解決手機版 RAM 不足導致的「無法產出圖片」當機問題
+            html2canvas(exportArea, { scale: 2, useCORS: true, backgroundColor: null }).then(canvas => {
                 canvas.toBlob(function(blob) {
                     window.currentImageBlob = blob;
                     document.getElementById('previewImg').src = URL.createObjectURL(blob);
@@ -757,32 +753,31 @@
                     btn.querySelector('span').innerText = '產生三欄式明細圖';
                     btn.disabled = false; btn.style.backgroundColor = 'var(--brand-green)';
                 }, 'image/png');
+            }).catch(err => {
+                alert("圖片生成失敗！若是用手機或未連網狀態，請確認圖片讀取權限。");
+                exportArea.classList.remove('capturing');
+                btn.querySelector('span').innerText = '產生三欄式明細圖';
+                btn.disabled = false; btn.style.backgroundColor = 'var(--brand-green)';
             });
-        }, 300);
+        }, 500);
     });
 
     document.getElementById('backBtn').addEventListener('click', () => document.getElementById('previewModal').classList.remove('show'));
 
-    document.getElementById('confirmDownloadBtn').addEventListener('click', function() {
-        if (!window.currentImageBlob) return;
-        const file = new File([window.currentImageBlob], '承峰不動產_明細表.png', { type: 'image/png' });
-        if (navigator.canShare && navigator.canShare({ files: [file] })) navigator.share({ files: [file] }).catch(()=>{});
-        else {
-            const link = document.createElement('a'); link.download = '承峰不動產_明細表.png'; 
-            link.href = URL.createObjectURL(window.currentImageBlob); link.click();
-        }
-    });
-
-    // --- PC 下載按鈕 (額外選項) ---
-    document.getElementById('pcDownloadBtn').addEventListener('click', function() {
+    // --- 一鍵下載統一按鈕 ---
+    document.getElementById('downloadImageBtn').addEventListener('click', function() {
         if (!window.currentImageBlob) return;
         const link = document.createElement('a');
-        link.download = '承峰不動產_明細表.png'; 
-        link.href = URL.createObjectURL(window.currentImageBlob);
+        let cName = document.getElementById('caseName').value.trim();
+        if(!cName) cName = '物件明細表';
+        link.download = cName + '.png'; 
+        link.href = URL.createObjectURL(window.currentImageBlob); 
+        document.body.appendChild(link);
         link.click();
+        document.body.removeChild(link);
     });
 
-    // --- 純文字複製 (隱藏機密) ---
+    // --- 純文字複製 ---
     document.getElementById('copyLineBtn').addEventListener('click', function() {
         let lr = getV('lRoom'), ll = getV('lLiving'), lb = getV('lBath'), lbal = getV('lBalcony'), lo = getV('layoutOther');
         let layText = (lr||ll||lb||lbal) ? `${lr||0}房${ll||0}廳${lb||0}衛${lbal||0}陽台` : lo;
@@ -812,7 +807,7 @@
 
         navigator.clipboard.writeText(text).then(() => {
             const btn = this; const originalText = btn.innerText;
-            btn.innerText = "已複製所有公開資料！"; setTimeout(() => { btn.innerText = originalText; }, 3000);
+            btn.innerText = "已複製公開資料！"; setTimeout(() => { btn.innerText = originalText; }, 3000);
         });
     });
 </script>
