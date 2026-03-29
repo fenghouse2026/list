@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>承峰不動產 - 永義成功莊敬店 建檔系統</title>
+    <title>承峰不動產 - 物件明細建檔系統</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         /* =========================================
-           1. 品牌視覺與全域變數
+           1. 品牌視覺與全域變數 (保留輸入端美感)
            ========================================= */
         :root {
             --brand-yellow: #FDB913;
@@ -30,7 +30,7 @@
         /* =========================================
            2. 頂部選單
            ========================================= */
-        .category-selector { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 30px; }
+        .category-selector { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px; }
         @media (max-width: 600px) { .category-selector { grid-template-columns: repeat(2, 1fr); gap: 8px; } }
         
         .cat-btn {
@@ -47,40 +47,28 @@
         #mainFormArea { display: none; animation: fadeIn 0.4s ease; }
 
         /* =========================================
-           3. 表單介面樣式
+           3. 表單介面樣式 (手機版最佳化)
            ========================================= */
         .card {
             background: #FFFFFF; border-radius: var(--card-radius); padding: 20px 16px;
             margin-bottom: 20px; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
             border-top: 4px solid var(--brand-yellow);
         }
-        .card.internal-card { border-top: 4px solid var(--brand-red); background: #FFF9F9; }
-        .card.internal-card .card-title { color: var(--brand-red); border-bottom-color: #FFEDED;}
-
         .card-title { font-size: 17px; font-weight: 900; margin-top: 0; margin-bottom: 16px; color: var(--brand-green); border-bottom: 2px solid #F0F0F0; padding-bottom: 10px; }
 
         .form-group { margin-bottom: 16px; position: relative;}
         label { display: block; font-size: 13px; font-weight: 700; margin-bottom: 6px; color: #4A4A4A; }
         .required::after { content: " *"; color: var(--brand-red); }
 
-        input[type="text"], input[type="number"], input[type="tel"], textarea, select, input[type="file"] {
+        input[type="text"], input[type="number"], input[type="tel"], textarea, select {
             width: 100%; padding: 12px 14px; border: 1.5px solid #E4E4E4;
             border-radius: var(--input-radius); font-size: 16px; transition: all 0.2s ease; background-color: #FAFAFA; box-sizing: border-box;
         }
         input:focus, textarea:focus, select:focus { outline: none; border-color: var(--brand-green); background-color: #FFFFFF; box-shadow: 0 0 0 4px rgba(0, 140, 74, 0.1); }
-        .input-error { border-color: var(--brand-red) !important; background-color: #FFF0F0 !important; }
-
-        .chip-group { display: flex; flex-wrap: wrap; gap: 8px; }
-        .chip-group input[type="radio"], .chip-group input[type="checkbox"] { display: none; }
-        .chip-label { padding: 8px 14px; border: 1.5px solid #E4E4E4; border-radius: 30px; font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s; background-color: #FFFFFF; color: #666; }
-        .chip-group input:checked + .chip-label { background-color: var(--brand-green); color: #FFFFFF; border-color: var(--brand-green); box-shadow: 0 4px 10px rgba(0, 140, 74, 0.2); }
 
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
         .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
         @media (max-width: 600px) { .grid-3, .grid-2 { grid-template-columns: 1fr; } }
-        
-        .other-text-input { display: none; margin-top: 8px; animation: fadeIn 0.3s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
         
         /* 高質感獨立方塊輸入 */
         .unified-grid { display: flex; gap: 8px; width: 100%; flex-wrap: wrap; margin-bottom: 8px; }
@@ -93,18 +81,11 @@
         .unified-item input, .unified-item select { 
             border: none; background: transparent; width: 100%; 
             font-size: 18px; font-weight: 900; color: var(--brand-red); text-align: center; 
-            padding: 10px 0; outline: none; -moz-appearance: textfield; box-shadow: none !important;
+            padding: 10px 0; outline: none; box-shadow: none !important;
         }
         .unified-item select { color: #333; font-weight: bold; font-size: 16px; padding: 10px 5px;}
-        .unified-item input::-webkit-outer-spin-button, .unified-item input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
         .unified-item label { margin: 0 0 0 4px; color: #555; font-weight: bold; font-size: 14px; white-space: nowrap; }
         .unified-prefix { margin: 0 4px 0 0; color: #555; font-weight: bold; font-size: 14px; white-space: nowrap; }
-
-        .btn-add-tool { background: rgba(0, 140, 74, 0.08); color: var(--brand-green); border: 1px dashed var(--brand-green); padding: 10px 15px; border-radius: 8px; font-size: 14px; font-weight: bold; cursor: pointer; margin-top: 5px; width: 100%; transition: all 0.2s; }
-        .dynamic-row { display: flex; gap: 8px; margin-top: 10px; animation: fadeIn 0.3s; }
-        .dynamic-row .dyn-key { width: 35%; }
-        .dynamic-row .dyn-val { flex: 1; }
-        .btn-remove-row { background: none; border: none; color: var(--brand-red); font-size: 22px; cursor: pointer; padding: 0 5px;}
 
         /* =========================================
            4. 底部懸浮按鈕 & Modal
@@ -116,7 +97,7 @@
         .modal.show { display: flex; opacity: 1; }
         .modal-content { background: var(--bg-color); padding: 15px; border-radius: 16px; width: 100%; max-width: 600px; max-height: 90vh; overflow-y: auto; text-align: center; }
         .modal-content h3 { margin-top: 0; color: var(--brand-dark); font-weight: 900; font-size: 18px;}
-        #previewImg { width: 100%; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+        #previewImg { width: 100%; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); border: 1px solid #ccc; }
         .modal-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 15px; }
         .modal-actions button { flex: 1; min-width: 45%; padding: 12px; border: none; border-radius: 10px; font-size: 14px; font-weight: bold; cursor: pointer; }
         .btn-back { background: #E0E0E0; color: #333; }
@@ -124,37 +105,48 @@
         .btn-line { background: #06C755; color: white; width: 100%; margin-top: 0px;}
 
         /* =========================================
-           5. 隱藏輸出排版區 (確保圖面完美)
+           ✨ 5. 終極 Excel 產調明細表專用 CSS ✨
            ========================================= */
         .export-wrapper {
-            position: absolute; left: -9999px; top: 0; width: 800px; 
-            background: radial-gradient(circle at 10% 0%, rgba(253, 185, 19, 0.08) 0%, transparent 50%), radial-gradient(circle at 90% 100%, rgba(0, 140, 74, 0.05) 0%, transparent 50%), #FDFBF7;
-            padding: 20px; box-sizing: border-box;
+            position: absolute; left: -9999px; top: 0; width: 1100px; /* 加寬以容納豐富資訊 */
+            background: #FFFFFF; padding: 30px; box-sizing: border-box;
         }
         .export-wrapper.capturing { position: relative; left: 0; z-index: -1; }
-        #capture-area { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(30px); width: 100%; border: 1px solid rgba(255, 255, 255, 0.6); padding-bottom: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
         
-        .preview-header { display: flex; align-items: center; padding: 15px 20px; background: white; border-bottom: 3px solid var(--brand-yellow);}
-        .preview-type { margin-left: auto; font-size: 18px; font-weight: 900; color: var(--brand-dark);}
-        .preview-title { background: linear-gradient(135deg, #a8e0b3, #82d392); color: white; font-size: 26px; font-weight: 900; padding: 12px 20px; text-shadow: 1px 1px 2px rgba(0,0,0,0.1); letter-spacing: 1px; }
+        .excel-table-container { position: relative; width: 100%; background: #fff; }
+        /* 背景「第 1 頁」浮水印 */
+        .watermark {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            font-size: 280px; font-weight: bold; color: rgba(0,0,0,0.04);
+            z-index: 0; pointer-events: none; white-space: nowrap; font-family: "微軟正黑體", sans-serif;
+        }
+        
+        .excel-table {
+            width: 100%; border-collapse: collapse; font-family: "DFKai-SB", "BiauKai", "微軟正黑體", serif; /* 營造傳統報表感 */
+            font-size: 16px; color: #000; position: relative; z-index: 1;
+        }
+        .excel-table th, .excel-table td {
+            border: 1px solid #000; padding: 8px 6px; text-align: center; vertical-align: middle;
+        }
+        .excel-table th { font-weight: normal; background-color: #fcfcfc;} /* 表頭輕微底色 */
+        
+        /* 設定 6 欄位的精確比例 */
+        .c1 { width: 10%; } .c2 { width: 23%; }
+        .c3 { width: 12%; } .c4 { width: 22%; }
+        .c5 { width: 10%; } .c6 { width: 23%; }
 
-        .top-section { display: flex; padding: 20px; gap: 20px; }
-        .summary-col { flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
-        .data-item { border-bottom: 1px solid #eee; padding-bottom: 8px; }
-        .data-label { font-size: 14px; color: #666; font-weight: bold; }
-        .data-value { color: var(--brand-red); font-weight: 900; font-size: 38px; line-height: 1.1; }
-        .data-value span { font-size: 18px; font-weight: normal; color: #333;}
-        .photo-col { flex: 2; display: flex; gap: 10px; }
-        .photo-col img { width: 50%; height: 220px; object-fit: cover; border: 1px solid #ddd; border-radius: 4px; background: #eee;}
+        .title-row th { font-size: 28px; font-weight: bold; letter-spacing: 10px; border: none; padding-bottom: 15px; }
+        
+        .text-left { text-align: left !important; padding-left: 10px !important; }
+        .text-top { vertical-align: top !important; padding-top: 10px !important; }
+        .font-bold { font-weight: bold; }
+        .chk-box { font-family: 'Arial', sans-serif; font-size: 18px; margin-right: 2px;}
 
-        .table-section { padding: 0 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 0 25px; }
-        .table-header { font-weight: 900; border-bottom: 2px solid var(--brand-green); padding: 5px 0; margin-bottom: 8px; font-size: 16px; color: var(--brand-green);}
-        .table-row { display: flex; border-bottom: 1px solid #eee; padding: 8px 0; font-size: 14px; }
-        .table-row .th { width: 85px; color: #777; font-weight: bold;}
-        .table-row .td { flex: 1; font-weight: 900; color: #222; }
-
-        .features-section { padding: 20px; }
-        .features-content { font-size: 15px; line-height: 1.6; white-space: pre-wrap; font-weight: bold; color: var(--brand-dark);}
+        /* 表格內的小型分割排版 */
+        .split-cell { padding: 0 !important; }
+        .inner-table { width: 100%; border-collapse: collapse; height: 100%; }
+        .inner-table th, .inner-table td { border: none; border-right: 1px solid #000; padding: 8px 6px; }
+        .inner-table td:last-child { border-right: none; }
     </style>
 </head>
 <body>
@@ -167,7 +159,7 @@
         <div class="modal-actions">
             <button class="btn-back" id="backBtn">返回修改</button>
             <button class="btn-share" id="confirmDownloadBtn">分享圖片</button>
-            <button class="btn-line" id="copyLineBtn">複製 LINE 文案 (詳細純文字)</button>
+            <button class="btn-line" id="copyLineBtn">📋 複製純文字版明細</button>
         </div>
     </div>
 </div>
@@ -179,277 +171,341 @@
     </div>
 
     <div class="category-selector" id="catSelector">
-        <div class="cat-btn" data-type="大樓"><div class="cat-icon">🏢</div><div class="cat-title">大樓</div></div>
-        <div class="cat-btn" data-type="別墅"><div class="cat-icon">🏡</div><div class="cat-title">別墅</div></div>
+        <div class="cat-btn active" data-type="大樓"><div class="cat-icon">🏢</div><div class="cat-title">大樓/公寓</div></div>
+        <div class="cat-btn" data-type="透天"><div class="cat-icon">🏡</div><div class="cat-title">透天/別墅</div></div>
         <div class="cat-btn cat-disabled"><span class="badge-soon">即將推出</span><div class="cat-icon">🌾</div><div class="cat-title">農地</div></div>
         <div class="cat-btn cat-disabled"><span class="badge-soon">即將推出</span><div class="cat-icon">🏗️</div><div class="cat-title">建地</div></div>
     </div>
 
-    <form id="mainFormArea">
+    <form id="mainFormArea" style="display:block;">
+        
         <div class="card">
-            <h2 class="card-title">核心資訊</h2>
-            <div class="form-group"><label class="required" for="caseName">案名 (將作為主標題)</label><input type="text" id="caseName" class="req-input" placeholder="例：棒球場享未來大三房改超大兩房｜含平面車位"></div>
+            <h2 class="card-title">1. 核心與價格</h2>
+            <div class="grid-2">
+                <div class="form-group"><label class="required">物件編號</label><input type="text" id="objNo" placeholder="例：GZ133875"></div>
+                <div class="form-group"><label class="required">案名</label><input type="text" id="caseName" placeholder="例：斗南麥當勞三房含平車"></div>
+            </div>
+            <div class="form-group"><label class="required">地址</label><input type="text" id="address" placeholder="例：斗南鎮民生路74號4F1"></div>
             
             <div class="grid-2">
-                <div class="form-group"><label class="required" for="price">售價 (萬)</label><input type="text" inputmode="decimal" id="price" class="req-input format-num" placeholder="例：1,198"></div>
-                
                 <div class="form-group">
-                    <label class="required">格局</label>
-                    <div class="unified-grid">
-                        <div class="unified-item"><input type="tel" id="layoutRoom" maxlength="1"><label>房</label></div>
-                        <div class="unified-item"><input type="tel" id="layoutLiving" maxlength="1"><label>廳</label></div>
-                        <div class="unified-item"><input type="tel" id="layoutBath" maxlength="1"><label>衛</label></div>
-                        <div class="unified-item"><input type="tel" id="layoutBalcony" maxlength="1"><label>陽</label></div>
-                    </div>
-                    <input type="text" id="layoutOther" placeholder="或自行輸入 (例：開放空間、無隔間)">
+                    <label>物件現況</label>
+                    <select id="objStatus"><option value="空屋">空屋</option><option value="自用">自用</option><option value="預售">預售</option><option value="租賃中">租賃中</option></select>
                 </div>
+                <div class="form-group"><label>售屋動機</label><input type="text" id="motive" placeholder="例：轉投資"></div>
             </div>
 
-            <div class="grid-2">
-                <div class="form-group"><label>上傳照片 1 (主圖)</label><input type="file" accept="image/*" id="uploadImg1"></div>
-                <div class="form-group"><label>上傳照片 2 (次圖)</label><input type="file" accept="image/*" id="uploadImg2"></div>
-            </div>
-        </div>
-
-        <div class="card">
-            <h2 class="card-title">面積與車位</h2>
             <div class="grid-3">
-                <div class="form-group"><label class="required" for="totalArea">權狀坪數</label><input type="text" id="totalArea" class="req-input" placeholder="例：43.85"></div>
-                <div class="form-group"><label for="mainArea">主建物</label><input type="text" id="mainArea"></div>
-                <div class="form-group"><label for="subArea">附屬建物</label><input type="text" id="subArea"></div>
-                <div class="form-group"><label for="publicArea">公設</label><input type="text" id="publicArea"></div>
-                <div class="form-group"><label for="parkingArea">車位坪數</label><input type="text" id="parkingArea"></div>
-            </div>
-
-            <div class="form-group">
-                <label>車位詳情</label>
-                <div class="chip-group" style="margin-bottom: 10px;">
-                    <input type="radio" name="parkKind" id="pk1" value="平面車位"><label class="chip-label" for="pk1">平面車位</label>
-                    <input type="radio" name="parkKind" id="pk2" value="機械車位"><label class="chip-label" for="pk2">機械車位</label>
-                </div>
-                
-                <div class="unified-grid">
-                    <div class="unified-item" style="flex:1.5;"><span class="unified-prefix">位於地下</span><input type="tel" id="parkAt" maxlength="1"><label>層</label></div>
-                    <div class="unified-item" style="flex:1.5;"><input type="text" id="parkNo"><label>號</label></div>
-                </div>
-                <div class="unified-grid">
-                    <div class="unified-item"><span class="unified-prefix">總共地下</span><input type="tel" id="parkTotal" maxlength="1"><label>層</label></div>
-                </div>
-
-                <input type="text" id="parkOther" placeholder="其他車位狀況 (如: 一樓車位、無車位等，手動輸入)">
+                <div class="form-group"><label class="required">委託價 (萬)</label><input type="text" id="price" class="format-num" placeholder="例：750"></div>
+                <div class="form-group"><label>取得價格 (萬)</label><input type="text" id="acquirePrice" class="format-num" placeholder="例：450"></div>
+                <div class="form-group"><label>設定金額 (萬)</label><input type="text" id="settingPrice" class="format-num" placeholder="例：396"></div>
+                <div class="form-group"><label>行情價 (萬)</label><input type="text" id="marketPrice" class="format-num" placeholder="例：700"></div>
+                <div class="form-group"><label>可談價 (萬)</label><input type="text" id="negoPrice" class="format-num" placeholder="例：750"></div>
             </div>
         </div>
 
         <div class="card">
-            <h2 class="card-title">建築與戶型</h2>
-            <div class="grid-2">
-                <div class="form-group">
-                    <label>樓層</label>
-                    <div class="unified-grid">
-                        <div class="unified-item"><span class="unified-prefix">位於</span><input type="tel" id="floorAt" maxlength="2"><label>樓</label></div>
-                        <div class="unified-item"><span class="unified-prefix">總共</span><input type="tel" id="floorTotal" maxlength="2"><label>樓</label></div>
-                    </div>
-                    <input type="text" id="floorOther" placeholder="其他樓層狀況 (手動輸入)">
-                </div>
-
-                <div class="form-group"><label for="unitType">戶型</label><input type="text" id="unitType" placeholder="例：13樓A5戶"></div>
-                <div class="form-group"><label for="totalHouseholds">總戶數</label><input type="tel" id="totalHouseholds" placeholder="例：170"></div>
-                <div class="form-group"><label for="manageFee">管理費</label><input type="text" id="manageFee" placeholder="例：尚未定案"></div>
+            <h2 class="card-title">2. 面積與土地</h2>
+            <div class="grid-3">
+                <div class="form-group"><label class="required">總坪數 (權狀)</label><input type="text" id="totalArea" placeholder="例：41.45"></div>
+                <div class="form-group"><label>主建物</label><input type="text" id="mainArea" placeholder="例：27.4"></div>
+                <div class="form-group"><label>附屬建物</label><input type="text" id="subArea" placeholder="例：2.03"></div>
+                <div class="form-group"><label>公設坪數</label><input type="text" id="pubArea" placeholder="例：12.02"></div>
+                <div class="form-group"><label>車位坪數</label><input type="text" id="parkArea" placeholder="例：6.46"></div>
+                <div class="form-group"><label>加建</label><input type="text" id="addition" placeholder="例：頂樓加蓋"></div>
             </div>
+            <div class="grid-2">
+                <div class="form-group"><label>地/建號</label><input type="text" id="landBuildNo" placeholder="例：興國段371地號 606建號"></div>
+                <div class="form-group"><label>地坪 (持分)</label><input type="text" id="landArea" placeholder="例：5.14"></div>
+                <div class="form-group"><label>基地坪數</label><input type="text" id="baseArea" placeholder="輸入數字"></div>
+                <div class="form-group"><label>面寬 / 深度</label><input type="text" id="widthDepth" placeholder="例：面5深20 或 /"></div>
+                <div class="form-group"><label>路寬</label><input type="text" id="roadWidth" placeholder="例：10米"></div>
+            </div>
+        </div>
 
-            <div class="form-group">
-                <label>瓦斯</label>
-                <div class="chip-group">
-                    <input type="radio" name="gas" id="gas1" value="天然瓦斯" checked><label class="chip-label" for="gas1">天然瓦斯</label>
-                    <input type="radio" name="gas" id="gas2" value="桶裝瓦斯"><label class="chip-label" for="gas2">桶裝瓦斯</label>
-                    <input type="radio" name="gas" id="gas3" value="無瓦斯"><label class="chip-label" for="gas3">無瓦斯</label>
-                    <input type="radio" name="gas" id="gas4" value="其他"><label class="chip-label" for="gas4">其他(自行輸入)</label>
-                </div>
-                <input type="text" id="gasOther" class="other-text-input" placeholder="請輸入其他瓦斯種類">
+        <div class="card">
+            <h2 class="card-title">3. 建築與格局</h2>
+            <div class="grid-2">
+                <div class="form-group"><label>社區名稱</label><input type="text" id="community" placeholder="例：龍邸大樓"></div>
+                <div class="form-group"><label>建設公司</label><input type="text" id="builder" placeholder="例：良寶建設"></div>
             </div>
             
-            <div id="dynamic-container-building"></div>
-            <button type="button" class="btn-add-tool" onclick="addDynamicField('dynamic-container-building', 'table')">➕ 新增表格自訂欄位</button>
-        </div>
-
-        <div class="card">
-            <h2 class="card-title">法規與登記</h2>
-            <div class="grid-2">
+            <div class="grid-3">
                 <div class="form-group">
-                    <label>屋齡 / 建築完成日</label>
-                    <div class="unified-grid">
-                        <div class="unified-item" style="flex:0.5;"><span class="unified-prefix">屋齡</span><input type="tel" id="buildingAge" maxlength="3"><label>年</label></div>
-                    </div>
-                    <div class="unified-grid">
-                        <div class="unified-item"><select id="buildYear"></select><label>年</label></div>
-                        <div class="unified-item"><select id="buildMonth"></select><label>月</label></div>
-                        <div class="unified-item"><select id="buildDay"></select><label>日</label></div>
-                    </div>
+                    <label>主要結構</label>
+                    <select id="structure"><option value="RC">RC</option><option value="SRC">SRC</option><option value="SC">SC</option><option value="磚造">磚造</option><option value="加強磚造">加強磚造</option></select>
                 </div>
-
-                <div class="form-group">
-                    <label>登記原因</label>
-                    <select id="regReason" onchange="toggleSelectOtherSimple(this, 'regReasonOther')">
-                        <option value="買賣">買賣</option><option value="贈與">贈與</option><option value="其他">其他</option>
-                    </select>
-                    <input type="text" id="regReasonOther" class="other-text-input" placeholder="請輸入">
-                </div>
-                
-                <div class="form-group">
-                    <label>主要建材</label>
-                    <select id="mainMaterial" onchange="toggleSelectOtherSimple(this, 'materialOther')">
-                        <option value="鋼筋混凝土RC">鋼筋混凝土RC</option><option value="磚造">磚造</option><option value="加強磚造">加強磚造</option><option value="其他">其他</option>
-                    </select>
-                    <input type="text" id="materialOther" class="other-text-input" placeholder="請輸入建材">
-                </div>
-                <div class="form-group"><label for="mainUsage">主要用途</label><input type="text" id="mainUsage" value="集合住宅" placeholder="手動輸入"></div>
-                <div class="form-group">
-                    <label>使用分區</label>
-                    <select id="zoning" onchange="toggleSelectOtherSimple(this, 'zoningOther')">
-                        <option value="住宅區">住宅區</option><option value="商業區">商業區</option><option value="甲種建築用地">甲種建築用地</option><option value="乙種建築用地">乙種建築用地</option><option value="丙種建築用地">丙種建築用地</option><option value="丁種建築用地">丁種建築用地</option><option value="都計內乙工">都計內乙工</option><option value="其他">其他</option>
-                    </select>
-                    <input type="text" id="zoningOther" class="other-text-input" placeholder="請輸入使用分區">
-                </div>
+                <div class="form-group"><label>單層/電梯</label><input type="text" id="elevator" placeholder="例：1梯3戶"></div>
+                <div class="form-group"><label>總戶數</label><input type="tel" id="households" placeholder="例：171"></div>
             </div>
-        </div>
 
-        <div class="card">
-            <h2 class="card-title">公共設施</h2>
             <div class="form-group">
-                <div class="chip-group">
-                    <input type="checkbox" name="facility" id="f1" value="大廳"><label class="chip-label" for="f1">大廳</label>
-                    <input type="checkbox" name="facility" id="f2" value="中庭花園"><label class="chip-label" for="f2">中庭花園</label>
-                    <input type="checkbox" name="facility" id="f3" value="交誼廳"><label class="chip-label" for="f3">交誼廳</label>
-                    <input type="checkbox" name="facility" id="f4" value="視聽室"><label class="chip-label" for="f4">視聽室</label>
-                    <input type="checkbox" name="facility" id="f5" value="卡拉OK"><label class="chip-label" for="f5">卡拉OK</label>
-                    <input type="checkbox" name="facility" id="f6" value="健身房"><label class="chip-label" for="f6">健身房</label>
-                    <input type="checkbox" name="facility" id="f7" value="游泳池"><label class="chip-label" for="f7">游泳池</label>
-                    <input type="checkbox" name="facility" id="f8" value="回收區"><label class="chip-label" for="f8">回收區</label>
+                <label>樓層規劃</label>
+                <div class="unified-grid">
+                    <div class="unified-item"><span class="unified-prefix">地上</span><input type="tel" id="fAbove" maxlength="2"><label>樓</label></div>
+                    <div class="unified-item"><span class="unified-prefix">地下</span><input type="tel" id="fBelow" maxlength="1"><label>樓</label></div>
+                    <div class="unified-item"><span class="unified-prefix">位於</span><input type="tel" id="fAt" maxlength="2"><label>樓</label></div>
+                </div>
+                <div class="unified-grid" style="margin-top: 5px;">
+                    <div class="unified-item" style="flex:0.5;"><span class="unified-prefix">樓高</span><input type="text" id="ceilingHeight" placeholder="例：3.2"><label>米</label></div>
                 </div>
             </div>
-            <div id="dynamic-container-facility"></div>
-            <button type="button" class="btn-add-tool" onclick="addDynamicField('dynamic-container-facility', 'text')">➕ 新增公設備註</button>
+
+            <div class="form-group">
+                <label>格局</label>
+                <div class="unified-grid">
+                    <div class="unified-item"><input type="tel" id="lRoom" maxlength="1"><label>房</label></div>
+                    <div class="unified-item"><input type="tel" id="lLiving" maxlength="1"><label>廳</label></div>
+                    <div class="unified-item"><input type="tel" id="lBath" maxlength="1"><label>衛</label></div>
+                    <div class="unified-item"><input type="tel" id="lBalcony" maxlength="1"><label>陽</label></div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>建築完成日</label>
+                <div class="unified-grid">
+                    <div class="unified-item"><select id="bYear"></select><label>年</label></div>
+                    <div class="unified-item"><select id="bMonth"></select><label>月</label></div>
+                    <div class="unified-item"><select id="bDay"></select><label>日</label></div>
+                </div>
+            </div>
+
+            <div class="grid-3">
+                <div class="form-group"><label>管理室朝向</label><input type="text" id="dirLobby" placeholder="例：北朝南"></div>
+                <div class="form-group"><label>家門朝向</label><input type="text" id="dirDoor" placeholder="例：東朝西"></div>
+                <div class="form-group"><label>落地窗朝向</label><input type="text" id="dirWindow" placeholder="例：西朝東"></div>
+            </div>
         </div>
 
         <div class="card">
-            <h2 class="card-title">產品特色</h2>
+            <h2 class="card-title">4. 管理與車位</h2>
+            <div class="grid-2">
+                <div class="form-group"><label>管理費</label><input type="text" id="manageFee" placeholder="例：1190元/月.繳費:月繳"></div>
+                <div class="form-group"><label>管理維護公司</label><input type="text" id="manageComp" placeholder="例：24小時管理+管委會"></div>
+            </div>
+
             <div class="form-group">
-                <label>物件特色 (直接換行輸入)</label>
-                <textarea id="features" rows="6" placeholder="產品特色&#10;位於棒球場豪宅特區的黃金地段..."></textarea>
+                <label>車位類型</label>
+                <select id="parkType"><option value="平面">平面</option><option value="坡道">坡道</option><option value="機械">機械</option><option value="機械平移">機械平移</option><option value="無">無</option></select>
+                <div class="unified-grid" style="margin-top: 8px;">
+                    <div class="unified-item"><select id="parkPos"><option value="">機械上下層</option><option value="上層">上層</option><option value="下層">下層</option></select></div>
+                    <div class="unified-item"><span class="unified-prefix">編號</span><input type="text" id="parkNo" placeholder="B1 28"><label>號</label></div>
+                </div>
             </div>
-            <div id="dynamic-container-features"></div>
-            <button type="button" class="btn-add-tool" onclick="addDynamicField('dynamic-container-features', 'text')">➕ 往下新增特色備註</button>
-        </div>
-
-        <div class="card internal-card">
-            <h2 class="card-title">內部機密資訊 (僅限複製純文字，不上圖)</h2>
-            <div class="grid-2">
-                <div class="form-group"><label for="intAddress">地址</label><input type="text" id="intAddress" placeholder="例：斗六市斗六五路19號十三樓之5"></div>
-                <div class="form-group"><label for="intKey">鑰匙</label><input type="text" id="intKey" placeholder="自行填入"></div>
-                <div class="form-group"><label for="intCondition">屋狀注意</label><input type="text" id="intCondition" placeholder="例：漏水"></div>
-                <div class="form-group"><label for="intMemo">重要備註</label><input type="text" id="intMemo" placeholder="內部備註"></div>
-            </div>
-            <div id="dynamic-container-internal1"></div>
-            <button type="button" class="btn-add-tool" onclick="addDynamicField('dynamic-container-internal1', 'text')" style="margin-bottom:15px;">➕ 新增內部備註</button>
 
             <div class="grid-2">
-                <div class="form-group"><label for="intNo">物件編號</label><input type="text" id="intNo" placeholder="例：UA0392913"></div>
-                <div class="form-group"><label>委託種類</label><select id="intEntrust"><option value="一般委託">一般委託</option><option value="專任委託">專任委託</option></select></div>
-                <div class="form-group"><label for="intDev">開發</label><input type="text" id="intDev" placeholder="例：小峰"></div>
-                <div class="form-group"><label for="intFee">服務費</label><input type="text" id="intFee" placeholder="例：4%"></div>
-                <div class="form-group"><label>是否有中人費</label><select id="intMiddleman"><option value="無">無</option><option value="有">有</option></select></div>
+                <div class="form-group">
+                    <label>瓦斯</label>
+                    <select id="gas"><option value="天然氣">天然氣</option><option value="桶裝">桶裝</option><option value="其他">其他</option></select>
+                </div>
+                <div class="form-group">
+                    <label>自來水</label>
+                    <select id="water"><option value="有">有</option><option value="無">無</option></select>
+                </div>
             </div>
-            <div id="dynamic-container-internal2"></div>
-            <button type="button" class="btn-add-tool" onclick="addDynamicField('dynamic-container-internal2', 'text')">➕ 新增案件備註</button>
         </div>
+
+        <div class="card">
+            <h2 class="card-title">5. 法規與現況</h2>
+            <div class="grid-2">
+                <div class="form-group"><label>使用分區</label><input type="text" id="zoning" placeholder="例：商業區"></div>
+                <div class="form-group"><label>物件用途</label><input type="text" id="usage" placeholder="例：住家用"></div>
+                <div class="form-group"><label>建物保存登記</label><select id="isReg"><option value="是">是</option><option value="否">否</option></select></div>
+                <div class="form-group"><label>登記原因</label><input type="text" id="regReason" placeholder="例：買賣"></div>
+            </div>
+            <div class="form-group">
+                <label>登記日期</label>
+                <div class="unified-grid">
+                    <div class="unified-item"><select id="rYear"></select><label>年</label></div>
+                    <div class="unified-item"><select id="rMonth"></select><label>月</label></div>
+                    <div class="unified-item"><select id="rDay"></select><label>日</label></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2 class="card-title">6. 行銷與開發</h2>
+            <div class="grid-2">
+                <div class="form-group"><label>學區</label><input type="text" id="school" placeholder="例：僑真國小/斗南國中"></div>
+                <div class="form-group"><label>鄰近市場</label><input type="text" id="market" placeholder="例：斗南市場"></div>
+                <div class="form-group"><label>鄰近公園</label><input type="text" id="park" placeholder="例：五福公園"></div>
+                <div class="form-group"><label>交付鑰匙</label><input type="text" id="key" placeholder="例：管理室"></div>
+                <div class="form-group"><label>約看地點</label><input type="text" id="meet" placeholder="例：現場"></div>
+                <div class="form-group"><label>拍攝VR</label><select id="vr"><option value="是">是</option><option value="否">否</option></select></div>
+                <div class="form-group"><label>開發</label><input type="text" id="dev" placeholder="例：朱逸薰"></div>
+                <div class="form-group"><label>聯絡電話</label><input type="text" id="phone" placeholder="例：0938-817-821"></div>
+            </div>
+
+            <div class="form-group" style="margin-top: 10px;">
+                <label style="border-bottom:1px solid #ccc; padding-bottom:5px;">公設項目勾選</label>
+                <div style="display:flex; flex-wrap:wrap; gap:10px; margin-top:8px;" id="facilityChecks">
+                    <label style="display:inline-flex; align-items:center; font-size:15px; font-weight:normal;"><input type="checkbox" value="交誼廳" style="width:18px; margin-right:5px;">交誼廳</label>
+                    <label style="display:inline-flex; align-items:center; font-size:15px; font-weight:normal;"><input type="checkbox" value="閱覽室" style="width:18px; margin-right:5px;">閱覽室</label>
+                    <label style="display:inline-flex; align-items:center; font-size:15px; font-weight:normal;"><input type="checkbox" value="健身房" style="width:18px; margin-right:5px;">健身房</label>
+                    <label style="display:inline-flex; align-items:center; font-size:15px; font-weight:normal;"><input type="checkbox" value="視聽室" style="width:18px; margin-right:5px;">視聽室</label>
+                    <label style="display:inline-flex; align-items:center; font-size:15px; font-weight:normal;"><input type="checkbox" value="兒童遊戲區" style="width:18px; margin-right:5px;">兒童遊戲區</label>
+                    <label style="display:inline-flex; align-items:center; font-size:15px; font-weight:normal;"><input type="checkbox" value="KTV" style="width:18px; margin-right:5px;">KTV</label>
+                    <label style="display:inline-flex; align-items:center; font-size:15px; font-weight:normal;"><input type="checkbox" value="環保間" style="width:18px; margin-right:5px;">環保間</label>
+                </div>
+                <input type="text" id="facOther" placeholder="其他公設 (自行輸入)" style="margin-top:8px;">
+            </div>
+
+            <div class="form-group">
+                <label>備註 (跨欄置中顯示)</label>
+                <textarea id="memo" rows="2" placeholder="例：車位含在公設.另有一張車位使用權證明書"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>銷售建議及訴求重點 (顯示於右下角大區塊，請直接換行)</label>
+                <textarea id="features" rows="6" placeholder="整層使用坪約29坪大空間&#10;近零當勞.全家.距斗南火車站3分鐘..."></textarea>
+            </div>
+        </div>
+
     </form>
 </div>
 
 <div class="fixed-bottom-bar" id="bottomBar">
-    <button type="button" class="submit-btn" id="generateBtn"><span>產生旗艦明細圖</span></button>
+    <button type="button" class="submit-btn" id="generateBtn"><span>產生明細圖</span></button>
 </div>
 
 <div id="exportArea" class="export-wrapper">
-    <div id="capture-area">
-        <div class="preview-header">
-            <div style="display:flex; align-items:center; gap:10px;">
-                <div style="width: 30px; height: 30px; border-radius: 50%; background: var(--brand-yellow); border-bottom: 10px solid var(--brand-green); overflow: hidden;">
-                    <div style="width: 100%; height: 10px; background: var(--brand-red); margin-top: 10px;"></div>
-                </div>
-                <span style="font-size: 24px; font-weight: 900; letter-spacing: 2px; color: var(--brand-dark);">永義房屋</span>
-            </div>
-            <div class="preview-type">[<span id="out-type-tag">大樓/公寓</span>]</div>
-        </div>
-
-        <div class="preview-title" id="out-title">案名</div>
-
-        <div class="top-section">
-            <div class="summary-col">
-                <div class="data-item">
-                    <div class="data-label">總價</div>
-                    <div class="data-value"><span id="out-price">-</span><span>萬</span></div>
-                </div>
-                <div class="data-item">
-                    <div class="data-label">建物登記</div>
-                    <div class="data-value"><span id="out-ping">-</span><span>坪</span></div>
-                </div>
-                <div class="data-item">
-                    <div class="data-label">格局</div>
-                    <div class="data-value" id="out-layout" data-raw="-">-</div>
-                </div>
-            </div>
-            <div class="photo-col">
-                <img id="out-img-1" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" alt="照片1">
-                <img id="out-img-2" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" alt="照片2">
-            </div>
-        </div>
-
-        <div class="table-section">
-            <div id="out-table-left">
-                <div class="table-header">建築與空間</div>
-                <div class="table-row"><div class="th">戶型</div><div class="td" id="out-unitType">-</div></div>
-                <div class="table-row"><div class="th">樓層</div><div class="td" id="out-floor">-</div></div>
-                <div class="table-row"><div class="th">車位詳情</div><div class="td" id="out-parkingDetails">-</div></div>
-                <div class="table-row"><div class="th">總戶數</div><div class="td" id="out-households">-</div></div>
-                <div class="table-row"><div class="th">管理費</div><div class="td" id="out-manageFee">-</div></div>
-                <div class="table-row"><div class="th">瓦斯來源</div><div class="td" id="out-gas">-</div></div>
-                <div class="table-row"><div class="th">屋齡/完工日</div><div class="td" id="out-age-date">-</div></div>
-            </div>
-            <div id="out-table-right">
-                <div class="table-header">面積與法規</div>
-                <div class="table-row"><div class="th">登記坪數</div><div class="td" id="out-ping-tbl">-坪</div></div>
-                <div class="table-row"><div class="th">- 主建物</div><div class="td" id="out-mainArea">-</div></div>
-                <div class="table-row"><div class="th">- 附屬建物</div><div class="td" id="out-subArea">-</div></div>
-                <div class="table-row"><div class="th">- 公設</div><div class="td" id="out-publicArea">-</div></div>
-                <div class="table-row"><div class="th">- 車位</div><div class="td" id="out-parkingArea">-</div></div>
-                <div class="table-row"><div class="th">登記原因</div><div class="td" id="out-regReason">-</div></div>
-                <div class="table-row"><div class="th">主要建材</div><div class="td" id="out-material">-</div></div>
-                <div class="table-row"><div class="th">主要用途</div><div class="td" id="out-usage">-</div></div>
-                <div class="table-row"><div class="th">使用分區</div><div class="td" id="out-zoning">-</div></div>
-            </div>
-        </div>
-
-        <div class="features-section">
-            <div class="table-header">公共設施</div>
-            <div class="features-content" id="out-facility" style="color:#666; font-weight:normal; margin-bottom: 10px;">-</div>
-            <div class="table-header" style="margin-top:15px;">物件特色</div>
-            <div class="features-content" id="out-features"></div>
-        </div>
+    <div class="excel-table-container">
+        <div class="watermark">第 1 頁</div>
+        
+        <table class="excel-table">
+            <tr class="title-row">
+                <th colspan="6">物件明細表</th>
+            </tr>
+            <tr>
+                <th class="c1">物件編號</th><td class="c2 font-bold" id="t-no"></td>
+                <th class="c3">案名</th><td class="c4 font-bold" id="t-name"></td>
+                <th class="c5">地址</th><td class="c6" id="t-addr"></td>
+            </tr>
+            <tr>
+                <th>物件現況</th><td class="text-left" id="t-status"></td>
+                <th rowspan="2">委託價</th><td id="t-price1"></td>
+                <th rowspan="2">地/建號</th><td rowspan="2" id="t-landno"></td>
+            </tr>
+            <tr>
+                <th>物件用途</th><td id="t-usage"></td>
+                <td id="t-price2"></td>
+            </tr>
+            <tr>
+                <th>使用分區</th><td id="t-zoning"></td>
+                <td colspan="2" id="t-price3"></td>
+                <th rowspan="3">坐向</th>
+                <td class="text-left" id="t-dir1"></td>
+            </tr>
+            <tr>
+                <th>交付鑰匙</th><td id="t-key"></td>
+                <th>主要結構</th><td id="t-struct"></td>
+                <td class="text-left" id="t-dir2"></td>
+            </tr>
+            <tr>
+                <th>社區名稱</th><td id="t-community"></td>
+                <th>總坪數</th><td class="font-bold" id="t-totalArea"></td>
+                <td class="text-left" id="t-dir3"></td>
+            </tr>
+            <tr>
+                <th>建設公司</th><td id="t-builder"></td>
+                <th>主建物/附屬建物</th><td id="t-mainSubArea"></td>
+                <th>地坪(持分)</th><td id="t-landArea"></td>
+            </tr>
+            <tr>
+                <th>總戶數</th><td id="t-households"></td>
+                <th>室內坪數</th><td id="t-indoorArea"></td>
+                <th>路寬</th><td id="t-roadWidth"></td>
+            </tr>
+            <tr>
+                <th>建築規劃</th><td id="t-buildingPlan"></td>
+                <th>公設坪數</th><td id="t-pubArea"></td>
+                <th>面寬/深度</th><td id="t-widthDepth"></td>
+            </tr>
+            <tr>
+                <th>單層/電梯</th><td id="t-elevator"></td>
+                <th>車位坪數</th><td id="t-parkArea"></td>
+                <th>公設比</th><td id="t-pubRatio"></td>
+            </tr>
+            <tr>
+                <th>管理費</th><td id="t-manageFee"></td>
+                <th>加建</th><td id="t-addition"></td>
+                <th>樓高</th><td id="t-height"></td>
+            </tr>
+            <tr>
+                <th>學區</th><td id="t-school"></td>
+                <th>格局</th><td id="t-layout"></td>
+                <th>建築完成日</th><td id="t-buildDate"></td>
+            </tr>
+            <tr>
+                <td colspan="2" class="split-cell">
+                    <table class="inner-table">
+                        <tr><th style="width:25%;">鄰近市場</th><td style="width:25%;" id="t-market"></td><th style="width:25%;">鄰近公園</th><td style="width:25%;" id="t-park"></td></tr>
+                    </table>
+                </td>
+                <th>管理維護公司</th><td id="t-manageComp"></td>
+                <th>登記日期</th><td id="t-regDate"></td>
+            </tr>
+            <tr>
+                <td colspan="2" class="split-cell">
+                    <table class="inner-table">
+                        <tr><th style="width:25%;">基地坪數</th><td style="width:25%;" id="t-baseArea"></td><th style="width:25%;">類型</th><td style="width:25%;" id="t-type"></td></tr>
+                    </table>
+                </td>
+                <th>建物是否保存登記</th><td id="t-isReg"></td>
+                <th>登記原因</th><td id="t-regReason"></td>
+            </tr>
+            <tr>
+                <th>售屋動機</th><td id="t-motive"></td>
+                <th rowspan="2">車位</th><td rowspan="2" class="text-left" id="t-parking"></td>
+                <th>自來水</th><td id="t-water"></td>
+            </tr>
+            <tr>
+                <th>拍攝VR</th><td id="t-vr"></td>
+                <th>瓦斯</th><td class="text-left" id="t-gas"></td>
+            </tr>
+            <tr>
+                <th>公設</th>
+                <td colspan="3" class="text-left" id="t-fac1"></td>
+                <th colspan="2" style="font-size:18px; font-weight:bold; letter-spacing: 2px;">銷售建議及訴求重點</th>
+            </tr>
+            <tr>
+                <td colspan="4" class="text-left" id="t-fac2"></td>
+                <td colspan="2" rowspan="4" class="text-left text-top" id="t-features" style="line-height: 1.8;"></td>
+            </tr>
+            <tr>
+                <th>約看地點</th><td colspan="3" id="t-meet"></td>
+            </tr>
+            <tr>
+                <th>開發</th><td colspan="3" id="t-dev"></td>
+            </tr>
+            <tr>
+                <th>聯絡電話</th><td colspan="3" id="t-phone"></td>
+            </tr>
+            <tr>
+                <td colspan="4" id="t-memo" style="height: 50px; vertical-align: middle;"></td>
+            </tr>
+        </table>
     </div>
 </div>
 
 <script>
-    // --- 選單切換 ---
+    // --- 類別選單與日期生成 ---
     document.querySelectorAll('.cat-btn:not(.cat-disabled)').forEach(btn => {
         btn.addEventListener('click', function() {
             document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
             this.classList.add('active');
             document.getElementById('mainFormArea').style.display = 'block';
-            document.getElementById('bottomBar').style.display = 'flex';
-            document.getElementById('out-type-tag').innerText = this.getAttribute('data-type');
-            setTimeout(() => { document.getElementById('mainFormArea').scrollIntoView({ behavior: 'smooth' }); }, 100);
         });
     });
+
+    const genOptions = (elId, start, end, suffix) => {
+        const el = document.getElementById(elId);
+        el.innerHTML = '<option value="">-</option>';
+        if(start > end) { for(let i=start; i>=end; i--) el.innerHTML += `<option value="${i}">${i}${suffix}</option>`; } 
+        else { for(let i=start; i<=end; i++) el.innerHTML += `<option value="${i}">${i}${suffix}</option>`; }
+    };
+    genOptions('bYear', 115, 50, ' 年'); genOptions('bMonth', 1, 12, ' 月'); genOptions('bDay', 1, 31, ' 日');
+    genOptions('rYear', 115, 50, ' 年'); genOptions('rMonth', 1, 12, ' 月'); genOptions('rDay', 1, 31, ' 日');
 
     // --- 自動跳行邏輯 ---
     function setupAutoAdvance(ids, length = 1) {
@@ -457,61 +513,13 @@
             const el = document.getElementById(id);
             if(el && index < ids.length - 1) {
                 el.addEventListener('input', function() {
-                    if(this.value.length >= length) {
-                        const nextEl = document.getElementById(ids[index + 1]);
-                        if(nextEl) nextEl.focus();
-                    }
+                    if(this.value.length >= length) document.getElementById(ids[index + 1]).focus();
                 });
             }
         });
     }
-    setupAutoAdvance(['layoutRoom', 'layoutLiving', 'layoutBath', 'layoutBalcony', 'layoutOther'], 1);
-    setupAutoAdvance(['floorAt', 'floorTotal', 'floorOther'], 2);
-    setupAutoAdvance(['parkAt', 'parkNo'], 1);
-    document.getElementById('buildYear').addEventListener('change', () => document.getElementById('buildMonth').focus());
-    document.getElementById('buildMonth').addEventListener('change', () => document.getElementById('buildDay').focus());
-
-
-    // --- 日期生成 ---
-    const ySel = document.getElementById('buildYear');
-    ySel.innerHTML = '<option value="">選擇</option>';
-    for(let i = 115; i >= 50; i--) ySel.innerHTML += `<option value="${i}">民國 ${i} 年</option>`;
-
-    const mSel = document.getElementById('buildMonth');
-    mSel.innerHTML = '<option value="">選擇</option>';
-    for(let i = 1; i <= 12; i++) mSel.innerHTML += `<option value="${i}">${i}</option>`;
-
-    const dSel = document.getElementById('buildDay');
-    dSel.innerHTML = '<option value="">選擇</option>';
-    for(let i = 1; i <= 31; i++) dSel.innerHTML += `<option value="${i}">${i}</option>`;
-
-    // --- 其他選項切換 ---
-    function toggleSelectOtherSimple(selectObj, otherInputId) {
-        const otherInput = document.getElementById(otherInputId);
-        if(selectObj.value === '其他') { otherInput.style.display = 'block'; otherInput.focus(); }
-        else { otherInput.style.display = 'none'; }
-    }
-
-    document.querySelectorAll('input[name="gas"]').forEach(radio => {
-        radio.addEventListener('change', function() {
-            const otherInput = document.getElementById('gasOther');
-            if (this.value === '其他') { otherInput.style.display = 'block'; otherInput.focus(); } 
-            else { otherInput.style.display = 'none'; }
-        });
-    });
-
-    // --- 照片預覽 ---
-    function setupImageUpload(inputId, targetImgId) {
-        document.getElementById(inputId).addEventListener('change', function(e) {
-            if (e.target.files && e.target.files[0]) {
-                const reader = new FileReader();
-                reader.onload = function(evt) { document.getElementById(targetImgId).src = evt.target.result; }
-                reader.readAsDataURL(e.target.files[0]);
-            }
-        });
-    }
-    setupImageUpload('uploadImg1', 'out-img-1');
-    setupImageUpload('uploadImg2', 'out-img-2');
+    setupAutoAdvance(['lRoom', 'lLiving', 'lBath', 'lBalcony'], 1);
+    setupAutoAdvance(['fAbove', 'fBelow', 'fAt'], 1);
 
     // --- 千分位 ---
     document.querySelectorAll('.format-num').forEach(input => {
@@ -525,181 +533,135 @@
         input.addEventListener('focus', function() { this.value = this.value.replace(/,/g, ''); });
     });
 
-    // --- 動態新增 ---
-    function addDynamicField(containerId, type) {
-        const container = document.getElementById(containerId);
-        const row = document.createElement('div');
-        row.className = 'dynamic-row';
-        if(type === 'table') {
-            row.innerHTML = `<input type="text" class="dyn-key" placeholder="標題(如:採光)"><input type="text" class="dyn-val" placeholder="內容(如:極佳)"><button type="button" class="btn-remove-row" onclick="this.parentElement.remove()">×</button>`;
-        } else {
-            row.innerHTML = `<input type="text" class="dyn-val" placeholder="補充內容..."><button type="button" class="btn-remove-row" onclick="this.parentElement.remove()">×</button>`;
-        }
-        container.appendChild(row);
-    }
+    const getV = (id) => document.getElementById(id).value.trim() || '';
+    const getNum = (id) => parseFloat(getV(id).replace(/,/g, '')) || 0;
 
-    const getVal = (id) => document.getElementById(id).value.trim() || '-';
-    const getPing = (id) => { const v = document.getElementById(id).value.trim(); return v ? v + '坪' : '-'; };
-
-    // --- 產圖邏輯 ---
+    // --- 產圖主邏輯 ---
     document.getElementById('generateBtn').addEventListener('click', function() {
         const btn = this;
-        const btnText = btn.querySelector('span');
-        const originalText = btnText.innerText;
-        btnText.innerText = '圖片渲染中...';
+        const originalText = btn.querySelector('span').innerText;
+        btn.querySelector('span').innerText = '表格生成中...';
         btn.disabled = true; btn.style.backgroundColor = '#001F5B';
 
-        document.getElementById('out-title').innerText = getVal('caseName');
-        document.getElementById('out-price').innerText = getVal('price');
-        document.getElementById('out-ping').innerText = getVal('totalArea');
-        document.getElementById('out-ping-tbl').innerText = getPing('totalArea');
-
-        // 格局：使用純色碼確保不亂碼
-        let lr = document.getElementById('layoutRoom').value.trim();
-        let ll = document.getElementById('layoutLiving').value.trim();
-        let lb = document.getElementById('layoutBath').value.trim();
-        let lbal = document.getElementById('layoutBalcony').value.trim();
-        let lo = document.getElementById('layoutOther').value.trim();
+        // 1. 核心與金額
+        document.getElementById('t-no').innerText = getV('objNo');
+        document.getElementById('t-name').innerText = getV('caseName');
+        document.getElementById('t-addr').innerText = getV('address');
         
-        let layoutRawStr = ''; 
-        let layoutHtml = '';   
-        const sNum = 'style="font-size: 38px; color: #D82A29; font-weight: 900;"';
-        const sTxt = 'style="font-size: 18px; color: #333; font-weight: normal;"';
-
-        if (lr || ll || lb || lbal) {
-            let pRaw = [];
-            let pHtml = [];
-            if (lr) { pRaw.push(lr + '房'); pHtml.push(`<span ${sNum}>${lr}</span><span ${sTxt}>房</span>`); }
-            if (ll) { pRaw.push(ll + '廳'); pHtml.push(`<span ${sNum}>${ll}</span><span ${sTxt}>廳</span>`); }
-            if (lb) { pRaw.push(lb + '衛'); pHtml.push(`<span ${sNum}>${lb}</span><span ${sTxt}>衛</span>`); }
-            if (lbal) { pRaw.push(lbal + '陽'); pHtml.push(`<span ${sNum}>${lbal}</span><span ${sTxt}>陽</span>`); }
-            
-            layoutRawStr = pRaw.join('');
-            layoutHtml = pHtml.join('<span style="margin:0 2px;"></span>');
-        } else if (lo) {
-            layoutRawStr = lo;
-            let safeLo = lo.replace(/</g, "&lt;").replace(/>/g, "&gt;"); 
-            layoutHtml = `<span ${sTxt}>${safeLo.replace(/(\d+)/g, `<span ${sNum}>$1</span>`)}</span>`;
-        } else {
-            layoutRawStr = '-';
-            layoutHtml = `<span ${sTxt}>-</span>`;
-        }
-        document.getElementById('out-layout').setAttribute('data-raw', layoutRawStr);
-        document.getElementById('out-layout').innerHTML = layoutHtml;
-
-        // 樓層
-        let fa = document.getElementById('floorAt').value.trim();
-        let ft = document.getElementById('floorTotal').value.trim();
-        let fo = document.getElementById('floorOther').value.trim();
-        let floorParts = [];
-        if(fa || ft) floorParts.push(`位於${fa||'_'}樓/總共${ft||'_'}樓`);
-        if(fo) floorParts.push(`(${fo})`);
-        document.getElementById('out-floor').innerText = floorParts.length > 0 ? floorParts.join(' ') : '-';
-
-        // 車位
-        let pkChecked = document.querySelector('input[name="parkKind"]:checked');
-        let pkVal = pkChecked ? pkChecked.value : '';
-        let pa = document.getElementById('parkAt').value.trim();
-        let pn = document.getElementById('parkNo').value.trim();
-        let pt = document.getElementById('parkTotal').value.trim();
-        let po = document.getElementById('parkOther').value.trim();
-        let parkParts = [];
-        if(pkVal) parkParts.push(pkVal);
-        if(pa || pn || pt) parkParts.push(`地下${pa||'_'}層${pn||'_'}號/總共${pt||'_'}層`);
-        if(po) parkParts.push(`(${po})`);
-        document.getElementById('out-parkingDetails').innerText = parkParts.length > 0 ? parkParts.join(' ') : '-';
-
-        // 建築雜項 (自動加戶、元)
-        document.getElementById('out-unitType').innerText = getVal('unitType');
-        let hh = getVal('totalHouseholds');
-        if (hh !== '-' && !hh.includes('戶')) hh += '戶';
-        document.getElementById('out-households').innerText = hh;
-        let mf = getVal('manageFee');
-        if (mf !== '-' && !mf.includes('元') && /^\d+$/.test(mf.replace(/,/g, ''))) mf += '元';
-        document.getElementById('out-manageFee').innerText = mf;
-
-        let gasChecked = document.querySelector('input[name="gas"]:checked');
-        let gasVal = gasChecked ? gasChecked.value : '-';
-        if (gasVal === '其他') gasVal = getVal('gasOther') === '-' ? '其他' : getVal('gasOther');
-        document.getElementById('out-gas').innerText = gasVal;
-
-        // 日期
-        const age = document.getElementById('buildingAge').value.trim();
-        const by = document.getElementById('buildYear').value;
-        const bm = document.getElementById('buildMonth').value;
-        const bd = document.getElementById('buildDay').value;
-        let dateStr = '';
-        if(by) dateStr += `${by}年`;
-        if(bm) dateStr += `${bm}月`;
-        if(bd) dateStr += `${bd}日`;
-        let finalAgeStr = [];
-        if(age) finalAgeStr.push(age + '年');
-        if(dateStr) finalAgeStr.push(dateStr);
-        document.getElementById('out-age-date').innerText = finalAgeStr.length > 0 ? finalAgeStr.join(' / ') : '-';
-
-        // 動態左欄
-        document.querySelectorAll('.out-dyn-row').forEach(e => e.remove());
-        const bldRows = document.getElementById('dynamic-container-building').querySelectorAll('.dynamic-row');
-        const leftTable = document.getElementById('out-table-left');
-        bldRows.forEach(row => {
-            const k = row.querySelector('.dyn-key').value.trim();
-            const v = row.querySelector('.dyn-val').value.trim();
-            if(k || v) {
-                const tr = document.createElement('div');
-                tr.className = 'table-row out-dyn-row';
-                tr.innerHTML = `<div class="th" style="color:var(--brand-green);">${k||'備註'}</div><div class="td">${v||'-'}</div>`;
-                leftTable.appendChild(tr);
-            }
-        });
-
-        // 右欄
-        document.getElementById('out-mainArea').innerText = getPing('mainArea');
-        document.getElementById('out-subArea').innerText = getPing('subArea');
-        document.getElementById('out-publicArea').innerText = getPing('publicArea');
-        document.getElementById('out-parkingArea').innerText = getPing('parkingArea');
+        let stat = getV('objStatus');
+        document.getElementById('t-status').innerHTML = `<span class="chk-box">${stat==='空屋'?'■':'□'}</span>空屋 <span class="chk-box">${stat==='自用'?'■':'□'}</span>自用 <span class="chk-box">${stat==='預售'?'■':'□'}</span>預售 <span class="chk-box">${stat==='租賃中'?'■':'□'}</span>租賃中`;
         
-        let regVal = document.getElementById('regReason').value;
-        if(regVal === '其他') regVal = getVal('regReasonOther') === '-' ? '其他' : getVal('regReasonOther');
-        document.getElementById('out-regReason').innerText = regVal;
+        let p = getV('price'), ap = getV('acquirePrice'), sp = getV('settingPrice'), mp = getV('marketPrice'), np = getV('negoPrice');
+        document.getElementById('t-price1').innerHTML = `${p ? p+' 萬' : ''} <span style="margin:0 5px;">|</span> 取得價格: ${ap ? ap+' 萬' : ''}`;
+        
+        let totalA = getNum('totalArea');
+        let unitP = (totalA > 0 && getNum('price') > 0) ? (getNum('price') / totalA).toFixed(2) : '-';
+        document.getElementById('t-price2').innerHTML = `單坪 ${unitP} 萬 <span style="margin:0 5px;">|</span> 設定: ${sp ? sp+' 萬' : ''}`;
+        document.getElementById('t-price3').innerHTML = `行情價 ${mp ? mp+' 萬' : ''} <span style="margin:0 10px;">|</span> 可談價 ${np ? np+' 萬' : ''}`;
 
-        let matVal = document.getElementById('mainMaterial').value;
-        if(matVal === '其他') matVal = getVal('materialOther') === '-' ? '其他' : getVal('materialOther');
-        document.getElementById('out-material').innerText = matVal;
+        document.getElementById('t-usage').innerText = getV('usage');
+        document.getElementById('t-zoning').innerText = getV('zoning');
+        document.getElementById('t-landno').innerText = getV('landBuildNo');
 
-        document.getElementById('out-usage').innerText = getVal('mainUsage');
+        // 坐向
+        document.getElementById('t-dir1').innerText = `管理室朝向 | ${getV('dirLobby')}`;
+        document.getElementById('t-dir2').innerText = `家門朝向 | ${getV('dirDoor')}`;
+        document.getElementById('t-dir3').innerText = `落地窗朝向 | ${getV('dirWindow')}`;
 
-        let zoneVal = document.getElementById('zoning').value;
-        if(zoneVal === '其他') zoneVal = getVal('zoningOther') === '-' ? '其他' : getVal('zoningOther');
-        document.getElementById('out-zoning').innerText = zoneVal;
+        // 面積
+        document.getElementById('t-totalArea').innerText = getV('totalArea') ? getV('totalArea')+'坪' : '';
+        document.getElementById('t-mainSubArea').innerText = `${getV('mainArea')||'0'}坪 / ${getV('subArea')||'0'}坪`;
+        let indoor = (getNum('mainArea') + getNum('subArea')).toFixed(2);
+        document.getElementById('t-indoorArea').innerText = indoor > 0 ? indoor+'坪' : '';
+        document.getElementById('t-pubArea').innerText = getV('pubArea') ? getV('pubArea')+'坪' : '';
+        document.getElementById('t-parkArea').innerText = getV('parkArea') ? getV('parkArea')+'坪' : '';
+        
+        let pubA = getNum('pubArea');
+        document.getElementById('t-pubRatio').innerText = (totalA > 0 && pubA > 0) ? Math.round((pubA/totalA)*100)+'%' : '';
+        document.getElementById('t-landArea').innerText = getV('landArea') ? getV('landArea')+' 坪' : '';
+        
+        // 建築與戶型
+        document.getElementById('t-key').innerText = getV('key');
+        document.getElementById('t-struct').innerText = getV('structure');
+        document.getElementById('t-community').innerText = getV('community');
+        document.getElementById('t-builder').innerText = getV('builder');
+        document.getElementById('t-households').innerText = getV('households') ? getV('households')+' 戶' : '';
+        
+        let fa = getV('fAbove'), fb = getV('fBelow'), fat = getV('fAt');
+        document.getElementById('t-buildingPlan').innerText = `地上 ${fa||'_'} 樓/地下 ${fb||'_'} 樓/位於 ${fat||'_'} 樓`;
+        document.getElementById('t-elevator').innerText = getV('elevator');
+        document.getElementById('t-manageFee').innerText = getV('manageFee');
+        document.getElementById('t-addition').innerText = getV('addition');
+        document.getElementById('t-height').innerText = getV('ceilingHeight') ? getV('ceilingHeight')+' 米' : '';
+
+        // 日期與格局
+        let by = getV('bYear'), bm = getV('bMonth'), bd = getV('bDay');
+        document.getElementById('t-buildDate').innerText = by ? `${by}年 ${bm||'_'}月 ${bd||'_'}日` : '';
+        let ry = getV('rYear'), rm = getV('rMonth'), rd = getV('rDay');
+        document.getElementById('t-regDate').innerText = ry ? `${ry}年 ${rm||'_'}月 ${rd||'_'}日` : '';
+        
+        let lr = getV('lRoom'), ll = getV('lLiving'), lb = getV('lBath'), lbal = getV('lBalcony');
+        document.getElementById('t-layout').innerText = (lr||ll||lb||lbal) ? `${lr||0} 房/ ${ll||0} 廳/ ${lb||0} 衛/ ${lbal||0} 陽台` : '';
+        document.getElementById('t-school').innerText = getV('school');
+        document.getElementById('t-market').innerText = getV('market');
+        document.getElementById('t-park').innerText = getV('park');
+        document.getElementById('t-manageComp').innerText = getV('manageComp');
+        
+        document.getElementById('t-baseArea').innerText = getV('baseArea') ? getV('baseArea')+' 坪' : '';
+        let type = document.querySelector('.cat-btn.active').getAttribute('data-type');
+        document.getElementById('t-type').innerHTML = `<span class="chk-box">${type==='大樓'?'■':'□'}</span>大樓 / <span class="chk-box">${type==='透天'?'■':'□'}</span>透天`;
+        
+        let isreg = getV('isReg');
+        document.getElementById('t-isReg').innerHTML = `<span class="chk-box">${isreg==='是'?'■':'□'}</span>是　<span class="chk-box">${isreg==='否'?'■':'□'}</span>否`;
+        document.getElementById('t-regReason').innerText = getV('regReason');
+        
+        // 其他
+        document.getElementById('t-roadWidth').innerText = getV('roadWidth');
+        document.getElementById('t-widthDepth').innerText = getV('widthDepth');
+        document.getElementById('t-motive').innerText = getV('motive');
+        let vr = getV('vr');
+        document.getElementById('t-vr').innerHTML = `<span class="chk-box">${vr==='是'?'■':'□'}</span>是　<span class="chk-box">${vr==='否'?'■':'□'}</span>否`;
+        
+        let pt = getV('parkType');
+        document.getElementById('t-parking').innerHTML = `
+            <span class="chk-box">${pt==='坡道'?'■':'□'}</span>坡道 <span class="chk-box">${pt==='平面'?'■':'□'}</span>平面 <span class="chk-box">${pt==='機械'?'■':'□'}</span>機械 <span class="chk-box">${pt==='機械平移'?'■':'□'}</span>機械平移<br>
+            機械: <span class="chk-box">${getV('parkPos')==='上層'?'■':'□'}</span>上層 <span class="chk-box">${getV('parkPos')==='下層'?'■':'□'}</span>下層<br>
+            車位編號: ${getV('parkNo')}
+        `;
+        document.getElementById('t-water').innerText = getV('water');
+        
+        let gas = getV('gas');
+        document.getElementById('t-gas').innerHTML = `<span class="chk-box">${gas==='桶裝'?'■':'□'}</span>桶裝 <span class="chk-box">${gas==='天然氣'?'■':'□'}</span>天然氣 <span class="chk-box">${gas==='其他'?'■':'□'}</span>其他: ${getV('gasOther')}`;
 
         // 公設
-        let facArr = [];
-        document.querySelectorAll('input[name="facility"]:checked').forEach(cb => facArr.push(cb.value));
-        document.getElementById('dynamic-container-facility').querySelectorAll('.dyn-val').forEach(input => {
-            if(input.value.trim()) facArr.push(input.value.trim());
-        });
-        document.getElementById('out-facility').innerText = facArr.length > 0 ? facArr.join('、') : '無';
+        let fList = [];
+        document.querySelectorAll('#facilityChecks input:checked').forEach(e => fList.push(e.value));
+        const c1 = ['交誼廳','閱覽室','健身房','視聽室'];
+        const c2 = ['兒童遊戲區','KTV','環保間'];
+        
+        document.getElementById('t-fac1').innerHTML = c1.map(item => `<span class="chk-box">${fList.includes(item)?'■':'□'}</span>${item}`).join(' ');
+        document.getElementById('t-fac2').innerHTML = c2.map(item => `<span class="chk-box">${fList.includes(item)?'■':'□'}</span>${item}`).join(' ') + ` <span class="chk-box">${getV('facOther')?'■':'□'}</span>其他: ${getV('facOther')}`;
 
-        // 特色
-        let featStr = document.getElementById('features').value;
-        document.getElementById('dynamic-container-features').querySelectorAll('.dyn-val').forEach(input => {
-            if(input.value.trim()) featStr += '\n- ' + input.value.trim(); 
-        });
-        document.getElementById('out-features').innerText = featStr;
+        // 底部資訊
+        document.getElementById('t-features').innerHTML = getV('features').replace(/\n/g, '<br>');
+        document.getElementById('t-meet').innerText = getV('meet');
+        document.getElementById('t-dev').innerText = getV('dev');
+        document.getElementById('t-phone').innerText = getV('phone');
+        document.getElementById('t-memo').innerHTML = `備註：<br>${getV('memo').replace(/\n/g, '<br>')}`;
 
         // 截圖
         const exportArea = document.getElementById('exportArea');
         exportArea.classList.add('capturing'); 
 
         setTimeout(() => {
-            html2canvas(exportArea, { scale: 3, useCORS: true, backgroundColor: null }).then(canvas => {
+            html2canvas(exportArea, { scale: 3, useCORS: true, backgroundColor: '#FFFFFF' }).then(canvas => {
                 canvas.toBlob(function(blob) {
                     window.currentImageBlob = blob;
                     document.getElementById('previewImg').src = URL.createObjectURL(blob);
                     document.getElementById('previewModal').classList.add('show');
                     
                     exportArea.classList.remove('capturing');
-                    btnText.innerText = originalText;
+                    btn.querySelector('span').innerText = '產生明細圖';
                     btn.disabled = false;
                     btn.style.backgroundColor = 'var(--brand-green)';
                 }, 'image/png');
@@ -707,91 +669,50 @@
         }, 300);
     });
 
-    // --- Modal 行為 ---
-    document.getElementById('backBtn').addEventListener('click', () => { document.getElementById('previewModal').classList.remove('show'); });
-
+    document.getElementById('backBtn').addEventListener('click', () => document.getElementById('previewModal').classList.remove('show'));
+    
     document.getElementById('confirmDownloadBtn').addEventListener('click', function() {
         if (!window.currentImageBlob) return;
-        const file = new File([window.currentImageBlob], '永義房屋_明細表.png', { type: 'image/png' });
-        if (navigator.canShare && navigator.canShare({ files: [file] })) {
-            navigator.share({ files: [file] }).catch(() => {});
-        } else {
-            const link = document.createElement('a');
-            link.download = '永義房屋_明細表.png'; 
-            link.href = URL.createObjectURL(window.currentImageBlob);
-            document.body.appendChild(link); link.click(); link.remove();
+        const file = new File([window.currentImageBlob], '承峰不動產_明細表.png', { type: 'image/png' });
+        if (navigator.canShare && navigator.canShare({ files: [file] })) navigator.share({ files: [file] }).catch(()=>{});
+        else {
+            const link = document.createElement('a'); link.download = '承峰不動產_明細表.png'; 
+            link.href = URL.createObjectURL(window.currentImageBlob); link.click();
         }
     });
 
     // --- 詳細純文字複製 ---
     document.getElementById('copyLineBtn').addEventListener('click', function() {
-        const title = getVal('caseName');
-        const price = getVal('price');
-        const layout = document.getElementById('out-layout').getAttribute('data-raw');
-        
-        const totalArea = getVal('totalArea');
-        const mainArea = getVal('mainArea');
-        const subArea = getVal('subArea');
-        const pubArea = getVal('publicArea');
-        
-        const parkDet = document.getElementById('out-parkingDetails').innerText; 
-        const parkArea = getVal('parkingArea');
+        const text = `【物件明細表】\n` +
+                     `案名：${getV('caseName')}\n` +
+                     `編號：${getV('objNo')}\n` +
+                     `地址：${getV('address')}\n` +
+                     `委託價：${getV('price')} 萬\n` +
+                     `格局：${getV('lRoom')}房${getV('lLiving')}廳${getV('lBath')}衛${getV('lBalcony')}陽台\n\n` +
+                     `【面積資料】\n` +
+                     `總坪數：${getV('totalArea')} 坪\n` +
+                     `主建/附屬：${getV('mainArea')}坪 / ${getV('subArea')}坪\n` +
+                     `公設/車位：${getV('pubArea')}坪 / ${getV('parkArea')}坪\n` +
+                     `地/建號：${getV('landBuildNo')}\n` +
+                     `地坪：${getV('landArea')} 坪\n\n` +
+                     `【建築與管理】\n` +
+                     `屋齡完工：${getV('bYear')}年${getV('bMonth')}月${getV('bDay')}日\n` +
+                     `樓層：地上${getV('fAbove')}/地下${getV('fBelow')}/位於${getV('fAt')}樓\n` +
+                     `戶數/電梯：${getV('households')}戶 / ${getV('elevator')}\n` +
+                     `管理費：${getV('manageFee')}\n` +
+                     `車位詳情：${getV('parkType')} (${getV('parkPos')} ${getV('parkNo')})\n\n` +
+                     `【訴求重點】\n${getV('features')}\n\n` +
+                     `====================\n` +
+                     `【內部產調機密】\n` +
+                     `取得：${getV('acquirePrice')}萬 / 設定：${getV('settingPrice')}萬\n` +
+                     `行情/可談：${getV('marketPrice')}萬 / ${getV('negoPrice')}萬\n` +
+                     `交付鑰匙：${getV('key')}\n` +
+                     `備註：${getV('memo')}\n` +
+                     `開發：${getV('dev')} (${getV('phone')})`;
 
-        const floor = document.getElementById('out-floor').innerText;
-        const unitType = getVal('unitType');
-        const households = document.getElementById('out-households').innerText;
-        const ageDate = document.getElementById('out-age-date').innerText;
-        
-        const manageFee = document.getElementById('out-manageFee').innerText;
-        const gas = document.getElementById('out-gas').innerText;
-        const material = document.getElementById('out-material').innerText;
-        const usage = getVal('mainUsage');
-        const zoning = document.getElementById('out-zoning').innerText;
-        const facility = document.getElementById('out-facility').innerText;
-
-        let rawFeatures = document.getElementById('features').value;
-        document.getElementById('dynamic-container-features').querySelectorAll('.dyn-val').forEach(inp => { if(inp.value.trim()) rawFeatures += `\n- ${inp.value.trim()}`; });
-
-        let intNotes = '';
-        document.getElementById('dynamic-container-internal1').querySelectorAll('.dyn-val').forEach(inp => { if(inp.value.trim()) intNotes += `\n- ${inp.value.trim()}`; });
-        document.getElementById('dynamic-container-internal2').querySelectorAll('.dyn-val').forEach(inp => { if(inp.value.trim()) intNotes += `\n- ${inp.value.trim()}`; });
-
-        const lineText = `【${title}】\n\n` +
-                         `💰 總價：${price} 萬\n` +
-                         `🛏️ 格局：${layout}\n` +
-                         `🏢 樓層：${floor}\n\n` +
-                         `【面積與車位】\n` +
-                         `📐 權狀：${totalArea} 坪\n` +
-                         (mainArea !== '-' ? `　🔸主建物：${mainArea} 坪\n` : '') +
-                         (subArea !== '-' ? `　🔸附屬建物：${subArea} 坪\n` : '') +
-                         (pubArea !== '-' ? `　🔸公設：${pubArea} 坪\n` : '') +
-                         `🚗 車位：${parkDet} ${parkArea !== '-' ? '('+parkArea+'坪)' : ''}\n\n` +
-                         `【建築與法規】\n` +
-                         `⏳ 屋齡/完工：${ageDate}\n` +
-                         `🏠 總戶數：${households} (戶型: ${unitType})\n` +
-                         `💳 管理費：${manageFee}\n` +
-                         `🔥 瓦斯：${gas}\n` +
-                         `🧱 建材/用途：${material} / ${usage}\n` +
-                         `📌 使用分區：${zoning}\n` +
-                         `🏊 公共設施：${facility}\n\n` +
-                         `【物件特色】\n${rawFeatures}\n\n` +
-                         `====================\n` +
-                         `【內部機密資訊】(請勿外流)\n` +
-                         `📍 地址：${getVal('intAddress')}\n` +
-                         `🔑 鑰匙：${getVal('intKey')}\n` +
-                         `🛠️ 屋狀：${getVal('intCondition')}\n` +
-                         `📝 備註：${getVal('intMemo')}${intNotes}\n` +
-                         `📌 編號：${getVal('intNo')} (${document.getElementById('intEntrust').value})\n` +
-                         `🤝 開發：${getVal('intDev')} / 服務費：${getVal('intFee')} / 中人費：${document.getElementById('intMiddleman').value}\n\n` +
-                         `📞 永義房屋成功莊敬店\n公司電話：05-534-1000`;
-
-        navigator.clipboard.writeText(lineText).then(() => {
-            const btn = this;
-            const originalText = btn.innerText;
-            btn.innerText = "已複製詳細文案！";
-            setTimeout(() => { btn.innerText = originalText; }, 3000);
-        }).catch(err => {
-            alert('複製失敗，請檢查瀏覽器權限。');
+        navigator.clipboard.writeText(text).then(() => {
+            const btn = this; const originalText = btn.innerText;
+            btn.innerText = "已複製！"; setTimeout(() => { btn.innerText = originalText; }, 3000);
         });
     });
 </script>
