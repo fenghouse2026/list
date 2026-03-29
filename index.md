@@ -146,8 +146,6 @@
 
         .features-section { padding: 20px; }
         .features-content { font-size: 15px; line-height: 1.6; white-space: pre-wrap; font-weight: bold; color: var(--brand-dark);}
-        
-        .img-remark-box { display: none; background: #FFF9F9; border: 2px dashed var(--brand-red); color: var(--brand-red); padding: 12px; border-radius: 8px; margin: 0 20px 20px 20px; font-weight: 900; text-align: center; font-size: 16px; }
     </style>
 </head>
 <body>
@@ -345,12 +343,7 @@
         </div>
 
         <div class="card">
-            <h2 class="card-title">產品特色與備註</h2>
-            <div class="form-group">
-                <label>圖面專屬備註 (將以醒目提示框顯示於圖片下方)</label>
-                <input type="text" id="imgRemark" placeholder="例：頂樓有曬被區">
-            </div>
-            
+            <h2 class="card-title">產品特色</h2>
             <div class="form-group">
                 <label>物件特色 (直接換行輸入)</label>
                 <textarea id="features" rows="6" placeholder="產品特色&#10;位於棒球場豪宅特區的黃金地段...&#10;前院大面積綠化..."></textarea>
@@ -467,10 +460,6 @@
             <div class="table-header" style="margin-top:15px;">物件特色</div>
             <div class="features-content" id="out-features"></div>
         </div>
-        
-        <div id="out-remark-box" class="img-remark-box">
-            【備註】<span id="out-remark-text"></span>
-        </div>
     </div>
 </div>
 
@@ -577,7 +566,7 @@
         document.getElementById('out-ping-tbl').innerText = getPing('totalArea');
 
         // ==========================================
-        // 格局處理 (修正亂碼 Bug：安全組裝 HTML 標籤)
+        // 格局處理 (安全組裝 HTML 標籤)
         // ==========================================
         let lr = document.getElementById('layoutRoom').value.trim();
         let ll = document.getElementById('layoutLiving').value.trim();
@@ -714,15 +703,6 @@
             if(input.value.trim()) featStr += '\n- ' + input.value.trim(); 
         });
         document.getElementById('out-features').innerText = featStr;
-
-        // 圖面專屬備註框
-        const imgRmk = document.getElementById('imgRemark').value.trim();
-        if(imgRmk) {
-            document.getElementById('out-remark-text').innerText = imgRmk;
-            document.getElementById('out-remark-box').style.display = 'block';
-        } else {
-            document.getElementById('out-remark-box').style.display = 'none';
-        }
 
         // 開始截圖
         const exportArea = document.getElementById('exportArea');
