@@ -23,119 +23,109 @@
         body { background-color: var(--bg-color); color: #333; margin: 0; padding: 20px 15px 120px; line-height: 1.5; }
         .container { max-width: 800px; margin: 0 auto; }
 
-        .header { text-align: center; margin-bottom: 25px; }
+        .header { text-align: center; margin-bottom: 20px; }
         .header h1 { color: var(--brand-green); font-size: 24px; margin: 0; font-weight: 900; letter-spacing: 1px;}
         .header p { color: #7A7571; font-size: 14px; margin-top: 6px; }
 
         /* =========================================
-           2. 頂部選單
+           2. 頂部選單 (絕對保留)
            ========================================= */
         .category-selector { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 30px; }
+        @media (max-width: 600px) { .category-selector { grid-template-columns: repeat(2, 1fr); gap: 8px; } }
         
         .cat-btn {
             background: #FFFFFF; border: 2px solid #E4E4E4; border-radius: var(--card-radius);
-            padding: 20px 10px; text-align: center; cursor: pointer; transition: all 0.2s;
+            padding: 16px 8px; text-align: center; cursor: pointer; transition: all 0.2s;
             box-shadow: 0 4px 12px rgba(0,0,0,0.03); display: flex; flex-direction: column; align-items: center; justify-content: center;
         }
-        .cat-btn:hover { border-color: var(--brand-yellow); transform: translateY(-3px); }
         .cat-btn.active { border-color: var(--brand-green); background-color: rgba(0,140,74,0.05); box-shadow: 0 4px 16px rgba(0,140,74,0.15); }
-        .cat-icon { font-size: 32px; margin-bottom: 8px; }
-        .cat-title { font-size: 16px; font-weight: bold; color: var(--brand-dark); }
+        .cat-icon { font-size: 28px; margin-bottom: 8px; }
+        .cat-title { font-size: 15px; font-weight: bold; color: var(--brand-dark); }
         .cat-disabled { opacity: 0.5; cursor: not-allowed; position: relative; }
-        .cat-disabled:hover { transform: none; border-color: #E4E4E4; }
-        .badge-soon { position: absolute; top: -10px; right: -10px; background: var(--brand-red); color: white; font-size: 12px; padding: 2px 8px; border-radius: 20px; font-weight: bold; }
+        .badge-soon { position: absolute; top: -10px; right: -5px; background: var(--brand-red); color: white; font-size: 11px; padding: 2px 6px; border-radius: 20px; font-weight: bold; }
 
         #mainFormArea { display: none; animation: fadeIn 0.4s ease; }
 
         /* =========================================
-           3. 表單介面樣式 (電腦版預設)
+           3. 表單介面樣式 (手機版高度最佳化)
            ========================================= */
         .card {
-            background: #FFFFFF; border-radius: var(--card-radius); padding: 24px 20px;
-            margin-bottom: 24px; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
+            background: #FFFFFF; border-radius: var(--card-radius); padding: 20px 16px;
+            margin-bottom: 20px; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
             border-top: 4px solid var(--brand-yellow);
         }
         .card.internal-card { border-top: 4px solid var(--brand-red); background: #FFF9F9; }
         .card.internal-card .card-title { color: var(--brand-red); border-bottom-color: #FFEDED;}
 
-        .card-title { font-size: 18px; font-weight: 900; margin-top: 0; margin-bottom: 20px; color: var(--brand-green); border-bottom: 2px solid #F0F0F0; padding-bottom: 12px; }
+        .card-title { font-size: 17px; font-weight: 900; margin-top: 0; margin-bottom: 16px; color: var(--brand-green); border-bottom: 2px solid #F0F0F0; padding-bottom: 10px; }
 
-        .form-group { margin-bottom: 18px; position: relative;}
-        label { display: block; font-size: 14px; font-weight: 700; margin-bottom: 8px; color: #4A4A4A; }
+        .form-group { margin-bottom: 16px; position: relative;}
+        label { display: block; font-size: 13px; font-weight: 700; margin-bottom: 6px; color: #4A4A4A; }
         .required::after { content: " *"; color: var(--brand-red); }
 
-        input[type="text"], input[type="number"], textarea, select, input[type="file"] {
-            width: 100%; padding: 14px 16px; border: 1.5px solid #E4E4E4;
+        input[type="text"], input[type="number"], input[type="tel"], textarea, select, input[type="file"] {
+            width: 100%; padding: 12px 14px; border: 1.5px solid #E4E4E4;
             border-radius: var(--input-radius); font-size: 16px; transition: all 0.2s ease; background-color: #FAFAFA; box-sizing: border-box;
         }
         input:focus, textarea:focus, select:focus { outline: none; border-color: var(--brand-green); background-color: #FFFFFF; box-shadow: 0 0 0 4px rgba(0, 140, 74, 0.1); }
         .input-error { border-color: var(--brand-red) !important; background-color: #FFF0F0 !important; }
 
-        .chip-group { display: flex; flex-wrap: wrap; gap: 10px; }
+        .chip-group { display: flex; flex-wrap: wrap; gap: 8px; }
         .chip-group input[type="radio"], .chip-group input[type="checkbox"] { display: none; }
-        .chip-label { padding: 10px 16px; border: 1.5px solid #E4E4E4; border-radius: 30px; font-size: 15px; font-weight: 500; cursor: pointer; transition: all 0.2s; background-color: #FFFFFF; color: #666; }
+        .chip-label { padding: 8px 14px; border: 1.5px solid #E4E4E4; border-radius: 30px; font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s; background-color: #FFFFFF; color: #666; }
         .chip-group input:checked + .chip-label { background-color: var(--brand-green); color: #FFFFFF; border-color: var(--brand-green); box-shadow: 0 4px 10px rgba(0, 140, 74, 0.2); }
 
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-        .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+        @media (max-width: 600px) { .grid-3, .grid-2 { grid-template-columns: 1fr; } }
         
-        .other-text-input { display: none; margin-top: 10px; animation: fadeIn 0.3s ease; }
+        .other-text-input { display: none; margin-top: 8px; animation: fadeIn 0.3s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
         
-        .fill-blank-group { display: flex; align-items: center; gap: 8px; margin-top: 5px; flex-wrap: wrap; }
-        .fill-blank-group input { padding: 10px; text-align: center; }
-        .fill-blank-text { font-weight: bold; color: #555; }
+        /* ✨ 全新：高質感獨立方塊輸入 (解決手機不好點的問題) */
+        .unified-grid { display: flex; gap: 8px; width: 100%; flex-wrap: wrap; margin-bottom: 8px; }
+        .unified-item { 
+            flex: 1; min-width: 60px; display: flex; align-items: center; justify-content: center;
+            background: #FAFAFA; border: 1.5px solid #E4E4E4; border-radius: var(--input-radius); 
+            padding: 2px 10px; transition: 0.2s;
+        }
+        .unified-item:focus-within { border-color: var(--brand-green); background: #FFFFFF; box-shadow: 0 0 0 3px rgba(0, 140, 74, 0.1); }
+        .unified-item input, .unified-item select { 
+            border: none; background: transparent; width: 100%; 
+            font-size: 18px; font-weight: 900; color: var(--brand-red); text-align: center; 
+            padding: 10px 0; outline: none; -moz-appearance: textfield; box-shadow: none !important;
+        }
+        .unified-item select { color: #333; font-weight: bold; font-size: 16px; padding: 10px 5px;}
+        .unified-item input::-webkit-outer-spin-button, .unified-item input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+        .unified-item label { margin: 0 0 0 4px; color: #555; font-weight: bold; font-size: 14px; white-space: nowrap; }
+        .unified-prefix { margin: 0 4px 0 0; color: #555; font-weight: bold; font-size: 14px; white-space: nowrap; }
 
-        .btn-add-tool { background: rgba(0, 140, 74, 0.08); color: var(--brand-green); border: 1px dashed var(--brand-green); padding: 8px 15px; border-radius: 8px; font-size: 14px; font-weight: bold; cursor: pointer; margin-top: 5px; width: 100%; transition: all 0.2s; }
-        .btn-add-tool:hover { background: rgba(0, 140, 74, 0.15); }
-        .dynamic-row { display: flex; gap: 10px; margin-top: 10px; animation: fadeIn 0.3s; }
+        /* 動態新增工具按鈕 */
+        .btn-add-tool { background: rgba(0, 140, 74, 0.08); color: var(--brand-green); border: 1px dashed var(--brand-green); padding: 10px 15px; border-radius: 8px; font-size: 14px; font-weight: bold; cursor: pointer; margin-top: 5px; width: 100%; transition: all 0.2s; }
+        .dynamic-row { display: flex; gap: 8px; margin-top: 10px; animation: fadeIn 0.3s; }
         .dynamic-row .dyn-key { width: 35%; }
         .dynamic-row .dyn-val { flex: 1; }
-        .btn-remove-row { background: none; border: none; color: var(--brand-red); font-size: 20px; cursor: pointer; padding: 0 5px;}
-
-        /* =========================================
-           ✨ 3.1 手機版專屬最佳化 (解決畫面太大、一格一格填)
-           ========================================= */
-        @media (max-width: 600px) {
-            body { padding: 15px 10px 100px; }
-            .category-selector { grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 20px; }
-            .cat-btn { padding: 15px 8px; }
-            
-            /* 縮小卡片留白，讓畫面更緊湊 */
-            .card { padding: 16px 15px; margin-bottom: 15px; border-radius: 12px; }
-            .card-title { font-size: 16px; margin-bottom: 15px; padding-bottom: 8px; }
-            
-            /* 強制所有欄位變成「上下排 (一格一格)」 */
-            .grid-2, .grid-3 { grid-template-columns: 1fr; gap: 12px; }
-            
-            /* 縮小輸入框的內距，節省高度 */
-            .form-group { margin-bottom: 15px; }
-            label { margin-bottom: 6px; font-size: 13px; }
-            input[type="text"], input[type="number"], textarea, select, input[type="file"] {
-                padding: 12px 14px; 
-            }
-            .chip-label { padding: 8px 14px; font-size: 14px; }
-        }
+        .btn-remove-row { background: none; border: none; color: var(--brand-red); font-size: 22px; cursor: pointer; padding: 0 5px;}
 
         /* =========================================
            4. 底部懸浮按鈕 & Modal
            ========================================= */
-        .fixed-bottom-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); padding: 15px 20px; box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08); display: flex; justify-content: center; z-index: 100; }
-        .submit-btn { width: 100%; max-width: 600px; background-color: var(--brand-green); color: white; border: none; padding: 16px; font-size: 18px; font-weight: bold; border-radius: 50px; cursor: pointer; box-shadow: 0 6px 16px rgba(0, 140, 74, 0.25); }
+        .fixed-bottom-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); padding: 12px 15px; box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08); display: flex; justify-content: center; z-index: 100; }
+        .submit-btn { width: 100%; max-width: 600px; background-color: var(--brand-green); color: white; border: none; padding: 15px; font-size: 18px; font-weight: bold; border-radius: 50px; cursor: pointer; box-shadow: 0 6px 16px rgba(0, 140, 74, 0.25); }
 
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 2000; justify-content: center; align-items: center; padding: 20px; opacity: 0; transition: opacity 0.3s ease; }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 2000; justify-content: center; align-items: center; padding: 15px; opacity: 0; transition: opacity 0.3s ease; }
         .modal.show { display: flex; opacity: 1; }
-        .modal-content { background: var(--bg-color); padding: 20px; border-radius: 16px; width: 100%; max-width: 600px; max-height: 90vh; overflow-y: auto; text-align: center; }
-        .modal-content h3 { margin-top: 0; color: var(--brand-dark); font-weight: 900;}
+        .modal-content { background: var(--bg-color); padding: 15px; border-radius: 16px; width: 100%; max-width: 600px; max-height: 90vh; overflow-y: auto; text-align: center; }
+        .modal-content h3 { margin-top: 0; color: var(--brand-dark); font-weight: 900; font-size: 18px;}
         #previewImg { width: 100%; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
-        .modal-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
-        .modal-actions button { flex: 1; min-width: 45%; padding: 14px; border: none; border-radius: 12px; font-size: 15px; font-weight: bold; cursor: pointer; }
+        .modal-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 15px; }
+        .modal-actions button { flex: 1; min-width: 45%; padding: 12px; border: none; border-radius: 10px; font-size: 14px; font-weight: bold; cursor: pointer; }
         .btn-back { background: #E0E0E0; color: #333; }
         .btn-share { background: var(--brand-yellow); color: var(--brand-dark); }
-        .btn-line { background: #06C755; color: white; width: 100%; margin-top: 5px;}
+        .btn-line { background: #06C755; color: white; width: 100%; margin-top: 0px;}
 
         /* =========================================
-           5. 隱藏輸出排版區 (圖片視覺)
+           5. 隱藏輸出排版區 (確保圖面完美)
            ========================================= */
         .export-wrapper {
             position: absolute; left: -9999px; top: 0; width: 800px; 
@@ -173,7 +163,7 @@
 <div id="previewModal" class="modal">
     <div class="modal-content">
         <h3>圖片已生成</h3>
-        <p style="font-size:13px; color:#666; margin-top:-10px;">(可直接長按下方圖片儲存)</p>
+        <p style="font-size:13px; color:#666; margin-top:-5px; margin-bottom:10px;">(可直接長按下方圖片儲存)</p>
         <img id="previewImg" src="" alt="預覽圖">
         <div class="modal-actions">
             <button class="btn-back" id="backBtn">返回修改</button>
@@ -206,13 +196,13 @@
                 
                 <div class="form-group">
                     <label class="required">格局</label>
-                    <div class="fill-blank-group" style="margin-bottom: 10px;">
-                        <input type="number" id="layoutRoom" style="width: 50px; padding: 10px 5px;"> <span class="fill-blank-text">房</span>
-                        <input type="number" id="layoutLiving" style="width: 50px; padding: 10px 5px;"> <span class="fill-blank-text">廳</span>
-                        <input type="number" id="layoutBath" style="width: 50px; padding: 10px 5px;"> <span class="fill-blank-text">衛</span>
-                        <input type="number" id="layoutBalcony" style="width: 50px; padding: 10px 5px;"> <span class="fill-blank-text">陽</span>
+                    <div class="unified-grid">
+                        <div class="unified-item"><input type="tel" id="layoutRoom" maxlength="1"><label>房</label></div>
+                        <div class="unified-item"><input type="tel" id="layoutLiving" maxlength="1"><label>廳</label></div>
+                        <div class="unified-item"><input type="tel" id="layoutBath" maxlength="1"><label>衛</label></div>
+                        <div class="unified-item"><input type="tel" id="layoutBalcony" maxlength="1"><label>陽</label></div>
                     </div>
-                    <input type="text" id="layoutOther" placeholder="或自行輸入 (例：開放空間、無隔間)">
+                    <input type="text" id="layoutOther" placeholder="或自行輸入 (例：開放空間)">
                 </div>
             </div>
 
@@ -234,22 +224,20 @@
 
             <div class="form-group">
                 <label>車位詳情</label>
-                <div class="chip-group" style="margin-bottom: 10px;">
+                <div class="chip-group" style="margin-bottom: 8px;">
                     <input type="radio" name="parkKind" id="pk1" value="平面車位"><label class="chip-label" for="pk1">平面車位</label>
                     <input type="radio" name="parkKind" id="pk2" value="機械車位"><label class="chip-label" for="pk2">機械車位</label>
                 </div>
                 
-                <div class="fill-blank-group" style="margin-bottom: 10px;">
-                    <span class="fill-blank-text">位於地下</span>
-                    <input type="text" id="parkAt" style="width: 60px;">
-                    <span class="fill-blank-text">層</span>
-                    <input type="text" id="parkNo" style="width: 80px;">
-                    <span class="fill-blank-text">號 / 總共地下</span>
-                    <input type="text" id="parkTotal" style="width: 60px;">
-                    <span class="fill-blank-text">層</span>
+                <div class="unified-grid">
+                    <div class="unified-item" style="flex:1.5;"><span class="unified-prefix">位於 B</span><input type="tel" id="parkAt" maxlength="1"><label>層</label></div>
+                    <div class="unified-item" style="flex:1.5;"><input type="text" id="parkNo"><label>號</label></div>
+                </div>
+                <div class="unified-grid">
+                    <div class="unified-item"><span class="unified-prefix">總共地下</span><input type="tel" id="parkTotal" maxlength="1"><label>層</label></div>
                 </div>
 
-                <input type="text" id="parkOther" placeholder="其他車位狀況 (如: 一樓車位、無車位等，手動輸入)">
+                <input type="text" id="parkOther" placeholder="其他車位狀況 (手動輸入)">
             </div>
         </div>
 
@@ -258,19 +246,16 @@
             <div class="grid-2">
                 <div class="form-group">
                     <label>樓層</label>
-                    <div class="fill-blank-group" style="margin-bottom: 10px;">
-                        <span class="fill-blank-text">位於</span>
-                        <input type="text" id="floorAt" style="width: 70px;">
-                        <span class="fill-blank-text">樓 / 總共</span>
-                        <input type="text" id="floorTotal" style="width: 70px;">
-                        <span class="fill-blank-text">樓</span>
+                    <div class="unified-grid">
+                        <div class="unified-item"><span class="unified-prefix">位於</span><input type="tel" id="floorAt" maxlength="2"><label>樓</label></div>
+                        <div class="unified-item"><span class="unified-prefix">總共</span><input type="tel" id="floorTotal" maxlength="2"><label>樓</label></div>
                     </div>
-                    <input type="text" id="floorOther" placeholder="其他樓層狀況 (如: 整棟、手動輸入)">
+                    <input type="text" id="floorOther" placeholder="其他樓層狀況 (手動輸入)">
                 </div>
 
-                <div class="form-group"><label for="unitType">戶型</label><input type="text" id="unitType" placeholder="例：13樓A5戶、或無"></div>
-                <div class="form-group"><label for="totalHouseholds">總戶數</label><input type="text" id="totalHouseholds" placeholder="例：170戶"></div>
-                <div class="form-group"><label for="manageFee">管理費</label><input type="text" id="manageFee" placeholder="例：尚未定案"></div>
+                <div class="form-group"><label for="unitType">戶型</label><input type="text" id="unitType" placeholder="例：13樓A5戶"></div>
+                <div class="form-group"><label for="totalHouseholds">總戶數</label><input type="tel" id="totalHouseholds" placeholder="例：170戶"></div>
+                <div class="form-group"><label for="manageFee">管理費</label><input type="text" id="manageFee" placeholder="例：未定案"></div>
             </div>
 
             <div class="form-group">
@@ -279,9 +264,9 @@
                     <input type="radio" name="gas" id="gas1" value="天然瓦斯" checked><label class="chip-label" for="gas1">天然瓦斯</label>
                     <input type="radio" name="gas" id="gas2" value="桶裝瓦斯"><label class="chip-label" for="gas2">桶裝瓦斯</label>
                     <input type="radio" name="gas" id="gas3" value="無瓦斯"><label class="chip-label" for="gas3">無瓦斯</label>
-                    <input type="radio" name="gas" id="gas4" value="其他"><label class="chip-label" for="gas4">其他(自行輸入)</label>
+                    <input type="radio" name="gas" id="gas4" value="其他"><label class="chip-label" for="gas4">其他</label>
                 </div>
-                <input type="text" id="gasOther" class="other-text-input" placeholder="請輸入其他瓦斯種類">
+                <input type="text" id="gasOther" class="other-text-input" placeholder="請輸入">
             </div>
             
             <div id="dynamic-container-building"></div>
@@ -293,53 +278,38 @@
             <div class="grid-2">
                 <div class="form-group">
                     <label>屋齡 / 建築完成日</label>
-                    <div class="fill-blank-group" style="margin-bottom: 12px;">
-                        <span class="fill-blank-text">屋齡：</span>
-                        <input type="text" id="buildingAge" style="width: 80px;" placeholder="手填">
-                        <span class="fill-blank-text">年</span>
+                    <div class="unified-grid">
+                        <div class="unified-item" style="flex:0.5;"><span class="unified-prefix">屋齡</span><input type="tel" id="buildingAge" maxlength="3"><label>年</label></div>
                     </div>
-                    <div class="fill-blank-group">
-                        <span class="fill-blank-text">完工：</span>
-                        <select id="buildYear" style="width:100px;"></select> <span class="fill-blank-text">年</span>
-                        <select id="buildMonth" style="width:70px;"></select> <span class="fill-blank-text">月</span>
-                        <select id="buildDay" style="width:70px;"></select> <span class="fill-blank-text">日</span>
+                    <div class="unified-grid">
+                        <div class="unified-item"><select id="buildYear"></select><label>年</label></div>
+                        <div class="unified-item"><select id="buildMonth"></select><label>月</label></div>
+                        <div class="unified-item"><select id="buildDay"></select><label>日</label></div>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label>登記原因</label>
                     <select id="regReason" onchange="toggleSelectOtherSimple(this, 'regReasonOther')">
-                        <option value="買賣">買賣</option>
-                        <option value="贈與">贈與</option>
-                        <option value="其他">其他(自行輸入)</option>
+                        <option value="買賣">買賣</option><option value="贈與">贈與</option><option value="其他">其他</option>
                     </select>
-                    <input type="text" id="regReasonOther" class="other-text-input" placeholder="請輸入登記原因">
+                    <input type="text" id="regReasonOther" class="other-text-input" placeholder="請輸入">
                 </div>
                 
                 <div class="form-group">
                     <label>主要建材</label>
                     <select id="mainMaterial" onchange="toggleSelectOtherSimple(this, 'materialOther')">
-                        <option value="鋼筋混凝土RC">鋼筋混凝土RC</option>
-                        <option value="磚造">磚造</option>
-                        <option value="加強磚造">加強磚造</option>
-                        <option value="其他">其他(自行輸入)</option>
+                        <option value="鋼筋混凝土RC">鋼筋混凝土RC</option><option value="磚造">磚造</option><option value="加強磚造">加強磚造</option><option value="其他">其他</option>
                     </select>
-                    <input type="text" id="materialOther" class="other-text-input" placeholder="請輸入建材">
+                    <input type="text" id="materialOther" class="other-text-input" placeholder="請輸入">
                 </div>
                 <div class="form-group"><label for="mainUsage">主要用途</label><input type="text" id="mainUsage" value="集合住宅" placeholder="手動輸入"></div>
                 <div class="form-group">
                     <label>使用分區</label>
                     <select id="zoning" onchange="toggleSelectOtherSimple(this, 'zoningOther')">
-                        <option value="住宅區">住宅區</option>
-                        <option value="商業區">商業區</option>
-                        <option value="甲種建築用地">甲種建築用地</option>
-                        <option value="乙種建築用地">乙種建築用地</option>
-                        <option value="丙種建築用地">丙種建築用地</option>
-                        <option value="丁種建築用地">丁種建築用地</option>
-                        <option value="都計內乙工">都計內乙工</option>
-                        <option value="其他">其他(自行輸入)</option>
+                        <option value="住宅區">住宅區</option><option value="商業區">商業區</option><option value="甲種建築用地">甲種建築用地</option><option value="乙種建築用地">乙種建築用地</option><option value="丙種建築用地">丙種建築用地</option><option value="丁種建築用地">丁種建築用地</option><option value="都計內乙工">都計內乙工</option><option value="其他">其他</option>
                     </select>
-                    <input type="text" id="zoningOther" class="other-text-input" placeholder="請輸入使用分區">
+                    <input type="text" id="zoningOther" class="other-text-input" placeholder="請輸入">
                 </div>
             </div>
         </div>
@@ -366,7 +336,7 @@
             <h2 class="card-title">產品特色</h2>
             <div class="form-group">
                 <label>物件特色 (直接換行輸入)</label>
-                <textarea id="features" rows="6" placeholder="產品特色&#10;位於棒球場豪宅特區的黃金地段...&#10;前院大面積綠化..."></textarea>
+                <textarea id="features" rows="6" placeholder="產品特色&#10;位於棒球場豪宅特區的黃金地段..."></textarea>
             </div>
             <div id="dynamic-container-features"></div>
             <button type="button" class="btn-add-tool" onclick="addDynamicField('dynamic-container-features', 'text')">➕ 往下新增特色備註</button>
@@ -385,22 +355,10 @@
 
             <div class="grid-2">
                 <div class="form-group"><label for="intNo">物件編號</label><input type="text" id="intNo" placeholder="例：UA0392913"></div>
-                <div class="form-group">
-                    <label>委託種類</label>
-                    <select id="intEntrust">
-                        <option value="一般委託">一般委託</option>
-                        <option value="專任委託">專任委託</option>
-                    </select>
-                </div>
+                <div class="form-group"><label>委託種類</label><select id="intEntrust"><option value="一般委託">一般委託</option><option value="專任委託">專任委託</option></select></div>
                 <div class="form-group"><label for="intDev">開發</label><input type="text" id="intDev" placeholder="例：小峰"></div>
                 <div class="form-group"><label for="intFee">服務費</label><input type="text" id="intFee" placeholder="例：4%"></div>
-                <div class="form-group">
-                    <label>是否有中人費</label>
-                    <select id="intMiddleman">
-                        <option value="無">無</option>
-                        <option value="有">有</option>
-                    </select>
-                </div>
+                <div class="form-group"><label>是否有中人費</label><select id="intMiddleman"><option value="無">無</option><option value="有">有</option></select></div>
             </div>
             <div id="dynamic-container-internal2"></div>
             <button type="button" class="btn-add-tool" onclick="addDynamicField('dynamic-container-internal2', 'text')">➕ 新增案件備註</button>
@@ -475,7 +433,6 @@
         <div class="features-section">
             <div class="table-header">公共設施</div>
             <div class="features-content" id="out-facility" style="color:#666; font-weight:normal; margin-bottom: 10px;">-</div>
-            
             <div class="table-header" style="margin-top:15px;">物件特色</div>
             <div class="features-content" id="out-features"></div>
         </div>
@@ -483,41 +440,62 @@
 </div>
 
 <script>
-    // --- 類別選單行為控制 ---
+    // --- 選單切換 ---
     document.querySelectorAll('.cat-btn:not(.cat-disabled)').forEach(btn => {
         btn.addEventListener('click', function() {
             document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
             this.classList.add('active');
             document.getElementById('mainFormArea').style.display = 'block';
             document.getElementById('bottomBar').style.display = 'flex';
-            
-            const selectedType = this.getAttribute('data-type');
-            document.getElementById('out-type-tag').innerText = selectedType;
+            document.getElementById('out-type-tag').innerText = this.getAttribute('data-type');
             setTimeout(() => { document.getElementById('mainFormArea').scrollIntoView({ behavior: 'smooth' }); }, 100);
         });
     });
 
-    // --- 日期下拉選單生成 ---
-    const CURRENT_YEAR_ROC = 115; 
+    // --- 自動跳行 (Auto-Focus) 邏輯 ---
+    function setupAutoAdvance(ids, length = 1) {
+        ids.forEach((id, index) => {
+            const el = document.getElementById(id);
+            if(el && index < ids.length - 1) {
+                el.addEventListener('input', function() {
+                    if(this.value.length >= length) {
+                        const nextEl = document.getElementById(ids[index + 1]);
+                        if(nextEl) nextEl.focus();
+                    }
+                });
+            }
+        });
+    }
+    // 1. 格局自動跳行
+    setupAutoAdvance(['layoutRoom', 'layoutLiving', 'layoutBath', 'layoutBalcony', 'layoutOther'], 1);
+    // 2. 樓層自動跳行 (考量可能是雙位數，設定輸入2碼跳行)
+    setupAutoAdvance(['floorAt', 'floorTotal', 'floorOther'], 2);
+    // 3. 車位自動跳行
+    setupAutoAdvance(['parkAt', 'parkNo'], 1); // 假設地下幾層只有1碼
+    // 4. 日期選單自動跳行
+    document.getElementById('buildYear').addEventListener('change', () => document.getElementById('buildMonth').focus());
+    document.getElementById('buildMonth').addEventListener('change', () => document.getElementById('buildDay').focus());
+
+
+    // --- 日期生成 ---
     const ySel = document.getElementById('buildYear');
-    ySel.innerHTML = '<option value="">請選擇</option>';
-    for(let i = CURRENT_YEAR_ROC; i >= 50; i--) ySel.innerHTML += `<option value="${i}">民國 ${i} 年</option>`;
+    ySel.innerHTML = '<option value="">選擇</option>';
+    for(let i = 115; i >= 50; i--) ySel.innerHTML += `<option value="${i}">民國 ${i} 年</option>`;
 
     const mSel = document.getElementById('buildMonth');
-    mSel.innerHTML = '<option value="">請選擇</option>';
+    mSel.innerHTML = '<option value="">選擇</option>';
     for(let i = 1; i <= 12; i++) mSel.innerHTML += `<option value="${i}">${i}</option>`;
 
     const dSel = document.getElementById('buildDay');
-    dSel.innerHTML = '<option value="">請選擇</option>';
+    dSel.innerHTML = '<option value="">選擇</option>';
     for(let i = 1; i <= 31; i++) dSel.innerHTML += `<option value="${i}">${i}</option>`;
 
-    // --- 其他選項切換邏輯 ---
+    // --- 選單切換其他 ---
     function toggleSelectOtherSimple(selectObj, otherInputId) {
         const otherInput = document.getElementById(otherInputId);
         if(selectObj.value === '其他') { otherInput.style.display = 'block'; otherInput.focus(); }
         else { otherInput.style.display = 'none'; }
     }
-
     document.querySelectorAll('input[name="gas"]').forEach(radio => {
         radio.addEventListener('change', function() {
             const otherInput = document.getElementById('gasOther');
@@ -539,7 +517,7 @@
     setupImageUpload('uploadImg1', 'out-img-1');
     setupImageUpload('uploadImg2', 'out-img-2');
 
-    // --- 千分位格式化 ---
+    // --- 千分位 ---
     document.querySelectorAll('.format-num').forEach(input => {
         input.addEventListener('blur', function() {
             if(this.value) {
@@ -551,7 +529,7 @@
         input.addEventListener('focus', function() { this.value = this.value.replace(/,/g, ''); });
     });
 
-    // --- 動態新增工具 ---
+    // --- 動態新增 ---
     function addDynamicField(containerId, type) {
         const container = document.getElementById(containerId);
         const row = document.createElement('div');
@@ -567,7 +545,7 @@
     const getVal = (id) => document.getElementById(id).value.trim() || '-';
     const getPing = (id) => { const v = document.getElementById(id).value.trim(); return v ? v + '坪' : '-'; };
 
-    // --- 產圖主邏輯 ---
+    // --- ✨ 產圖邏輯 (徹底解決亂碼) ---
     document.getElementById('generateBtn').addEventListener('click', function() {
         const btn = this;
         const btnText = btn.querySelector('span');
@@ -575,13 +553,12 @@
         btnText.innerText = '圖片渲染中...';
         btn.disabled = true; btn.style.backgroundColor = '#001F5B';
 
-        // 核心資料
         document.getElementById('out-title').innerText = getVal('caseName');
         document.getElementById('out-price').innerText = getVal('price');
         document.getElementById('out-ping').innerText = getVal('totalArea');
         document.getElementById('out-ping-tbl').innerText = getPing('totalArea');
 
-        // 格局處理 (含紅色大字體特效)
+        // 格局：寫死標準色碼 #D82A29 確保 html2canvas 100% 讀取成功
         let lr = document.getElementById('layoutRoom').value.trim();
         let ll = document.getElementById('layoutLiving').value.trim();
         let lb = document.getElementById('layoutBath').value.trim();
@@ -590,7 +567,7 @@
         
         let layoutRawStr = ''; 
         let layoutHtml = '';   
-        const sNum = 'style="font-size: 38px; color: var(--brand-red); font-weight: 900;"';
+        const sNum = 'style="font-size: 38px; color: #D82A29; font-weight: 900;"';
         const sTxt = 'style="font-size: 18px; color: #333; font-weight: normal;"';
 
         if (lr || ll || lb || lbal) {
@@ -614,7 +591,7 @@
         document.getElementById('out-layout').setAttribute('data-raw', layoutRawStr);
         document.getElementById('out-layout').innerHTML = layoutHtml;
 
-        // 樓層處理
+        // 樓層
         let fa = document.getElementById('floorAt').value.trim();
         let ft = document.getElementById('floorTotal').value.trim();
         let fo = document.getElementById('floorOther').value.trim();
@@ -623,32 +600,30 @@
         if(fo) floorParts.push(`(${fo})`);
         document.getElementById('out-floor').innerText = floorParts.length > 0 ? floorParts.join(' ') : '-';
 
-        // 車位處理
+        // 車位
         let pkChecked = document.querySelector('input[name="parkKind"]:checked');
         let pkVal = pkChecked ? pkChecked.value : '';
         let pa = document.getElementById('parkAt').value.trim();
         let pn = document.getElementById('parkNo').value.trim();
         let pt = document.getElementById('parkTotal').value.trim();
         let po = document.getElementById('parkOther').value.trim();
-
         let parkParts = [];
         if(pkVal) parkParts.push(pkVal);
-        if(pa || pn || pt) parkParts.push(`位於地下${pa||'_'}層${pn||'_'}號/總共地下${pt||'_'}層`);
+        if(pa || pn || pt) parkParts.push(`地下${pa||'_'}層${pn||'_'}號/總共${pt||'_'}層`);
         if(po) parkParts.push(`(${po})`);
         document.getElementById('out-parkingDetails').innerText = parkParts.length > 0 ? parkParts.join(' ') : '-';
 
-        // 建築雜項
+        // 建築
         document.getElementById('out-unitType').innerText = getVal('unitType');
         document.getElementById('out-parkingArea').innerText = getPing('parkingArea');
         document.getElementById('out-households').innerText = getVal('totalHouseholds');
         document.getElementById('out-manageFee').innerText = getVal('manageFee');
-        
         let gasChecked = document.querySelector('input[name="gas"]:checked');
         let gasVal = gasChecked ? gasChecked.value : '-';
         if (gasVal === '其他') gasVal = getVal('gasOther') === '-' ? '其他' : getVal('gasOther');
         document.getElementById('out-gas').innerText = gasVal;
 
-        // 日期屋齡
+        // 日期
         const age = document.getElementById('buildingAge').value.trim();
         const by = document.getElementById('buildYear').value;
         const bm = document.getElementById('buildMonth').value;
@@ -657,13 +632,12 @@
         if(by) dateStr += `${by}年`;
         if(bm) dateStr += `${bm}月`;
         if(bd) dateStr += `${bd}日`;
-        
         let finalAgeStr = [];
         if(age) finalAgeStr.push(age + '年');
         if(dateStr) finalAgeStr.push(dateStr);
         document.getElementById('out-age-date').innerText = finalAgeStr.length > 0 ? finalAgeStr.join(' / ') : '-';
 
-        // 動態左欄
+        // 動態左欄表格
         document.querySelectorAll('.out-dyn-row').forEach(e => e.remove());
         const bldRows = document.getElementById('dynamic-container-building').querySelectorAll('.dynamic-row');
         const leftTable = document.getElementById('out-table-left');
@@ -678,7 +652,7 @@
             }
         });
 
-        // 右欄法規
+        // 右欄
         document.getElementById('out-mainArea').innerText = getPing('mainArea');
         document.getElementById('out-subArea').innerText = getPing('subArea');
         document.getElementById('out-publicArea').innerText = getPing('publicArea');
@@ -748,9 +722,8 @@
         }
     });
 
-    // --- ✨ 更新：極致詳細版 LINE 純文字複製 ---
+    // --- 複製 LINE ---
     document.getElementById('copyLineBtn').addEventListener('click', function() {
-        // 抓取各項詳細資訊
         const title = getVal('caseName');
         const price = getVal('price');
         const layout = document.getElementById('out-layout').getAttribute('data-raw');
@@ -775,16 +748,13 @@
         const zoning = document.getElementById('out-zoning').innerText;
         const facility = document.getElementById('out-facility').innerText;
 
-        // 蒐集動態特色
         let rawFeatures = document.getElementById('features').value;
         document.getElementById('dynamic-container-features').querySelectorAll('.dyn-val').forEach(inp => { if(inp.value.trim()) rawFeatures += `\n- ${inp.value.trim()}`; });
 
-        // 蒐集內部備註
         let intNotes = '';
         document.getElementById('dynamic-container-internal1').querySelectorAll('.dyn-val').forEach(inp => { if(inp.value.trim()) intNotes += `\n- ${inp.value.trim()}`; });
         document.getElementById('dynamic-container-internal2').querySelectorAll('.dyn-val').forEach(inp => { if(inp.value.trim()) intNotes += `\n- ${inp.value.trim()}`; });
 
-        // 組裝詳細文案
         const lineText = `【${title}】\n\n` +
                          `💰 總價：${price} 萬\n` +
                          `🛏️ 格局：${layout}\n` +
@@ -819,8 +789,6 @@
             const originalText = btn.innerText;
             btn.innerText = "已複製詳細文案！";
             setTimeout(() => { btn.innerText = originalText; }, 3000);
-        }).catch(err => {
-            alert('複製失敗，請檢查瀏覽器權限。');
         });
     });
 </script>
