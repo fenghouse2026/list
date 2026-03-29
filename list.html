@@ -28,7 +28,28 @@
         .header p { color: #7A7571; font-size: 14px; margin-top: 6px; }
 
         /* =========================================
-           2. 表單介面樣式
+           2. 頂部選單 (類別選擇 - 絕對保留不變)
+           ========================================= */
+        .category-selector { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 30px; }
+        @media (max-width: 600px) { .category-selector { grid-template-columns: repeat(2, 1fr); } }
+        
+        .cat-btn {
+            background: #FFFFFF; border: 2px solid #E4E4E4; border-radius: var(--card-radius);
+            padding: 20px 10px; text-align: center; cursor: pointer; transition: all 0.2s;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03); display: flex; flex-direction: column; align-items: center; justify-content: center;
+        }
+        .cat-btn:hover { border-color: var(--brand-yellow); transform: translateY(-3px); }
+        .cat-btn.active { border-color: var(--brand-green); background-color: rgba(0,140,74,0.05); box-shadow: 0 4px 16px rgba(0,140,74,0.15); }
+        .cat-icon { font-size: 32px; margin-bottom: 8px; }
+        .cat-title { font-size: 16px; font-weight: bold; color: var(--brand-dark); }
+        .cat-disabled { opacity: 0.5; cursor: not-allowed; position: relative; }
+        .cat-disabled:hover { transform: none; border-color: #E4E4E4; }
+        .badge-soon { position: absolute; top: -10px; right: -10px; background: var(--brand-red); color: white; font-size: 12px; padding: 2px 8px; border-radius: 20px; font-weight: bold; }
+
+        #mainFormArea { display: none; animation: fadeIn 0.4s ease; }
+
+        /* =========================================
+           3. 表單介面樣式
            ========================================= */
         .card {
             background: #FFFFFF; border-radius: var(--card-radius); padding: 24px 20px;
@@ -64,7 +85,7 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
         
         /* 填空題專用樣式 */
-        .fill-blank-group { display: flex; align-items: center; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+        .fill-blank-group { display: flex; align-items: center; gap: 8px; margin-top: 5px; flex-wrap: wrap; }
         .fill-blank-group input { padding: 10px; text-align: center; }
         .fill-blank-text { font-weight: bold; color: #555; }
 
@@ -77,7 +98,7 @@
         .btn-remove-row { background: none; border: none; color: var(--brand-red); font-size: 20px; cursor: pointer; padding: 0 5px;}
 
         /* =========================================
-           3. 底部懸浮按鈕 & Modal
+           4. 底部懸浮按鈕 & Modal
            ========================================= */
         .fixed-bottom-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); padding: 15px 20px; box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08); display: flex; justify-content: center; z-index: 100; }
         .submit-btn { width: 100%; max-width: 600px; background-color: var(--brand-green); color: white; border: none; padding: 16px; font-size: 18px; font-weight: bold; border-radius: 50px; cursor: pointer; box-shadow: 0 6px 16px rgba(0, 140, 74, 0.25); }
@@ -94,7 +115,7 @@
         .btn-line { background: #06C755; color: white; width: 100%; margin-top: 5px;}
 
         /* =========================================
-           4. 隱藏輸出排版區 (圖片視覺)
+           5. 隱藏輸出排版區 (圖片視覺)
            ========================================= */
         .export-wrapper {
             position: absolute; left: -9999px; top: 0; width: 800px; 
@@ -126,7 +147,6 @@
         .features-section { padding: 20px; }
         .features-content { font-size: 15px; line-height: 1.6; white-space: pre-wrap; font-weight: bold; color: var(--brand-dark);}
         
-        /* 圖面專屬提示框樣式 */
         .img-remark-box { display: none; background: #FFF9F9; border: 2px dashed var(--brand-red); color: var(--brand-red); padding: 12px; border-radius: 8px; margin: 0 20px 20px 20px; font-weight: 900; text-align: center; font-size: 16px; }
     </style>
 </head>
@@ -147,8 +167,15 @@
 
 <div class="container">
     <div class="header">
-        <h1>承峰不動產 - 大樓/公寓建檔</h1>
-        <p>永義房屋 成功莊敬店 專屬系統</p>
+        <h1>承峰不動產 - 物件明細建檔</h1>
+        <p>請先選擇建檔類別，以載入專屬表單</p>
+    </div>
+
+    <div class="category-selector" id="catSelector">
+        <div class="cat-btn" data-type="大樓"><div class="cat-icon">🏢</div><div class="cat-title">大樓</div></div>
+        <div class="cat-btn" data-type="別墅"><div class="cat-icon">🏡</div><div class="cat-title">別墅</div></div>
+        <div class="cat-btn cat-disabled"><span class="badge-soon">即將推出</span><div class="cat-icon">🌾</div><div class="cat-title">農地</div></div>
+        <div class="cat-btn cat-disabled"><span class="badge-soon">即將推出</span><div class="cat-icon">🏗️</div><div class="cat-title">建地</div></div>
     </div>
 
     <form id="mainFormArea">
@@ -158,7 +185,17 @@
             
             <div class="grid-2">
                 <div class="form-group"><label class="required" for="price">售價 (萬)</label><input type="text" inputmode="decimal" id="price" class="req-input format-num" placeholder="例：1,198"></div>
-                <div class="form-group"><label class="required" for="layout">格局</label><input type="text" id="layout" class="req-input" placeholder="例：2房、2廳、2衛、2陽台"></div>
+                
+                <div class="form-group">
+                    <label class="required">格局</label>
+                    <div class="fill-blank-group" style="margin-bottom: 10px;">
+                        <input type="number" id="layoutRoom" style="width: 50px; padding: 10px 5px;"> <span class="fill-blank-text">房</span>
+                        <input type="number" id="layoutLiving" style="width: 50px; padding: 10px 5px;"> <span class="fill-blank-text">廳</span>
+                        <input type="number" id="layoutBath" style="width: 50px; padding: 10px 5px;"> <span class="fill-blank-text">衛</span>
+                        <input type="number" id="layoutBalcony" style="width: 50px; padding: 10px 5px;"> <span class="fill-blank-text">陽</span>
+                    </div>
+                    <input type="text" id="layoutOther" placeholder="或自行輸入 (例：開放空間、無隔間)">
+                </div>
             </div>
 
             <div class="grid-2">
@@ -179,19 +216,22 @@
 
             <div class="form-group">
                 <label>車位詳情</label>
-                <select id="parkType" onchange="toggleSelectOther(this, 'parkStandardInputs', 'parkOther', 'standard')">
-                    <option value="standard">填空 (總共地下_層/位於_層/號)</option>
-                    <option value="other">其他 (自行輸入)</option>
-                </select>
-                <div id="parkStandardInputs" class="fill-blank-group">
-                    <span class="fill-blank-text">總共地下</span>
-                    <input type="text" id="parkTotal" style="width: 60px;">
-                    <span class="fill-blank-text">層 / 位於地下</span>
-                    <input type="text" id="parkAt" style="width: 60px;">
-                    <span class="fill-blank-text">層 /</span>
-                    <input type="text" id="parkNo" style="width: 80px;" placeholder="號碼">
+                <div class="chip-group" style="margin-bottom: 10px;">
+                    <input type="radio" name="parkKind" id="pk1" value="平面車位"><label class="chip-label" for="pk1">平面車位</label>
+                    <input type="radio" name="parkKind" id="pk2" value="機械車位"><label class="chip-label" for="pk2">機械車位</label>
                 </div>
-                <input type="text" id="parkOther" class="other-text-input" placeholder="請輸入車位資訊">
+                
+                <div class="fill-blank-group" style="margin-bottom: 10px;">
+                    <span class="fill-blank-text">位於地下</span>
+                    <input type="text" id="parkAt" style="width: 60px;">
+                    <span class="fill-blank-text">層</span>
+                    <input type="text" id="parkNo" style="width: 80px;">
+                    <span class="fill-blank-text">號 / 總共地下</span>
+                    <input type="text" id="parkTotal" style="width: 60px;">
+                    <span class="fill-blank-text">層</span>
+                </div>
+
+                <input type="text" id="parkOther" placeholder="其他車位狀況 (如: 一樓車位、無車位等，手動輸入)">
             </div>
         </div>
 
@@ -200,18 +240,14 @@
             <div class="grid-2">
                 <div class="form-group">
                     <label>樓層</label>
-                    <select id="floorType" onchange="toggleSelectOther(this, 'floorStandardInputs', 'floorOther', 'standard')">
-                        <option value="standard">填空 (位於_樓/總共_樓)</option>
-                        <option value="other">其他 (自行輸入)</option>
-                    </select>
-                    <div id="floorStandardInputs" class="fill-blank-group">
+                    <div class="fill-blank-group" style="margin-bottom: 10px;">
                         <span class="fill-blank-text">位於</span>
                         <input type="text" id="floorAt" style="width: 70px;">
                         <span class="fill-blank-text">樓 / 總共</span>
                         <input type="text" id="floorTotal" style="width: 70px;">
                         <span class="fill-blank-text">樓</span>
                     </div>
-                    <input type="text" id="floorOther" class="other-text-input" placeholder="請輸入樓層資訊">
+                    <input type="text" id="floorOther" placeholder="其他樓層狀況 (如: 整棟、手動輸入)">
                 </div>
 
                 <div class="form-group"><label for="unitType">戶型</label><input type="text" id="unitType" placeholder="例：13樓A5戶、或無"></div>
@@ -239,15 +275,16 @@
             <div class="grid-2">
                 <div class="form-group">
                     <label>屋齡 / 建築完成日</label>
-                    <div class="fill-blank-group" style="margin-top: 0;">
-                        <select id="buildYear" style="width:110px;" onchange="calcAge()"></select> <span class="fill-blank-text">年</span>
-                        <select id="buildMonth" style="width:80px;"></select> <span class="fill-blank-text">月</span>
-                        <select id="buildDay" style="width:80px;"></select> <span class="fill-blank-text">日</span>
-                    </div>
-                    <div style="margin-top: 10px; display: flex; align-items: center; gap: 10px;">
-                        <span class="fill-blank-text">換算屋齡：</span>
-                        <input type="text" id="buildingAge" placeholder="輸入年份自動計算" style="width: 120px;" readonly class="readonly-input">
+                    <div class="fill-blank-group" style="margin-bottom: 12px;">
+                        <span class="fill-blank-text">屋齡：</span>
+                        <input type="text" id="buildingAge" style="width: 80px;" placeholder="手動填入">
                         <span class="fill-blank-text">年</span>
+                    </div>
+                    <div class="fill-blank-group">
+                        <span class="fill-blank-text">完工：</span>
+                        <select id="buildYear" style="width:100px;"></select> <span class="fill-blank-text">年</span>
+                        <select id="buildMonth" style="width:70px;"></select> <span class="fill-blank-text">月</span>
+                        <select id="buildDay" style="width:70px;"></select> <span class="fill-blank-text">日</span>
                     </div>
                 </div>
 
@@ -389,7 +426,7 @@
                 </div>
                 <div class="data-item">
                     <div class="data-label">格局</div>
-                    <div class="data-value" style="font-size: 24px;" id="out-layout">-</div>
+                    <div class="data-value" id="out-layout" data-raw="-">-</div>
                 </div>
             </div>
             <div class="photo-col">
@@ -438,8 +475,24 @@
 </div>
 
 <script>
+    // --- 類別選單行為控制 ---
+    document.querySelectorAll('.cat-btn:not(.cat-disabled)').forEach(btn => {
+        btn.addEventListener('click', function() {
+            document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            
+            document.getElementById('mainFormArea').style.display = 'block';
+            document.getElementById('bottomBar').style.display = 'flex';
+            
+            const selectedType = this.getAttribute('data-type');
+            document.getElementById('out-type-tag').innerText = selectedType;
+
+            setTimeout(() => { document.getElementById('mainFormArea').scrollIntoView({ behavior: 'smooth' }); }, 100);
+        });
+    });
+
     // --- 日期下拉選單生成 ---
-    const CURRENT_YEAR_ROC = 115; // 2026年 = 民國115年
+    const CURRENT_YEAR_ROC = 115; 
     const ySel = document.getElementById('buildYear');
     ySel.innerHTML = '<option value="">請選擇</option>';
     for(let i = CURRENT_YEAR_ROC; i >= 50; i--) ySel.innerHTML += `<option value="${i}">民國 ${i} 年</option>`;
@@ -452,29 +505,7 @@
     dSel.innerHTML = '<option value="">請選擇</option>';
     for(let i = 1; i <= 31; i++) dSel.innerHTML += `<option value="${i}">${i}</option>`;
 
-    // 自動換算屋齡
-    function calcAge() {
-        let y = ySel.value;
-        if(y) {
-            let age = CURRENT_YEAR_ROC - parseInt(y);
-            document.getElementById('buildingAge').value = age;
-        } else {
-            document.getElementById('buildingAge').value = '';
-        }
-    }
-
-    // --- 填空 / 其他 切換邏輯 ---
-    function toggleSelectOther(selectObj, standardId, otherId, standardValue) {
-        if(selectObj.value === standardValue) {
-            document.getElementById(standardId).style.display = 'flex';
-            document.getElementById(otherId).style.display = 'none';
-        } else {
-            document.getElementById(standardId).style.display = 'none';
-            document.getElementById(otherId).style.display = 'block';
-            document.getElementById(otherId).focus();
-        }
-    }
-
+    // --- 其他選項切換邏輯 ---
     function toggleSelectOtherSimple(selectObj, otherInputId) {
         const otherInput = document.getElementById(otherInputId);
         if(selectObj.value === '其他') { otherInput.style.display = 'block'; otherInput.focus(); }
@@ -539,33 +570,68 @@
         btnText.innerText = '圖片渲染中...';
         btn.disabled = true; btn.style.backgroundColor = '#001F5B';
 
-        // 核心資料映射
+        // 核心資料
         document.getElementById('out-title').innerText = getVal('caseName');
         document.getElementById('out-price').innerText = getVal('price');
-        document.getElementById('out-layout').innerText = getVal('layout');
         document.getElementById('out-ping').innerText = getVal('totalArea');
         document.getElementById('out-ping-tbl').innerText = getPing('totalArea');
 
-        // 左欄：樓層處理 (填空/其他)
-        let floorStr = '';
-        if(document.getElementById('floorType').value === 'standard') {
-            let fa = document.getElementById('floorAt').value.trim();
-            let ft = document.getElementById('floorTotal').value.trim();
-            if(fa || ft) floorStr = `位於${fa}樓/總共${ft}樓`;
-            else floorStr = '-';
-        } else { floorStr = getVal('floorOther'); }
-        document.getElementById('out-floor').innerText = floorStr;
+        // 格局處理 (自動放大紅色數字特效)
+        let lr = document.getElementById('layoutRoom').value.trim();
+        let ll = document.getElementById('layoutLiving').value.trim();
+        let lb = document.getElementById('layoutBath').value.trim();
+        let lbal = document.getElementById('layoutBalcony').value.trim();
+        let lo = document.getElementById('layoutOther').value.trim();
+        let layoutStr = '';
 
-        // 左欄：車位處理 (填空/其他)
-        let parkStr = '';
-        if(document.getElementById('parkType').value === 'standard') {
-            let pt = document.getElementById('parkTotal').value.trim();
-            let pa = document.getElementById('parkAt').value.trim();
-            let pn = document.getElementById('parkNo').value.trim();
-            if(pt||pa||pn) parkStr = `總共地下${pt}層/位於地下${pa}層/${pn}號`;
-            else parkStr = '-';
-        } else { parkStr = getVal('parkOther'); }
-        document.getElementById('out-parkingDetails').innerText = parkStr;
+        if (lr || ll || lb || lbal) {
+            let parts = [];
+            if (lr) parts.push(lr + '房');
+            if (ll) parts.push(ll + '廳');
+            if (lb) parts.push(lb + '衛');
+            if (lbal) parts.push(lbal + '陽');
+            layoutStr = parts.join('');
+        } else if (lo) {
+            layoutStr = lo;
+        } else {
+            layoutStr = '-';
+        }
+        
+        // 將純文字保留給 LINE 複製使用
+        document.getElementById('out-layout').setAttribute('data-raw', layoutStr);
+
+        // 畫面渲染：正則替換，將數字套用紅色大字體，文字維持原本
+        if (layoutStr !== '-') {
+            let styledLayout = layoutStr.replace(/(\d+)/g, '<span style="font-size: 38px; color: var(--brand-red); font-weight: 900;">$1</span>')
+                                        .replace(/([^0-9]+)/g, '<span style="font-size: 18px; color: #333; font-weight: normal;">$1</span>');
+            document.getElementById('out-layout').innerHTML = styledLayout;
+        } else {
+            document.getElementById('out-layout').innerHTML = '<span style="font-size: 24px;">-</span>';
+        }
+
+
+        // 左欄：樓層處理 (並列整合)
+        let fa = document.getElementById('floorAt').value.trim();
+        let ft = document.getElementById('floorTotal').value.trim();
+        let fo = document.getElementById('floorOther').value.trim();
+        let floorParts = [];
+        if(fa || ft) floorParts.push(`位於${fa||'_'}樓/總共${ft||'_'}樓`);
+        if(fo) floorParts.push(`(${fo})`);
+        document.getElementById('out-floor').innerText = floorParts.length > 0 ? floorParts.join(' ') : '-';
+
+        // 左欄：車位處理 (並列整合)
+        let pkChecked = document.querySelector('input[name="parkKind"]:checked');
+        let pkVal = pkChecked ? pkChecked.value : '';
+        let pa = document.getElementById('parkAt').value.trim();
+        let pn = document.getElementById('parkNo').value.trim();
+        let pt = document.getElementById('parkTotal').value.trim();
+        let po = document.getElementById('parkOther').value.trim();
+
+        let parkParts = [];
+        if(pkVal) parkParts.push(pkVal);
+        if(pa || pn || pt) parkParts.push(`位於地下${pa||'_'}層${pn||'_'}號/總共地下${pt||'_'}層`);
+        if(po) parkParts.push(`(${po})`);
+        document.getElementById('out-parkingDetails').innerText = parkParts.length > 0 ? parkParts.join(' ') : '-';
 
         // 左欄其他
         document.getElementById('out-unitType').innerText = getVal('unitType');
@@ -578,8 +644,8 @@
         if (gasVal === '其他') gasVal = getVal('gasOther') === '-' ? '其他' : getVal('gasOther');
         document.getElementById('out-gas').innerText = gasVal;
 
-        // 日期與屋齡組合
-        const age = document.getElementById('buildingAge').value;
+        // 日期與屋齡 (不連動)
+        const age = document.getElementById('buildingAge').value.trim();
         const by = document.getElementById('buildYear').value;
         const bm = document.getElementById('buildMonth').value;
         const bd = document.getElementById('buildDay').value;
@@ -589,8 +655,8 @@
         if(bd) dateStr += `${bd}日`;
         
         let finalAgeStr = [];
+        if(age) finalAgeStr.push(age + '年');
         if(dateStr) finalAgeStr.push(dateStr);
-        if(age) finalAgeStr.push(age + '年屋齡');
         document.getElementById('out-age-date').innerText = finalAgeStr.length > 0 ? finalAgeStr.join(' / ') : '-';
 
         // 動態左欄表格
@@ -635,10 +701,10 @@
         });
         document.getElementById('out-facility').innerText = facArr.length > 0 ? facArr.join('、') : '無';
 
-        // 特色
+        // 特色 (生成圖面)
         let featStr = document.getElementById('features').value;
         document.getElementById('dynamic-container-features').querySelectorAll('.dyn-val').forEach(input => {
-            if(input.value.trim()) featStr += '\n- ' + input.value.trim(); // 拔除 Emoji
+            if(input.value.trim()) featStr += '\n- ' + input.value.trim(); 
         });
         document.getElementById('out-features').innerText = featStr;
 
@@ -687,24 +753,29 @@
         }
     });
 
-    // --- 複製純文字文案 (無 Emoji) ---
+    // --- 複製純文字文案 (無 Emoji 版本) ---
     document.getElementById('copyLineBtn').addEventListener('click', function() {
         const title = getVal('caseName');
         const price = getVal('price');
-        const layout = getVal('layout');
+        const layout = document.getElementById('out-layout').getAttribute('data-raw'); // 抓取純文字格局
         const ping = getVal('totalArea');
-        const parkDet = document.getElementById('out-parkingDetails').innerText; // 抓已算好的
+        const parkDet = document.getElementById('out-parkingDetails').innerText; 
         
+        // 蒐集內部備註
         let intNotes = '';
         document.getElementById('dynamic-container-internal1').querySelectorAll('.dyn-val').forEach(inp => { if(inp.value.trim()) intNotes += `\n- ${inp.value.trim()}`; });
         document.getElementById('dynamic-container-internal2').querySelectorAll('.dyn-val').forEach(inp => { if(inp.value.trim()) intNotes += `\n- ${inp.value.trim()}`; });
+
+        // 蒐集純文字特色
+        let rawFeatures = document.getElementById('features').value;
+        document.getElementById('dynamic-container-features').querySelectorAll('.dyn-val').forEach(inp => { if(inp.value.trim()) rawFeatures += `\n- ${inp.value.trim()}`; });
 
         const lineText = `【${title}】\n\n` +
                          `總價：${price} 萬\n` +
                          `權狀：${ping} 坪\n` +
                          `格局：${layout}\n` +
                          `車位：${parkDet}\n\n` +
-                         `物件特色：\n${document.getElementById('out-features').innerText}\n\n` +
+                         `物件特色：\n${rawFeatures}\n\n` +
                          `====================\n` +
                          `【內部機密資訊】\n` +
                          `地址：${getVal('intAddress')}\n` +
