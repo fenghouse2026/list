@@ -576,38 +576,45 @@
         document.getElementById('out-ping').innerText = getVal('totalArea');
         document.getElementById('out-ping-tbl').innerText = getPing('totalArea');
 
-        // 格局處理 (自動放大紅色數字特效)
+        // ==========================================
+        // 格局處理 (修正亂碼 Bug：安全組裝 HTML 標籤)
+        // ==========================================
         let lr = document.getElementById('layoutRoom').value.trim();
         let ll = document.getElementById('layoutLiving').value.trim();
         let lb = document.getElementById('layoutBath').value.trim();
         let lbal = document.getElementById('layoutBalcony').value.trim();
         let lo = document.getElementById('layoutOther').value.trim();
-        let layoutStr = '';
+        
+        let layoutRawStr = ''; 
+        let layoutHtml = '';   
+
+        const sNum = 'style="font-size: 38px; color: var(--brand-red); font-weight: 900;"';
+        const sTxt = 'style="font-size: 18px; color: #333; font-weight: normal;"';
 
         if (lr || ll || lb || lbal) {
-            let parts = [];
-            if (lr) parts.push(lr + '房');
-            if (ll) parts.push(ll + '廳');
-            if (lb) parts.push(lb + '衛');
-            if (lbal) parts.push(lbal + '陽');
-            layoutStr = parts.join('');
+            let pRaw = [];
+            let pHtml = [];
+            // 分別精準組合，不再使用危險的正則表達式
+            if (lr) { pRaw.push(lr + '房'); pHtml.push(`<span ${sNum}>${lr}</span><span ${sTxt}>房</span>`); }
+            if (ll) { pRaw.push(ll + '廳'); pHtml.push(`<span ${sNum}>${ll}</span><span ${sTxt}>廳</span>`); }
+            if (lb) { pRaw.push(lb + '衛'); pHtml.push(`<span ${sNum}>${lb}</span><span ${sTxt}>衛</span>`); }
+            if (lbal) { pRaw.push(lbal + '陽'); pHtml.push(`<span ${sNum}>${lbal}</span><span ${sTxt}>陽</span>`); }
+            
+            layoutRawStr = pRaw.join('');
+            layoutHtml = pHtml.join('<span style="margin:0 2px;"></span>');
         } else if (lo) {
-            layoutStr = lo;
+            layoutRawStr = lo;
+            // 防呆處理手動輸入的 <> 符號，避免破壞 HTML
+            let safeLo = lo.replace(/</g, "&lt;").replace(/>/g, "&gt;"); 
+            layoutHtml = `<span ${sTxt}>${safeLo.replace(/(\d+)/g, `<span ${sNum}>$1</span>`)}</span>`;
         } else {
-            layoutStr = '-';
+            layoutRawStr = '-';
+            layoutHtml = `<span ${sTxt}>-</span>`;
         }
-        
-        // 將純文字保留給 LINE 複製使用
-        document.getElementById('out-layout').setAttribute('data-raw', layoutStr);
 
-        // 畫面渲染：正則替換，將數字套用紅色大字體，文字維持原本
-        if (layoutStr !== '-') {
-            let styledLayout = layoutStr.replace(/(\d+)/g, '<span style="font-size: 38px; color: var(--brand-red); font-weight: 900;">$1</span>')
-                                        .replace(/([^0-9]+)/g, '<span style="font-size: 18px; color: #333; font-weight: normal;">$1</span>');
-            document.getElementById('out-layout').innerHTML = styledLayout;
-        } else {
-            document.getElementById('out-layout').innerHTML = '<span style="font-size: 24px;">-</span>';
-        }
+        document.getElementById('out-layout').setAttribute('data-raw', layoutRawStr);
+        document.getElementById('out-layout').innerHTML = layoutHtml;
+        // ==========================================
 
 
         // 左欄：樓層處理 (並列整合)
