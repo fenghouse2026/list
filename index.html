@@ -34,7 +34,7 @@
         .header img { height: 45px; margin-bottom: 10px; }
         .header h1 { color: var(--brand-green); font-size: 22px; margin: 0; font-weight: 900; letter-spacing: 1px;}
 
-        /* 動作按鈕區 (移除重新試算) */
+        /* 動作按鈕區 */
         .top-actions { display: flex; gap: 10px; justify-content: center; margin-bottom: 25px; flex-wrap: wrap;}
         .btn-action {
             background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px);
@@ -56,6 +56,7 @@
             padding: 15px; text-align: center; font-size: 18px; font-weight: 900; color: #777; transition: 0.3s;
         }
         .cat-btn.active { background: #FFF; color: var(--brand-green); box-shadow: 0 8px 25px rgba(0,140,74,0.1); border-color: var(--brand-green); }
+        .cat-disabled { opacity: 0.5; cursor: not-allowed; }
 
         /* 輸入卡片 (Apple 旗艦級毛玻璃) */
         .card {
@@ -83,7 +84,7 @@
         /* 標籤/方塊系統 */
         .chip-group { display: flex; flex-wrap: wrap; gap: 8px; }
         .chip-group input[type="radio"], .chip-group input[type="checkbox"] { display: none; }
-        .chip-label { padding: 8px 14px; border: 1px solid #DDD; border-radius: 10px; font-size: 15px; font-weight: 700; cursor: pointer; background: #FFF; color: #555; }
+        .chip-label { padding: 8px 14px; border: 1px solid #DDD; border-radius: 10px; font-size: 15px; font-weight: 700; cursor: pointer; background: #FFF; color: #555; transition: all 0.2s;}
         .chip-group input:checked + .chip-label { background: var(--brand-green); color: #FFF; border-color: var(--brand-green); }
 
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
@@ -102,28 +103,19 @@
         .btn-remove-row { background: none; border: none; color: #CCC; font-size: 24px; cursor: pointer; padding: 0 5px;}
         .btn-remove-row:hover { color: var(--brand-red); }
 
-        /* Modal (手機儲存備用) */
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 9999; justify-content: center; align-items: center; padding: 20px; flex-direction: column;}
-        .modal-content { background: #FFF; padding: 20px; border-radius: 20px; width: 100%; max-width: 800px; max-height: 85vh; overflow-y: auto; text-align: center; }
-        .modal-content h3 { color: var(--brand-green); font-weight: 900; margin-top: 0;}
-        .modal-hint { color: var(--brand-red); font-weight: 900; margin-bottom: 15px;}
-        #previewImg { width: 100%; border-radius: 10px; box-shadow: 0 5px 20px rgba(0,0,0,0.2); }
-        .close-btn { margin-top: 15px; padding: 12px 30px; background: #333; color: #FFF; border: none; border-radius: 10px; font-size: 16px; font-weight: bold; cursor: pointer;}
-
         /* Loader */
         #loader { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.9); z-index: 9999; justify-content: center; align-items: center; flex-direction: column; font-size: 22px; font-weight: 900; color: var(--brand-green);}
         .spinner { border: 5px solid #f3f3f3; border-top: 5px solid var(--brand-green); border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; margin-bottom: 15px;}
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
         /* =========================================
-           2. 輸出排版區 (重點優化：方塊化、不裁切)
+           2. 隱藏輸出排版區 (A4 橫式, 自動高度延伸)
            ========================================= */
         #exportArea {
             position: absolute; left: -9999px; top: 0;
-            width: 1600px; /* 固定大寬度 */
-            min-height: 1130px; /* 最小高度對齊 A4比例，允許自動向下延伸 */
+            width: 1485px; /* 標準 A4 寬度 */
+            min-height: 1050px; /* 自動向下延伸 */
             height: auto; 
-            /* 將背景直接設定在容器上，確保隨內容自動延伸 */
             background-color: #FFFDF9;
             background-image: 
                 radial-gradient(circle at 10% 0%, rgba(253, 185, 19, 0.08) 0%, transparent 50%),
@@ -148,7 +140,7 @@
         .export-header-text { font-size: 36px; font-weight: 900; color: #000; letter-spacing: 5px;}
 
         /* 三欄式網格 */
-        .export-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 30px; flex: 1;}
+        .export-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 40px; flex: 1;}
         .export-col { display: flex; flex-direction: column; }
         
         /* 區塊標題 */
@@ -163,7 +155,7 @@
         }
         .export-key { 
             font-weight: 900; color: var(--brand-dark); width: 160px; flex-shrink: 0; 
-            padding: 12px 15px; background: rgba(0, 140, 74, 0.05); /* 淡綠底色 */
+            padding: 12px 15px; background: rgba(0, 140, 74, 0.05);
             border-right: 2px solid rgba(0,0,0,0.05); display: flex; align-items: center;
         }
         .export-val { 
@@ -181,7 +173,7 @@
             background: rgba(255, 255, 255, 0.95); border: 2px solid rgba(0,0,0,0.08); border-radius: 10px; padding: 18px;
         }
         
-        /* 內部機密紅框 (截圖時自動隱藏) */
+        /* 內部機密紅框 (保留在圖片中，複製時不帶入) */
         .export-redbox { border: 4px solid var(--brand-red); padding: 25px; margin-top: auto; background: #FFF; border-radius: 16px;}
         .export-redbox-title { color: var(--brand-red); font-size: 26px; font-weight: 900; margin-bottom: 15px; text-align: center; letter-spacing: 2px;}
         .export-redbox .export-key { color: var(--brand-red); width: 140px; background: rgba(216,42,41,0.05); border-right-color: rgba(216,42,41,0.15);}
@@ -269,12 +261,12 @@
                 <div class="form-group">
                     <label>汽車位號碼</label>
                     <div class="flex-row" style="margin-bottom:5px;"><label>位於</label><input type="text" id="v_carL"><label>層</label><input type="text" id="v_carN"><label>號</label></div>
-                    <input type="text" id="v_carNO" placeholder="或 無/其他">
+                    <input type="text" id="v_carNO" placeholder="或 無/其他 (自行填寫)">
                 </div>
                 <div class="form-group">
                     <label>機車位號碼</label>
                     <div class="flex-row" style="margin-bottom:5px;"><input type="text" id="v_motoN"><label>號</label></div>
-                    <input type="text" id="v_motoNO" placeholder="或 無/其他">
+                    <input type="text" id="v_motoNO" placeholder="或 無/其他 (自行填寫)">
                 </div>
             </div>
         </div>
@@ -298,7 +290,7 @@
                 <input type="text" id="v_mTO" class="other-input" placeholder="請輸入">
             </div>
             <div class="grid-3">
-                <div class="form-group"><label>大樓/透天樓高</label><select id="v_hS" onchange="toggle(this,'v_hO')"><option value="空白">空白</option><option value="其他">填寫米數</option></select><input type="text" id="v_hO" class="other-input" placeholder="米"></div>
+                <div class="form-group"><label>大樓室內/透天樓高</label><select id="v_hS" onchange="toggle(this,'v_hO')"><option value="空白">空白</option><option value="其他">填寫米數</option></select><input type="text" id="v_hO" class="other-input" placeholder="米"></div>
                 <div class="form-group"><label>面寬</label><select id="v_wS" onchange="toggle(this,'v_wO')"><option value="本案非透天(空白)">本案非透天</option><option value="其他">填寫米數</option></select><input type="text" id="v_wO" class="other-input" placeholder="米"></div>
                 <div class="form-group"><label>深度</label><select id="v_dpS" onchange="toggle(this,'v_dpO')"><option value="本案非透天(空白)">本案非透天</option><option value="其他">填寫米數</option></select><input type="text" id="v_dpO" class="other-input" placeholder="米"></div>
                 <div class="form-group"><label>路寬</label><select id="v_rwS" onchange="toggle(this,'v_rwO')"><option value="空白">空白</option><option value="其他">填寫米數</option></select><input type="text" id="v_rwO" class="other-input" placeholder="米"></div>
@@ -322,13 +314,13 @@
                 <div class="form-group">
                     <label>附近超商 (多選)</label>
                     <div class="chip-group">
-                        <label class="chip-label"><input type="checkbox" name="st" value="7-11">7-11</label>
-                        <label class="chip-label"><input type="checkbox" name="st" value="全家">全家</label>
-                        <label class="chip-label"><input type="checkbox" name="st" value="萊爾富">萊爾富</label>
-                        <label class="chip-label"><input type="checkbox" name="st" value="全聯">全聯</label>
-                        <label class="chip-label"><input type="checkbox" name="st" value="市場">市場</label>
+                        <input type="checkbox" name="st" id="s1" value="7-11"><label class="chip-label" for="s1">7-11</label>
+                        <input type="checkbox" name="st" id="s2" value="全家"><label class="chip-label" for="s2">全家</label>
+                        <input type="checkbox" name="st" id="s3" value="萊爾富"><label class="chip-label" for="s3">萊爾富</label>
+                        <input type="checkbox" name="st" id="s4" value="全聯"><label class="chip-label" for="s4">全聯</label>
+                        <input type="checkbox" name="st" id="s5" value="市場"><label class="chip-label" for="s5">市場</label>
                     </div>
-                    <input type="text" id="v_stO" placeholder="其他" style="margin-top:5px;">
+                    <input type="text" id="v_stO" placeholder="其他" style="margin-top:8px;">
                 </div>
             </div>
         </div>
@@ -339,18 +331,18 @@
             <div class="form-group">
                 <label style="border-bottom:1px solid #EEE; padding-bottom:5px;">公設勾選</label>
                 <div class="chip-group" style="margin-top:8px;">
-                    <label class="chip-label"><input type="checkbox" name="fac" value="大廳">大廳</label>
-                    <label class="chip-label"><input type="checkbox" name="fac" value="中庭花園">中庭</label>
-                    <label class="chip-label"><input type="checkbox" name="fac" value="交誼廳">交誼</label>
-                    <label class="chip-label"><input type="checkbox" name="fac" value="視聽室">視聽室</label>
-                    <label class="chip-label"><input type="checkbox" name="fac" value="閱讀室">閱讀室</label>
-                    <label class="chip-label"><input type="checkbox" name="fac" value="卡拉OK">卡拉OK</label>
-                    <label class="chip-label"><input type="checkbox" name="fac" value="健身房">健身房</label>
-                    <label class="chip-label"><input type="checkbox" name="fac" value="媽媽教室">媽媽教室</label>
-                    <label class="chip-label"><input type="checkbox" name="fac" value="遊戲室">遊戲室</label>
-                    <label class="chip-label"><input type="checkbox" name="fac" value="游泳池">游泳池</label>
-                    <label class="chip-label"><input type="checkbox" name="fac" value="曬被區">曬被區</label>
-                    <label class="chip-label"><input type="checkbox" name="fac" value="回收區">回收區</label>
+                    <input type="checkbox" name="fac" id="f1" value="大廳"><label class="chip-label" for="f1">大廳</label>
+                    <input type="checkbox" name="fac" id="f2" value="中庭花園"><label class="chip-label" for="f2">中庭花園</label>
+                    <input type="checkbox" name="fac" id="f3" value="交誼廳"><label class="chip-label" for="f3">交誼廳</label>
+                    <input type="checkbox" name="fac" id="f4" value="視聽室"><label class="chip-label" for="f4">視聽室</label>
+                    <input type="checkbox" name="fac" id="f5" value="閱讀室"><label class="chip-label" for="f5">閱讀室</label>
+                    <input type="checkbox" name="fac" id="f6" value="卡拉OK"><label class="chip-label" for="f6">卡拉OK</label>
+                    <input type="checkbox" name="fac" id="f7" value="健身房"><label class="chip-label" for="f7">健身房</label>
+                    <input type="checkbox" name="fac" id="f8" value="媽媽教室"><label class="chip-label" for="f8">媽媽教室</label>
+                    <input type="checkbox" name="fac" id="f9" value="遊戲室"><label class="chip-label" for="f9">遊戲室</label>
+                    <input type="checkbox" name="fac" id="f10" value="游泳池"><label class="chip-label" for="f10">游泳池</label>
+                    <input type="checkbox" name="fac" id="f11" value="曬被區"><label class="chip-label" for="f11">曬被區</label>
+                    <input type="checkbox" name="fac" id="f12" value="回收區"><label class="chip-label" for="f12">回收區</label>
                 </div>
                 <input type="text" id="v_facO" placeholder="其他公設補充" style="margin-top:8px;">
             </div>
@@ -371,6 +363,7 @@
 
         <div class="card internal-card">
             <h2 class="card-title">⚠️ 內部資料不公開</h2>
+            <p style="color:var(--brand-red); font-size:12px; margin-top:-10px; font-weight:bold;">此區在圖面以紅框顯示。一鍵複製時「絕對不帶入」。</p>
             <div class="grid-2">
                 <div class="form-group"><label>委託種類</label><select id="v_iTyp"><option value="空白">空白</option><option value="一般委託">一般委託</option><option value="專任委託">專任委託</option></select></div>
                 <div class="form-group"><label>委託編號</label><input type="text" id="v_iNo"></div>
@@ -387,6 +380,7 @@
 </div>
 
 <div id="exportArea">
+    <div class="export-bg"></div>
     <img src="logo浮水印.png" class="export-watermark" onerror="this.style.display='none'">
     
     <div class="export-content">
@@ -413,7 +407,7 @@
                 <div class="export-item"><div class="export-key">公設比</div><div class="export-val" id="o_pubR"></div></div>
                 <div class="export-item"><div class="export-key">增建</div><div class="export-val" id="o_add"></div></div>
                 
-                <div class="export-title" style="margin-top: 15px;">【車位】</div>
+                <div class="export-title" style="margin-top: 20px;">【車位】</div>
                 <div class="export-item"><div class="export-key">汽車位</div><div class="export-val" id="o_cT"></div></div>
                 <div class="export-item"><div class="export-key">汽車號碼</div><div class="export-val" id="o_cN"></div></div>
                 <div class="export-item"><div class="export-key">機車號碼</div><div class="export-val" id="o_mN"></div></div>
@@ -437,7 +431,7 @@
                 <div class="export-item"><div class="export-key">主要用途</div><div class="export-val" id="o_use"></div></div>
                 <div class="export-item"><div class="export-key">使用分區</div><div class="export-val" id="o_zon"></div></div>
                 
-                <div class="export-title" style="margin-top: 15px;">【座向】</div>
+                <div class="export-title" style="margin-top: 20px;">【座向】</div>
                 <div class="export-item"><div class="export-key">房屋座向</div><div class="export-val" id="o_dH"></div></div>
                 <div class="export-item"><div class="export-key">管理室看</div><div class="export-val" id="o_dL"></div></div>
                 <div class="export-item"><div class="export-key">家門看</div><div class="export-val" id="o_dD"></div></div>
@@ -450,10 +444,10 @@
                 <div class="export-title">【公設】</div>
                 <div class="export-desc" id="o_fac"></div>
 
-                <div class="export-title">【物件介紹】</div>
+                <div class="export-title" style="margin-top:10px;">【物件介紹】</div>
                 <div class="export-desc" id="o_feat"></div>
 
-                <div class="export-title">【登記事項】</div>
+                <div class="export-title" style="margin-top:10px;">【登記事項】</div>
                 <div class="export-item"><div class="export-key">登記原因</div><div class="export-val" id="o_rRes"></div></div>
                 <div class="export-item"><div class="export-key">登記日期</div><div class="export-val" id="o_rDate"></div></div>
                 <div class="export-item"><div class="export-key">售屋動機</div><div class="export-val" id="o_mo"></div></div>
@@ -466,19 +460,12 @@
                     <div class="export-item"><div class="export-key">地址</div><div class="export-val" id="o_iAddr"></div></div>
                     <div class="export-item"><div class="export-key">鑰匙</div><div class="export-val" id="o_iKey"></div></div>
                     <div class="export-item"><div class="export-key">房屋補充</div><div class="export-val" id="o_iSup1"></div></div>
-                    <div class="export-item" style="border-bottom:none;"><div class="export-key">重要補充</div><div class="export-val" id="o_iSup2"></div></div>
+                    <div class="export-item" style="border-bottom:none; margin-bottom:0;"><div class="export-key">重要補充</div><div class="export-val" id="o_iSup2"></div></div>
                     <div id="o_iDyn"></div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-
-<div class="modal" id="mobileModal">
-    <button class="close-btn" onclick="document.getElementById('mobileModal').style.display='none'">✕</button>
-    <h3>✅ 圖片生成成功</h3>
-    <p class="modal-hint">👉 請「長按圖片」選擇儲存 👈</p>
-    <img id="mobileImg" src="">
 </div>
 
 <script>
@@ -493,7 +480,19 @@
         if(this.value === '早晚') { box.style.display = 'flex'; } else { box.style.display = 'none'; }
     });
 
-    // 計算
+    // 格式化千分位
+    document.querySelectorAll('.format-num').forEach(input => {
+        input.addEventListener('blur', function() {
+            if(this.value) {
+                let parts = this.value.replace(/,/g, '').split('.');
+                parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                this.value = parts.join('.');
+            }
+        });
+        input.addEventListener('focus', function() { this.value = this.value.replace(/,/g, ''); });
+    });
+
+    // 全自動計算
     function calcAreas() {
         let m = parseFloat(document.getElementById('v_mainA').value) || 0;
         let s = parseFloat(document.getElementById('v_subA').value) || 0;
@@ -520,7 +519,7 @@
         return v;
     }
 
-    // 綁定資料到圖面
+    // 填裝資料
     function bindData() {
         document.getElementById('o_type').innerText = gV('v_type');
         document.getElementById('o_status').innerText = gV('v_status');
@@ -528,8 +527,9 @@
         let pr = gV('v_price'); document.getElementById('o_price').innerText = pr ? pr+'萬' : '空白';
         
         let lr=gV('v_lR'), ll=gV('v_lL'), lb=gV('v_lB'), lba=gV('v_lBa'), lo=gV('v_lOther');
-        if(lr||ll||lb||lba) document.getElementById('o_lay').innerHTML = `<span style="font-size:30px;">${lr||0}</span>房 <span style="font-size:30px;">${ll||0}</span>廳 <span style="font-size:30px;">${lb||0}</span>衛 <span style="font-size:30px;">${lba||0}</span>陽`;
-        else document.getElementById('o_lay').innerText = lo || '空白';
+        if(lr||ll||lb||lba) document.getElementById('o_lay').innerHTML = `<span style="font-size:32px;">${lr||0}</span>房 <span style="font-size:32px;">${ll||0}</span>廳 <span style="font-size:32px;">${lb||0}</span>衛 <span style="font-size:32px;">${lba||0}</span>陽`;
+        else if (lo) document.getElementById('o_lay').innerText = lo;
+        else document.getElementById('o_lay').innerText = '空白';
 
         const pt = (v) => v ? v+'坪' : '空白';
         document.getElementById('o_mA').innerText = pt(gV('v_mainA'));
@@ -553,7 +553,7 @@
         document.getElementById('o_dW').innerText = gS('v_dW','v_dWO');
         document.getElementById('o_sch').innerText = gV('v_sch') || '空白';
         
-        let stArr=[]; document.querySelectorAll('input[name="st"]:checked').forEach(e=>stArr.push(e.nextElementSibling.innerText));
+        let stArr=[]; document.querySelectorAll('input[name="st"]:checked').forEach(e=>stArr.push(e.value));
         if(gV('v_stO')) stArr.push(gV('v_stO'));
         document.getElementById('o_st').innerText = stArr.length>0 ? stArr.join('、') : '空白';
 
@@ -577,7 +577,7 @@
         document.getElementById('o_use').innerText = gV('v_use') || '空白';
         document.getElementById('o_zon').innerText = gS('v_zon','v_zonO');
 
-        let facArr=[]; document.querySelectorAll('input[name="fac"]:checked').forEach(e=>facArr.push(e.nextElementSibling.innerText));
+        let facArr=[]; document.querySelectorAll('input[name="fac"]:checked').forEach(e=>facArr.push(e.value));
         if(gV('v_facO')) facArr.push(gV('v_facO'));
         document.getElementById('o_fac').innerText = facArr.length>0 ? facArr.join('、') : '空白';
 
@@ -600,7 +600,7 @@
         
         let intD = document.getElementById('o_iDyn'); intD.innerHTML='';
         document.getElementById('dyn-int').querySelectorAll('.dyn-val').forEach(i=>{
-            if(i.value.trim()) intD.innerHTML += `<div class="export-item" style="border-bottom:none;"><div class="export-key">自訂補充</div><div class="export-val">${i.value.trim()}</div></div>`;
+            if(i.value.trim()) intD.innerHTML += `<div class="export-item"><div class="export-key">自訂補充</div><div class="export-val">${i.value.trim()}</div></div>`;
         });
     }
 
@@ -609,43 +609,19 @@
         document.getElementById('loader').style.display = 'flex';
         bindData();
         const el = document.getElementById('exportArea');
-        const rb = document.getElementById('o_internalBox');
-        
-        if(rb) rb.style.display = 'none'; // 隱藏紅框
         el.style.left = '0';
         await new Promise(r => setTimeout(r, 100));
 
         try {
             const canvas = await html2canvas(el, { scale: 1.5, useCORS: true, backgroundColor: '#FFFDF9' });
             el.style.left = '-9999px';
-            if(rb) rb.style.display = 'block'; 
             document.getElementById('loader').style.display = 'none';
             return canvas;
         } catch(e) {
             el.style.left = '-9999px';
-            if(rb) rb.style.display = 'block';
             document.getElementById('loader').style.display = 'none';
             alert('產生圖片失敗，請確定儲存空間充足。');
             return null;
-        }
-    }
-
-    // 📱 手機儲存相片
-    async function generateMobileImage() {
-        const canvas = await generateCanvas();
-        if(canvas) {
-            canvas.toBlob(async function(blob) {
-                const fName = (gV('v_name') || '物件明細') + '.jpg';
-                const file = new File([blob], fName, { type: 'image/jpeg' });
-                
-                if (navigator.canShare && navigator.canShare({ files: [file] })) {
-                    try { await navigator.share({ files: [file], title: fName }); } 
-                    catch(e) { console.log('取消分享'); }
-                } else {
-                    document.getElementById('mobileImg').src = URL.createObjectURL(blob);
-                    document.getElementById('mobileModal').style.display = 'flex';
-                }
-            }, 'image/jpeg', 0.9);
         }
     }
 
@@ -662,7 +638,45 @@
         }
     }
 
-    // 📋 強制複製黑科技 (移除結尾電話)
+    // 📱 手機儲存相片
+    async function generateMobileImage() {
+        const canvas = await generateCanvas();
+        if(canvas) {
+            canvas.toBlob(async function(blob) {
+                const fName = (gV('v_name') || '物件明細') + '.jpg';
+                const file = new File([blob], fName, { type: 'image/jpeg' });
+                
+                if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                    try { await navigator.share({ files: [file], title: fName }); } 
+                    catch(e) { console.log('取消分享'); }
+                } else {
+                    // 若不支援原生分享，將圖片直接顯示，即可長按儲存
+                    const imgUrl = URL.createObjectURL(blob);
+                    
+                    // 用新分頁打開圖片，這是最穩定的長按儲存方式
+                    const newWindow = window.open();
+                    if(newWindow) {
+                        newWindow.document.write(`
+                            <html>
+                            <head>
+                                <title>請長按圖片儲存</title>
+                                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                                <style>body{background:#333; display:flex; justify-content:center; padding:20px; margin:0;} img{max-width:100%; border-radius:10px;}</style>
+                            </head>
+                            <body>
+                                <img src="${imgUrl}" alt="請長按圖片儲存">
+                            </body>
+                            </html>
+                        `);
+                    } else {
+                        alert("請允許彈出視窗，或使用電腦版下載。");
+                    }
+                }
+            }, 'image/jpeg', 0.9);
+        }
+    }
+
+    // 📋 強制複製黑科技
     function fallbackCopyTextToClipboard(text) {
         var ta = document.createElement("textarea");
         ta.value = text; ta.style.position = "fixed"; ta.style.left = "-9999px";
@@ -677,11 +691,11 @@
         let layText = (lr||ll||lb||lbal) ? `${lr||0}房${ll||0}廳${lb||0}衛${lbal||0}陽台` : lo;
 
         let fList = [];
-        document.querySelectorAll('#facilityChecks input:checked').forEach(e => fList.push(e.nextElementSibling.innerText));
+        document.querySelectorAll('#facilityChecks input:checked').forEach(e => fList.push(e.value));
         let fo = gV('v_facO'); if(fo) fList.push(fo);
 
         let stList = [];
-        document.querySelectorAll('input[name="st"]:checked').forEach(e => stList.push(e.nextElementSibling.innerText));
+        document.querySelectorAll('input[name="st"]:checked').forEach(e => stList.push(e.value));
         let sto = gV('v_stO'); if(sto) stList.push(sto);
 
         let featStr = gV('v_feat');
