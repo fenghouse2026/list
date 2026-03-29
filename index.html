@@ -58,7 +58,7 @@
         .cat-btn.active { background: #FFF; color: var(--brand-green); box-shadow: 0 8px 25px rgba(0,140,74,0.1); border-color: var(--brand-green); }
         .cat-disabled { opacity: 0.5; cursor: not-allowed; }
 
-        /* 輸入卡片 (Apple 旗艦級毛玻璃) */
+        /* 輸入卡片 */
         .card {
             background: rgba(255, 255, 255, 0.75); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
             border-radius: var(--card-radius); padding: 25px 20px; margin-bottom: 25px;
@@ -109,84 +109,102 @@
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
         /* =========================================
-           2. 隱藏輸出排版區 (完美復刻您的設計圖)
+           2. 隱藏輸出排版區 (A4 橫式, 完美水晶玻璃 APPLE 美學)
            ========================================= */
         #exportArea {
             position: absolute; left: -9999px; top: 0;
-            width: 1485px; 
-            min-height: 1050px; 
+            width: 1600px; /* 固定大寬度 */
+            min-height: 1130px; /* 自動延伸 */
             height: auto; 
-            background-color: #FFFDF9;
+            /* 完全拔除黃色，改採純淨水晶、透亮冰塊白漸層 */
+            background-color: #FAFAFD;
             background-image: 
-                radial-gradient(circle at 10% 0%, rgba(253, 185, 19, 0.08) 0%, transparent 50%),
-                radial-gradient(circle at 90% 100%, rgba(0, 140, 74, 0.05) 0%, transparent 50%),
-                linear-gradient(135deg, rgba(255,253,249,0.8) 0%, rgba(255,245,225,0.8) 100%);
-            padding: 40px 50px; box-sizing: border-box; 
+                radial-gradient(circle at 10% 10%, rgba(255, 255, 255, 1) 0%, transparent 60%),
+                radial-gradient(circle at 90% 90%, rgba(230, 240, 250, 0.6) 0%, transparent 60%),
+                linear-gradient(135deg, #FFFFFF 0%, #F0F4F8 100%);
+            padding: 50px 60px; box-sizing: border-box; 
             display: flex; flex-direction: column;
         }
         
         .export-watermark {
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 800px; opacity: 0.04; pointer-events: none; z-index: 1;
+            width: 800px; opacity: 0.03; pointer-events: none; z-index: 1; filter: grayscale(100%);
         }
 
-        .export-content { position: relative; z-index: 2; flex: 1; display: flex; flex-direction: column;}
-        
-        .export-header {
-            display: flex; align-items: center; justify-content: center;
-            border-bottom: 4px solid #111; padding-bottom: 20px; margin-bottom: 30px; background: transparent;
+        .export-content { 
+            position: relative; z-index: 2; flex: 1; display: flex; flex-direction: column;
+            background: rgba(255, 255, 255, 0.5); /* 提升透明度 */
+            backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px);
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            border-radius: 30px; /* APPLE 圓角 */
+            box-shadow: 0 20px 60px rgba(0,0,0,0.04);
+            padding: 40px;
         }
-        .export-header img { height: 45px; margin-right: 15px; }
-        .export-header-text { font-size: 36px; font-weight: 900; color: #111; letter-spacing: 5px;}
+        
+        /* 完美對齊您上傳的截圖排版 */
+        .export-header {
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            border-bottom: 2px solid rgba(0,0,0,0.06); padding-bottom: 25px; margin-bottom: 35px; background: transparent;
+        }
+        .export-header img { height: 75px; margin-bottom: 15px; }
+        .export-header-text { 
+            font-size: 38px; font-weight: 900; color: var(--brand-green); 
+            letter-spacing: 4px; display: flex; align-items: center; gap: 15px;
+        }
+        .export-header-text .sep { color: #CCC; font-weight: 300; }
 
         /* 三欄式網格 */
-        .export-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 40px; flex: 1;}
+        .export-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 50px; flex: 1;}
         .export-col { display: flex; flex-direction: column; }
         
-        /* 區塊標題：綠字、綠底線 */
+        /* 區塊標題 */
         .export-title { 
-            font-size: 24px; font-weight: 900; color: var(--brand-green); 
-            margin-bottom: 15px; letter-spacing: 1px; 
-            border-bottom: 2px solid var(--brand-green); padding-bottom: 5px; 
-            display: block; background: transparent;
+            font-size: 28px; font-weight: 900; color: var(--brand-green); 
+            margin-bottom: 20px; letter-spacing: 2px; 
+            border-bottom: 3px solid rgba(0,140,74,0.2); padding-bottom: 8px; display: inline-block;
         }
         
-        /* 無框、純白圓角方塊設計 */
+        /* 獨立格子設計 (APPLE風格：立體白底圓角塊，去除生硬黑線) */
         .export-item { 
-            display: flex; font-size: 20px; margin-bottom: 12px; align-items: center; 
-            background: transparent; border: none; box-shadow: none; 
+            display: flex; font-size: 24px; margin-bottom: 16px; align-items: center;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+            padding: 12px 18px;
         }
         .export-key { 
-            font-weight: 900; color: var(--brand-dark); width: 140px; flex-shrink: 0; 
-            padding: 0; background: transparent; border: none; display: flex; align-items: center; 
+            font-weight: 900; color: #777; width: 160px; flex-shrink: 0; 
         }
         .export-val { 
-            font-weight: 900; color: #111; flex: 1; line-height: 1.4;
-            background: #FFFFFF; border-radius: 8px; padding: 10px 15px; 
-            box-shadow: 0 2px 8px rgba(0,0,0,0.03); display: flex; align-items: center; 
+            font-weight: 900; color: #1D1D1F; flex: 1; line-height: 1.4;
         }
         
-        .val-price { color: var(--brand-dark); font-size: 32px; }
-        .val-total { color: var(--brand-red); font-size: 36px; }
-        .val-red { color: var(--brand-red); font-size: 24px;}
+        .val-price { color: var(--brand-dark); font-size: 36px; }
+        .val-total { color: var(--brand-red); font-size: 42px; }
+        .val-red { color: var(--brand-red); font-size: 30px;}
 
         /* 特色/介紹獨立方塊 */
         .export-desc { 
-            font-size: 20px; font-weight: 900; color: #222; line-height: 1.6; white-space: pre-wrap; margin-bottom: 15px;
-            background: #FFFFFF; border-radius: 10px; padding: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+            font-size: 24px; font-weight: 900; color: #1D1D1F; line-height: 1.7; white-space: pre-wrap; margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.9); border-radius: 16px; padding: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.02);
         }
         
-        /* 內部機密紅框 (保留在圖片中，複製時不帶入) */
+        /* 內部機密紅框 */
         .export-redbox { 
-            border: 2px solid var(--brand-red); padding: 20px; margin-top: auto; 
-            background: #FFFDF9; border-radius: 12px;
+            border: 3px solid rgba(216, 42, 41, 0.6); padding: 25px; margin-top: auto; 
+            background: rgba(255, 245, 245, 0.9); border-radius: 20px;
         }
         .export-redbox-title { 
-            color: var(--brand-red); font-size: 22px; font-weight: 900; 
-            margin-bottom: 15px; text-align: center; letter-spacing: 1px;
+            color: var(--brand-red); font-size: 28px; font-weight: 900; 
+            margin-bottom: 20px; text-align: center; letter-spacing: 2px;
         }
-        .export-redbox .export-key { color: var(--brand-red); background: transparent; border: none; }
-        .export-redbox .export-val { color: var(--brand-red); background: #FFFFFF; box-shadow: 0 2px 8px rgba(216,42,41,0.05); }
+        .export-redbox .export-key { color: var(--brand-red); }
+        .export-redbox .export-val { color: var(--brand-red); }
+        .export-redbox .export-item { background: transparent; box-shadow: none; border-bottom: 1px dashed rgba(216,42,41,0.2); padding: 8px 0; margin-bottom: 10px; border-radius: 0;}
+        .export-redbox .export-item:last-child { border-bottom: none; padding-bottom: 0; margin-bottom: 0;}
+
+        /* 備用長按視窗 */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 9999; justify-content: center; align-items: center; flex-direction: column; padding: 20px;}
     </style>
 </head>
 <body>
@@ -359,7 +377,7 @@
                 <label>物件介紹</label>
                 <textarea id="v_feat" rows="3" placeholder="自行輸入介紹"></textarea>
                 <div id="dyn-feat"></div>
-                <button type="button" class="btn-add" onclick="addDyn('dyn-feat')">➕ 新增一欄空白</button>
+                <button type="button" class="btn-add" onclick="addDyn('dyn-feat')">➕ 新增介紹欄位</button>
             </div>
 
             <div class="grid-2">
@@ -401,7 +419,7 @@
     <div class="export-content">
         <div class="export-header">
             <img src="logo.png" onerror="this.style.display='none'">
-            <div class="export-header-text">永義房屋 | 物件明細表 | 房屋</div>
+            <div class="export-header-text">成功莊敬店 <span class="sep">|</span> 物件明細</div>
         </div>
 
         <div class="export-grid">
@@ -475,7 +493,7 @@
                     <div class="export-item"><div class="export-key">地址</div><div class="export-val" id="o_iAddr"></div></div>
                     <div class="export-item"><div class="export-key">鑰匙</div><div class="export-val" id="o_iKey"></div></div>
                     <div class="export-item"><div class="export-key">房屋補充</div><div class="export-val" id="o_iSup1"></div></div>
-                    <div class="export-item" style="border-bottom:none;"><div class="export-key">重要補充</div><div class="export-val" id="o_iSup2"></div></div>
+                    <div class="export-item"><div class="export-key">重要補充</div><div class="export-val" id="o_iSup2"></div></div>
                     <div id="o_iDyn"></div>
                 </div>
             </div>
@@ -542,7 +560,7 @@
         let pr = gV('v_price'); document.getElementById('o_price').innerText = pr ? pr+'萬' : '空白';
         
         let lr=gV('v_lR'), ll=gV('v_lL'), lb=gV('v_lB'), lba=gV('v_lBa'), lo=gV('v_lOther');
-        if(lr||ll||lb||lba) document.getElementById('o_lay').innerHTML = `<span style="font-size:32px;">${lr||0}</span>房 <span style="font-size:32px;">${ll||0}</span>廳 <span style="font-size:32px;">${lb||0}</span>衛 <span style="font-size:32px;">${lba||0}</span>陽`;
+        if(lr||ll||lb||lba) document.getElementById('o_lay').innerHTML = `<span style="font-size:36px; color:var(--brand-red);">${lr||0}</span>房 <span style="font-size:36px; color:var(--brand-red);">${ll||0}</span>廳 <span style="font-size:36px; color:var(--brand-red);">${lb||0}</span>衛 <span style="font-size:36px; color:var(--brand-red);">${lba||0}</span>陽`;
         else if (lo) document.getElementById('o_lay').innerText = lo;
         else document.getElementById('o_lay').innerText = '空白';
 
@@ -568,7 +586,7 @@
         document.getElementById('o_dW').innerText = gS('v_dW','v_dWO');
         document.getElementById('o_sch').innerText = gV('v_sch') || '空白';
         
-        let stArr=[]; document.querySelectorAll('input[name="st"]:checked').forEach(e=>stArr.push(e.nextElementSibling.innerText));
+        let stArr=[]; document.querySelectorAll('input[name="st"]:checked').forEach(e=>stArr.push(e.value));
         if(gV('v_stO')) stArr.push(gV('v_stO'));
         document.getElementById('o_st').innerText = stArr.length>0 ? stArr.join('、') : '空白';
 
@@ -592,7 +610,7 @@
         document.getElementById('o_use').innerText = gV('v_use') || '空白';
         document.getElementById('o_zon').innerText = gS('v_zon','v_zonO');
 
-        let facArr=[]; document.querySelectorAll('#facilityChecks input:checked').forEach(e=>facArr.push(e.nextElementSibling.innerText));
+        let facArr=[]; document.querySelectorAll('#facilityChecks input:checked').forEach(e=>facArr.push(e.value));
         if(gV('v_facO')) facArr.push(gV('v_facO'));
         document.getElementById('o_fac').innerText = facArr.length>0 ? facArr.join('、') : '空白';
 
@@ -631,7 +649,7 @@
         await new Promise(r => setTimeout(r, 100));
 
         try {
-            const canvas = await html2canvas(el, { scale: 1.5, useCORS: true, backgroundColor: '#FFFDF9' });
+            const canvas = await html2canvas(el, { scale: 1.5, useCORS: true, backgroundColor: '#F8F9FA' });
             el.style.left = '-9999px';
             if(rb) rb.style.display = 'block'; 
             document.getElementById('loader').style.display = 'none';
@@ -693,7 +711,7 @@
         }
     }
 
-    // 📋 強制複製黑科技 (結尾無電話版)
+    // 📋 強制複製黑科技 (移除結尾電話)
     function fallbackCopyTextToClipboard(text) {
         var ta = document.createElement("textarea");
         ta.value = text; ta.style.position = "fixed"; ta.style.left = "-9999px";
@@ -708,11 +726,11 @@
         let layText = (lr||ll||lb||lbal) ? `${lr||0}房${ll||0}廳${lb||0}衛${lbal||0}陽台` : lo;
 
         let fList = [];
-        document.querySelectorAll('#facilityChecks input:checked').forEach(e => fList.push(e.nextElementSibling.innerText));
+        document.querySelectorAll('#facilityChecks input:checked').forEach(e => fList.push(e.value));
         let fo = gV('v_facO'); if(fo) fList.push(fo);
 
         let stList = [];
-        document.querySelectorAll('input[name="st"]:checked').forEach(e => stList.push(e.nextElementSibling.innerText));
+        document.querySelectorAll('input[name="st"]:checked').forEach(e => stList.push(e.value));
         let sto = gV('v_stO'); if(sto) stList.push(sto);
 
         let featStr = gV('v_feat');
