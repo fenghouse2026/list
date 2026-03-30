@@ -68,7 +68,8 @@
 
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
         .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
-        @media (max-width: 600px) { .grid-3, .grid-2 { grid-template-columns: 1fr; } }
+        .grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 12px; }
+        @media (max-width: 600px) { .grid-4, .grid-3, .grid-2 { grid-template-columns: 1fr; } }
         
         .other-input { display: none; margin-top: 8px; }
         .flex-row { display: flex; gap: 5px; align-items: center; }
@@ -101,7 +102,7 @@
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
         /* =========================================
-           2. 隱藏輸出排版區 (強制鎖死 直式 A4 1050x1485，極致防破圖壓縮)
+           2. 隱藏輸出排版區 (強制鎖死 直式 A4 1050x1485)
            ========================================= */
         #exportArea {
             position: absolute; left: -9999px; top: 0;
@@ -111,7 +112,7 @@
                 radial-gradient(circle at 10% 10%, rgba(255, 255, 255, 1) 0%, transparent 60%),
                 radial-gradient(circle at 90% 90%, rgba(230, 240, 250, 0.6) 0%, transparent 60%),
                 linear-gradient(135deg, #FFFFFF 0%, #F0F4F8 100%);
-            padding: 25px 30px 15px 30px; box-sizing: border-box; 
+            padding: 25px 35px 15px 35px; box-sizing: border-box; 
             display: flex; flex-direction: column; overflow: hidden;
         }
         
@@ -121,15 +122,15 @@
             position: relative; z-index: 2; flex: 1; display: flex; flex-direction: column;
             background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px);
             border: 1px solid rgba(255, 255, 255, 0.9); border-radius: 20px; box-shadow: 0 15px 40px rgba(0,0,0,0.04);
-            padding: 15px 20px; gap: 10px; height: 100%;
+            padding: 20px; gap: 12px; height: 100%;
         }
         
         .export-header { display: flex; align-items: center; justify-content: center; border-bottom: 2px solid rgba(0,0,0,0.06); padding-bottom: 8px; flex: none; margin-bottom: 5px; }
-        .export-header img { height: 40px; margin-right: 15px; }
+        .export-header img { height: 42px; margin-right: 15px; }
         .export-header-text { font-size: 28px; font-weight: 900; color: var(--brand-green); letter-spacing: 4px; display: flex; align-items: center; gap: 15px; }
         .export-header-text .sep { color: #CCC; font-weight: 300; }
 
-        /* --- 完美 11 板塊彈性網格系統 (壓縮間距防破圖) --- */
+        /* --- 完美版塊彈性網格系統 (壓縮間距防破圖) --- */
         .export-body { flex: 1; display: flex; flex-direction: column; gap: 10px; min-height: 0; }
         
         .export-grid-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; flex: none; align-items: stretch; }
@@ -141,8 +142,10 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.02); display: flex; flex-direction: column;
             border: 1px solid rgba(0,0,0,0.03); box-sizing: border-box;
         }
+        
+        .export-col-group { display: flex; flex-direction: column; gap: 10px; justify-content: space-between;}
 
-        /* 案名橫幅專用 */
+        /* 第一欄位：案名橫幅專用 */
         .export-title-block { display: flex; align-items: center; background: #FFF; border-radius: 12px; padding: 8px 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.02); border: 2px solid rgba(0,140,74,0.15); }
         .badge-name { background: var(--brand-green); color: #FFF; padding: 5px 12px; border-radius: 8px; font-weight: 900; font-size: 18px; margin-right: 12px; flex: none; letter-spacing: 2px;}
         .val-name-big { font-size: 22px; font-weight: 900; color: var(--brand-dark); flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -164,12 +167,12 @@
         /* 介紹與公設文字區 */
         .export-desc { font-size: 16px; font-weight: 900; color: #1D1D1F; line-height: 1.5; white-space: pre-wrap; flex: 1; overflow: hidden; background: transparent; padding-top: 5px;}
         
-        /* 圖片網格系統 (最大2張) */
+        /* 圖片網格系統 */
         .export-image-grid { display: grid; gap: 8px; flex: 1; min-height: 120px; border-radius: 8px; overflow: hidden; }
         .export-image-grid.count-1 { grid-template-columns: 1fr; }
         .export-image-grid.count-2 { grid-template-columns: 1fr 1fr; } 
         .export-image-grid img { width: 100%; height: 100%; object-fit: cover; border-radius: 6px; background: #EEE; }
-        .export-image-grid.empty { display: flex; background: rgba(0,0,0,0.02); border: 2px dashed rgba(0,0,0,0.1);}
+        .export-image-grid.empty { display: flex; align-items:center; justify-content:center; background: rgba(0,0,0,0.02); border: 2px dashed rgba(0,0,0,0.1); font-size:16px; font-weight:bold; color:#AAA;}
 
         .export-footer { text-align: center; font-size: 14px; font-weight: 900; color: #888; padding-top: 8px; border-top: 1px solid rgba(0,0,0,0.05); margin-top: 5px; flex: none;}
 
@@ -194,14 +197,7 @@
     </div>
 
     <form id="mainFormArea">
-        <div class="card" style="border: 2px dashed var(--brand-green); background: rgba(0,140,74,0.02);">
-            <h2 class="card-title">📸 圖片上傳 (提供兩格空間)</h2>
-            <div class="form-group">
-                <label>請選擇格局圖或實景照 (最多 2 張)</label>
-                <input type="file" id="v_images" multiple accept="image/*" style="background: #FFF; padding: 10px;">
-            </div>
-        </div>
-
+        
         <div class="card">
             <h2 class="card-title">第一欄：基本資料</h2>
             <div class="grid-2">
@@ -211,7 +207,7 @@
         </div>
 
         <div class="card">
-            <h2 class="card-title">第二欄：售價與基本</h2>
+            <h2 class="card-title">第二欄：售價與格局</h2>
             <div class="grid-2">
                 <div class="form-group"><label class="required">售價 (萬/紅字)</label><input type="text" id="v_price" class="format-num" placeholder="1198"></div>
                 <div class="form-group">
@@ -230,41 +226,51 @@
             </div>
         </div>
 
-        <div class="card">
-            <h2 class="card-title">第三欄：房屋資訊 (坪數)</h2>
-            <div class="grid-3">
-                <div class="form-group"><label>主建物 (坪)</label><input type="number" id="v_mainA" oninput="calcAreas()"></div>
-                <div class="form-group"><label>附屬建物 (坪)</label><input type="number" id="v_subA" oninput="calcAreas()"></div>
-                <div class="form-group"><label style="color:var(--brand-red);">總建坪 (主建+附屬)</label><input type="text" id="v_totBuild" readonly placeholder="自動加總"></div>
-            </div>
-            <div class="grid-3">
-                <div class="form-group"><label>地坪(肉地)</label><input type="number" id="v_landA" oninput="calcAreas()"></div>
-                <div class="form-group"><label>地坪(路地)</label><input type="number" id="v_landRoad" oninput="calcAreas()"></div>
-                <div class="form-group"><label style="color:var(--brand-red);">總地坪 (肉地+路地)</label><input type="text" id="v_totLand" readonly placeholder="自動加總"></div>
-            </div>
+        <div class="card" style="border: 2px dashed var(--brand-green); background: rgba(0,140,74,0.02);">
+            <h2 class="card-title">第三欄：圖片上傳 (提供兩格空間)</h2>
             <div class="form-group">
-                <label>增建</label>
-                <select id="v_addSel" onchange="toggle(this, 'v_addO')"><option value="空白">空白</option><option value="其他">約____幾坪/或其他</option></select>
-                <input type="text" id="v_addO" class="other-input" placeholder="例: 約5坪">
+                <label>請選擇格局圖或實景照 (最多 2 張)</label>
+                <input type="file" id="v_images" multiple accept="image/*" style="background: #FFF; padding: 10px;">
             </div>
         </div>
 
         <div class="card">
-            <h2 class="card-title">第四欄：樓層與尺寸</h2>
+            <h2 class="card-title">第四欄：房屋資訊 (坪數)</h2>
+            <div class="grid-3">
+                <div class="form-group"><label>主建物 (坪)</label><input type="number" id="v_mainA" oninput="calcAreas()"></div>
+                <div class="form-group"><label>附屬建物 (坪)</label><input type="number" id="v_subA" oninput="calcAreas()"></div>
+                <div class="form-group"><label style="color:var(--brand-red);">總建坪 (自動加總)</label><input type="text" id="v_totBuild" readonly placeholder="主建+附屬"></div>
+            </div>
+            <div class="grid-3">
+                <div class="form-group"><label>地坪(肉地)</label><input type="number" id="v_landA" oninput="calcAreas()"></div>
+                <div class="form-group"><label>地坪(路地)</label><input type="number" id="v_landRoad" oninput="calcAreas()"></div>
+                <div class="form-group"><label style="color:var(--brand-red);">總地坪 (自動加總)</label><input type="text" id="v_totLand" readonly placeholder="肉地+路地"></div>
+            </div>
+            <div class="grid-2">
+                <div class="form-group">
+                    <label>增建</label>
+                    <select id="v_addSel" onchange="toggle(this, 'v_addO')"><option value="空白">空白</option><option value="其他">約____幾坪/或其他</option></select>
+                    <input type="text" id="v_addO" class="other-input" placeholder="例: 約5坪">
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2 class="card-title">第五欄：樓層與尺寸</h2>
             <div class="grid-2">
                 <div class="form-group"><label>樓層</label><div class="flex-row"><label>共</label><input type="text" id="v_fTot"><label>樓</label></div></div>
                 <div class="form-group"><label>電梯</label><select id="v_elevSel" onchange="toggle(this,'v_elevO')"><option value="有電梯">有電梯</option><option value="無電梯">無電梯</option><option value="其他">其他</option></select><input type="text" id="v_elevO" class="other-input" placeholder="自行填寫"></div>
             </div>
             <div class="grid-2">
-                <div class="form-group"><label>管理費</label><select id="v_mFSel" onchange="toggle(this,'v_mF')"><option value="有管理費">有管理費</option><option value="無管理費">無管理費</option><option value="其他">其他(自行填寫)</option></select><input type="text" id="v_mF" class="other-input" placeholder="自行填入"></div>
+                <div class="form-group"><label>管理費</label><select id="v_mFSel" onchange="toggle(this,'v_mF')"><option value="有管理費">有管理費</option><option value="無管理費">無管理費</option><option value="其他">其他</option></select><input type="text" id="v_mF" class="other-input" placeholder="自行填入"></div>
                 <div class="form-group">
                     <label>管理員上班時間</label>
-                    <select id="v_mTS" onchange="toggle(this, 'v_mTO')"><option value="有管理員">有管理員</option><option value="無管理員">無管理員</option><option value="24H">24H</option><option value="早晚">早上__點到晚上__點</option><option value="其他">其他(自行填寫)</option></select>
+                    <select id="v_mTS" onchange="toggle(this, 'v_mTO')"><option value="有管理員">有管理員</option><option value="無管理員">無管理員</option><option value="24H">24H</option><option value="早晚">早上__點到晚上__點</option><option value="其他">其他</option></select>
                     <div id="v_mTimeBox" class="other-input flex-row"><label>早</label><input type="text" id="v_mT1"><label>點 到晚</label><input type="text" id="v_mT2"><label>點</label></div>
                     <input type="text" id="v_mTO" class="other-input" placeholder="自行填入">
                 </div>
             </div>
-            <div class="grid-2">
+            <div class="grid-4">
                 <div class="form-group"><label>一樓樓高 (米)</label><input type="text" id="v_h1" placeholder="填寫米數"></div>
                 <div class="form-group"><label>面寬 (米)</label><input type="text" id="v_wS" placeholder="填寫米數"></div>
                 <div class="form-group"><label>深度 (米)</label><input type="text" id="v_dpS" placeholder="填寫米數"></div>
@@ -273,7 +279,7 @@
         </div>
 
         <div class="card">
-            <h2 class="card-title">第五欄：車位</h2>
+            <h2 class="card-title">第六欄：車位</h2>
             <div class="grid-3">
                 <div class="form-group">
                     <label>汽車位</label>
@@ -298,7 +304,7 @@
         </div>
 
         <div class="card">
-            <h2 class="card-title">第六欄：座向</h2>
+            <h2 class="card-title">第七欄：座向</h2>
             <div class="form-group">
                 <label>房屋座向</label>
                 <select id="v_dH" onchange="toggle(this,'v_dHO')"><option value="空白">空白</option><option value="朝東">朝東</option><option value="朝西">朝西</option><option value="朝南">朝南</option><option value="朝北">朝北</option><option value="朝東南">朝東南</option><option value="朝東北">朝東北</option><option value="朝西南">朝西南</option><option value="朝西北">朝西北</option><option value="其他">其他</option></select>
@@ -307,7 +313,7 @@
         </div>
 
         <div class="card">
-            <h2 class="card-title">第七欄：建案與公設</h2>
+            <h2 class="card-title">第八欄：建案與公設</h2>
             <div class="grid-2">
                 <div class="form-group">
                     <label>建案名</label>
@@ -342,7 +348,7 @@
         </div>
 
         <div class="card">
-            <h2 class="card-title">第八欄：補充資訊</h2>
+            <h2 class="card-title">第九欄：補充資訊</h2>
             <div class="grid-2">
                 <div class="form-group"><label>是否有太陽能</label><select id="v_solar" onchange="toggle(this,'v_solarO')"><option value="空白">空白</option><option value="有私有太陽能">有私有太陽能</option><option value="無私有太陽能">無私有太陽能</option><option value="租賃太陽能">租賃太陽能</option><option value="社區頂樓租賃的太陽能">社區頂樓租賃的太陽能</option><option value="其他">其他(自行填寫)</option></select><input type="text" id="v_solarO" class="other-input"></div>
                 <div class="form-group"><label>瓦斯方式</label><select id="v_gas" onchange="toggle(this,'v_gasO')"><option value="空白">空白</option><option value="天然瓦斯">天然瓦斯</option><option value="桶裝瓦斯">桶裝瓦斯</option><option value="無瓦斯">無瓦斯</option><option value="其他">其他</option></select><input type="text" id="v_gasO" class="other-input"></div>
@@ -353,7 +359,7 @@
         </div>
 
         <div class="card">
-            <h2 class="card-title">第九欄：學區及環境</h2>
+            <h2 class="card-title">第十欄：學區及環境</h2>
             <div class="grid-2">
                 <div class="form-group"><label>附近學校</label><select id="v_schSel" onchange="toggle(this,'v_sch')"><option value="空白">空白</option><option value="其他">自行填入</option></select><input type="text" id="v_sch" class="other-input" placeholder="填入學校"></div>
                 <div class="form-group">
@@ -376,7 +382,7 @@
         </div>
 
         <div class="card">
-            <h2 class="card-title">第十欄：物件介紹 (圖片滿版區)</h2>
+            <h2 class="card-title">第十一欄：物件介紹</h2>
             <div class="form-group">
                 <textarea id="v_feat" rows="5" placeholder="自行輸入超大介紹..."></textarea>
             </div>
@@ -502,11 +508,16 @@
             </div>
 
             <div class="export-grid-2col">
-                <div class="export-section" id="box_proj_section">
-                    <div class="export-title">【建案與公設】</div>
-                    <div class="export-item" id="box_proj1"><div class="export-key">建案名</div><div class="export-val" id="o_proj1"></div></div>
-                    <div class="export-item" id="box_proj2"><div class="export-key">建商名</div><div class="export-val" id="o_proj2"></div></div>
-                    <div class="export-desc" id="o_fac" style="margin-top:5px;"></div>
+                <div class="export-col-group">
+                    <div class="export-section" id="box_proj_section">
+                        <div class="export-title">【建案】</div>
+                        <div class="export-item" id="box_proj1"><div class="export-key">建案名</div><div class="export-val" id="o_proj1"></div></div>
+                        <div class="export-item" id="box_proj2"><div class="export-key">建商名</div><div class="export-val" id="o_proj2"></div></div>
+                    </div>
+                    <div class="export-section" style="flex: 1;">
+                        <div class="export-title">【公設】</div>
+                        <div class="export-desc" id="o_fac" style="padding-top: 5px;"></div>
+                    </div>
                 </div>
                 <div class="export-section">
                     <div class="export-title">【其他補充】</div>
@@ -686,12 +697,12 @@
         }
         setTxt('o_fl', fl);
 
-        let elType = gS('v_eSel', 'v_eO');
+        let elType = gS('v_elevSel', 'v_elevO');
         if(elType === '自行填寫') elType = gV('v_elevO') || '空白';
         setTxt('o_elev', elType);
         
         let mf = gS('v_mFSel', 'v_mF');
-        if(mf === '其他(自行填寫)') mf = gV('v_mF') || '空白';
+        if(mf === '其他') mf = gV('v_mF') || '空白';
         setTxt('o_mF', mf);
         
         let mts=gV('v_mTS');
@@ -722,14 +733,14 @@
         // 車位
         setTxt('o_cT', gS('v_carT', 'v_carTO'));
         let cN = gS('v_carNSel', 'v_carNO');
-        if(cN === '其他' || cN === '自行填寫') {
+        if(cN === '自行填寫') {
             let cl=gV('v_carL'), cn=gV('v_carN'); 
             cN = (cl||cn) ? `位於${cl||'_'}層${cn||'_'}號` : gV('v_carNO2')||'空白';
         }
         setTxt('o_cN', cN);
 
         let mN = gS('v_motoNSel', 'v_motoNO');
-        if(mN === '其他' || mN === '自行填寫') {
+        if(mN === '自行填寫') {
             mN = gV('v_motoN') ? gV('v_motoN')+'號' : gV('v_motoNO2')||'空白';
         }
         setTxt('o_mN', mN);
@@ -750,7 +761,7 @@
             if(e.nextElementSibling) facArr.push(e.nextElementSibling.innerText);
         });
         if(gV('v_facO')) facArr.push(gV('v_facO'));
-        setTxt('o_fac', facArr.length>0 ? facArr.join('、') : '空白');
+        setTxt('o_fac', facArr.length>0 ? facArr.join('、') : '無');
 
         // 介紹
         let feat = gV('v_feat');
@@ -835,7 +846,7 @@
         }
     }
 
-    // 📋 強制複製黑科技 (即時更新，不上版權)
+    // 📋 強制複製黑科技 (即時更新)
     function fallbackCopyTextToClipboard(text) {
         var ta = document.createElement("textarea");
         ta.value = text; ta.style.position = "fixed"; ta.style.left = "-9999px";
@@ -886,12 +897,12 @@
         }
 
         let cN = gS('v_carNSel', 'v_carNO');
-        if(cN === '其他' || cN === '自行填寫') {
+        if(cN === '自行填寫') {
             let cl=gV('v_carL'), cn=gV('v_carN'); 
             cN = (cl||cn) ? `位於${cl||'_'}層${cn||'_'}號` : gV('v_carNO2')||'空白';
         }
         let mN = gS('v_motoNSel', 'v_motoNO');
-        if(mN === '其他' || mN === '自行填寫') {
+        if(mN === '自行填寫') {
             mN = gV('v_motoN') ? gV('v_motoN')+'號' : gV('v_motoNO2')||'空白';
         }
         
@@ -905,7 +916,7 @@
         if(elType === '自行填寫') elType = gV('v_elevO') || '空白';
         
         let mf = gS('v_mFSel', 'v_mF');
-        if(mf === '其他(自行填寫)' || mf === '其他') mf = gV('v_mF') || '空白';
+        if(mf === '其他') mf = gV('v_mF') || '空白';
 
         const text = `【基本資料】\n` +
                      `類型：${gV('v_type')} | 現況：${gV('v_status')}\n` +
