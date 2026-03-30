@@ -96,17 +96,17 @@
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
         /* =========================================
-           2. 隱藏輸出排版區 (完美重構: 直式 A4 1050x1485)
+           2. 隱藏輸出排版區 (完美收緊：直式 A4 1050x1485)
            ========================================= */
         #exportArea {
-            position: fixed; left: -9999px; top: 0; z-index: -9999;
-            width: 1050px !important; height: 1485px !important;
+            position: absolute; left: -9999px; top: 0;
+            width: 1050px !important; height: 1485px !important; max-height: 1485px !important;
             background-color: #FAFAFD;
             background-image: 
                 radial-gradient(circle at 10% 10%, rgba(255, 255, 255, 1) 0%, transparent 60%),
                 radial-gradient(circle at 90% 90%, rgba(230, 240, 250, 0.6) 0%, transparent 60%),
                 linear-gradient(135deg, #FFFFFF 0%, #F0F4F8 100%);
-            padding: 35px 40px 25px 40px; box-sizing: border-box; 
+            padding: 30px 40px; box-sizing: border-box; /* 縮小外部留白 */
             display: flex; flex-direction: column; overflow: hidden;
         }
         
@@ -115,47 +115,43 @@
         .export-content { 
             position: relative; z-index: 2; flex: 1; display: flex; flex-direction: column;
             background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px);
-            border: 1px solid rgba(255, 255, 255, 0.9); border-radius: 24px; box-shadow: 0 15px 40px rgba(0,0,0,0.04);
-            padding: 25px 30px; display: flex; flex-direction: column; height: 100%;
+            border: 1px solid rgba(255, 255, 255, 0.9); border-radius: 20px; box-shadow: 0 15px 40px rgba(0,0,0,0.04);
+            padding: 20px 25px; gap: 15px; height: 100%; /* 收緊內部留白與間距 */
         }
         
-        .export-header { display: flex; align-items: center; justify-content: center; border-bottom: 2px solid rgba(0,0,0,0.06); padding-bottom: 15px; margin-bottom: 20px;}
-        .export-header img { height: 45px; margin-right: 15px; }
-        .export-header-text { font-size: 32px; font-weight: 900; color: var(--brand-green); letter-spacing: 4px; display: flex; align-items: center; gap: 15px; }
+        .export-header { display: flex; align-items: center; justify-content: center; border-bottom: 2px solid rgba(0,0,0,0.06); padding-bottom: 12px; margin-bottom: 5px; }
+        .export-header img { height: 40px; margin-right: 15px; }
+        .export-header-text { font-size: 30px; font-weight: 900; color: var(--brand-green); letter-spacing: 4px; display: flex; align-items: center; gap: 15px; }
         .export-header-text .sep { color: #CCC; font-weight: 300; }
 
-        /* --- 核心排版網格系統 --- */
-        .export-body {
-            flex: 1; display: flex; flex-direction: column; gap: 15px; min-height: 0;
-        }
-
-        /* 頂部三欄 (基本資料 / 房屋 / 雜項) */
-        .export-row-3col { 
-            display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
-        }
+        /* 網格系統：完美六大塊配置 */
+        .export-row-3col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; } /* 第一二三欄 */
+        .export-row-mid { display: flex; flex-direction: column; gap: 15px; margin-top: 5px; } /* 第四五欄 */
+        .export-row-bot { flex: 1; display: flex; flex-direction: column; min-height: 0; margin-top: 5px; } /* 第六欄 */
 
         .export-section {
-            background: rgba(255, 255, 255, 0.85); border-radius: 16px; padding: 18px; 
+            background: rgba(255, 255, 255, 0.85); border-radius: 12px; padding: 15px; 
             box-shadow: 0 4px 15px rgba(0,0,0,0.02); display: flex; flex-direction: column;
         }
         
         .export-col-group { display: flex; flex-direction: column; gap: 15px; } /* 用於第三欄的上下堆疊 */
 
-        .export-title { font-size: 21px; font-weight: 900; color: var(--brand-green); margin-bottom: 12px; border-bottom: 2px solid rgba(0,140,74,0.15); padding-bottom: 6px; display: inline-block; width: 100%;}
+        .export-title { font-size: 20px; font-weight: 900; color: var(--brand-green); margin-bottom: 10px; border-bottom: 2px solid rgba(0,140,74,0.15); padding-bottom: 5px; display: block; width: 100%;}
         
-        .export-item { display: flex; font-size: 17px; margin-bottom: 7px; align-items: center; background: rgba(255, 255, 255, 0.9); border-radius: 8px; padding: 10px 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.02);}
+        .export-item { display: flex; font-size: 17px; margin-bottom: 6px; align-items: center; background: rgba(255, 255, 255, 0.9); border-radius: 6px; padding: 8px 10px; box-shadow: 0 1px 5px rgba(0,0,0,0.02);}
         .export-item:last-child { margin-bottom: 0; }
-        .export-key { font-weight: 900; color: #777; width: 105px; flex-shrink: 0; }
+        .export-key { font-weight: 900; color: #777; width: 95px; flex-shrink: 0; }
         .export-val { font-weight: 900; color: #1D1D1F; flex: 1; line-height: 1.3;}
         
         /* 專屬質感顏色 */
-        .val-navy { color: var(--brand-dark); font-size: 20px; font-weight: 900; }
-        .val-price { color: var(--brand-red); font-size: 22px; font-weight: 900; }
-        .val-total { color: var(--brand-red); font-size: 22px; font-weight: 900; }
+        .val-navy { color: var(--brand-dark); font-size: 20px; }
+        .val-price { color: var(--brand-red); font-size: 22px; }
+        .val-total { color: var(--brand-red); font-size: 22px; }
+        .val-red { color: var(--brand-red); font-size: 19px; }
 
-        .export-desc { font-size: 17px; font-weight: 900; color: #1D1D1F; line-height: 1.6; white-space: pre-wrap; flex: 1; overflow: hidden; background: transparent; padding-top: 5px;}
+        .export-desc { font-size: 17px; font-weight: 900; color: #1D1D1F; line-height: 1.5; white-space: pre-wrap; flex: 1; overflow: hidden; background: transparent;}
         
-        .export-footer { text-align: center; font-size: 15px; font-weight: 900; color: #888; padding-top: 15px; border-top: 1px solid rgba(0,0,0,0.05); margin-top: 5px;}
+        .export-footer { text-align: center; font-size: 14px; font-weight: 900; color: #888; padding-top: 10px; border-top: 1px solid rgba(0,0,0,0.05); margin-top: 10px;}
 
         /* Modal 視窗 */
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 9999; justify-content: center; align-items: center; flex-direction: column; padding: 20px;}
@@ -169,11 +165,6 @@
     <div class="header">
         <img src="logo.png" alt="永義房屋" onerror="this.style.display='none'">
         <h1>成功莊敬店｜物件明細</h1>
-    </div>
-
-    <div class="category-selector">
-        <div class="cat-btn active">🏠 房屋</div>
-        <div class="cat-btn cat-disabled">🌾 土地</div>
     </div>
 
     <form id="mainFormArea">
@@ -248,7 +239,6 @@
 
         <div class="card">
             <h2 class="card-title">第三欄：座向、補充與登記</h2>
-            
             <h3 style="color:var(--brand-green); font-size:16px; margin:10px 0 10px; border-bottom:1px solid #EEE; padding-bottom:5px;">座向與環境</h3>
             <div class="grid-2">
                 <div class="form-group"><label>房屋座向</label><select id="v_dH" onchange="toggle(this,'v_dHO')"><option value="空白">空白</option><option value="朝東">朝東</option><option value="朝西">朝西</option><option value="朝南">朝南</option><option value="朝北">朝北</option><option value="朝東南">朝東南</option><option value="朝東北">朝東北</option><option value="朝西南">朝西南</option><option value="朝西北">朝西北</option><option value="其他">其他</option></select><input type="text" id="v_dHO" class="other-input"></div>
@@ -292,7 +282,7 @@
             <h2 class="card-title">第四欄：車位</h2>
             <div class="grid-2">
                 <div class="form-group">
-                    <label>汽車位類型</label>
+                    <label>汽車位</label>
                     <select id="v_carT" onchange="toggle(this, 'v_carTO')">
                         <option value="空白">空白</option><option value="無">無</option><option value="透天可停一台">透天可停一台</option><option value="透天可停兩台">透天可停兩台</option><option value="平面車位">平面車位</option><option value="機械式上層">機械式上層</option><option value="機械式中間層">機械式中間層</option><option value="機械式下層">機械式下層</option><option value="機械式平移上層">機械式平移上層</option><option value="機械式平移下層">機械式平移下層</option><option value="機械式平移中間層">機械式平移中間層</option><option value="其他">或其他(自行填入)</option>
                     </select>
@@ -410,7 +400,7 @@
                     <div class="export-item"><div class="export-key">現況</div><div class="export-val" id="o_status"></div></div>
                     <div class="export-item"><div class="export-key">案名</div><div class="export-val val-navy" id="o_name"></div></div>
                     <div class="export-item"><div class="export-key">售價</div><div class="export-val val-price" id="o_price"></div></div>
-                    <div class="export-item"><div class="export-key">格局</div><div class="export-val" id="o_lay"></div></div>
+                    <div class="export-item"><div class="export-key">格局</div><div class="export-val val-red" id="o_lay"></div></div>
                     <div class="export-item"><div class="export-key">主建物</div><div class="export-val" id="o_mA"></div></div>
                     <div class="export-item"><div class="export-key">附屬建物</div><div class="export-val" id="o_sA"></div></div>
                     <div class="export-item"><div class="export-key">主+附</div><div class="export-val" id="o_inA"></div></div>
@@ -465,27 +455,32 @@
                 </div>
             </div>
 
-            <div class="export-section">
-                <div class="export-title">【車位】</div>
-                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px;">
-                    <div class="export-item" style="margin-bottom:0;"><div class="export-key" style="width:100px;">汽車位</div><div class="export-val" id="o_cT"></div></div>
-                    <div class="export-item" style="margin-bottom:0;"><div class="export-key" style="width:100px;">汽車號碼</div><div class="export-val" id="o_cN"></div></div>
-                    <div class="export-item" style="margin-bottom:0;"><div class="export-key" style="width:100px;">機車號碼</div><div class="export-val" id="o_mN"></div></div>
+            <div class="export-row-mid">
+                <div class="export-section" style="display: flex; flex-direction: row; align-items: center; padding: 12px 18px; gap: 15px;">
+                    <div class="export-title" style="margin: 0; border: none; padding: 0; width: 80px;">【車位】</div>
+                    <div class="export-item" style="margin: 0; flex: 1;"><div class="export-key" style="width: auto; margin-right: 10px;">汽車位</div><div class="export-val" id="o_cT"></div></div>
+                    <div class="export-item" style="margin: 0; flex: 1.5;"><div class="export-key" style="width: auto; margin-right: 10px;">汽車號碼</div><div class="export-val" id="o_cN"></div></div>
+                    <div class="export-item" style="margin: 0; flex: 1;"><div class="export-key" style="width: auto; margin-right: 10px;">機車號碼</div><div class="export-val" id="o_mN"></div></div>
+                </div>
+                
+                <div class="export-section" style="display: flex; flex-direction: column; padding: 15px; gap: 10px;">
+                    <div style="display: flex; align-items: center; gap: 15px;" id="box_proj_section">
+                        <div class="export-title" style="margin: 0; border: none; padding: 0; width: 80px;">【建案】</div>
+                        <div class="export-item" id="box_proj1" style="margin: 0; flex: 1;"><div class="export-val" id="o_proj1"></div></div>
+                        <div class="export-item" id="box_proj2" style="margin: 0; flex: 1;"><div class="export-val" id="o_proj2"></div></div>
+                    </div>
+                    <div style="display: flex; align-items: flex-start; gap: 15px;">
+                        <div class="export-title" style="margin: 0; border: none; padding: 0; width: 80px; padding-top: 5px;">【公設】</div>
+                        <div class="export-desc" id="o_fac" style="margin: 0; background: rgba(255, 255, 255, 0.9); border-radius: 8px; padding: 8px 12px; box-shadow: 0 1px 5px rgba(0,0,0,0.02);"></div>
+                    </div>
                 </div>
             </div>
 
-            <div class="export-section">
-                <div style="display:flex; gap:15px; margin-bottom: 10px;" id="box_proj_section">
-                    <div class="export-item" id="box_proj1" style="flex:1; margin-bottom:0;"><div class="export-key" style="width:100px;">建案名</div><div class="export-val" id="o_proj1"></div></div>
-                    <div class="export-item" id="box_proj2" style="flex:1; margin-bottom:0;"><div class="export-key" style="width:100px;">建商名</div><div class="export-val" id="o_proj2"></div></div>
+            <div class="export-row-bot">
+                <div class="export-section" style="flex: 1; background: rgba(0,140,74,0.03); border: 2px solid rgba(0,140,74,0.2);">
+                    <div class="export-title" style="border: none;">【物件介紹】</div>
+                    <div class="export-desc" id="o_feat" style="background: transparent; box-shadow: none; padding: 0; flex: 1;"></div>
                 </div>
-                <div class="export-title" style="margin-bottom: 5px;">【公設】</div>
-                <div class="export-desc" id="o_fac" style="padding-top:0;"></div>
-            </div>
-
-            <div class="export-section flex-1" style="border: 2px solid rgba(0,140,74,0.3); background: rgba(0,140,74,0.03);">
-                <div class="export-title" style="border:none;">【物件介紹】</div>
-                <div class="export-desc" id="o_feat" style="background:transparent; box-shadow:none;"></div>
             </div>
         </div>
         
@@ -557,7 +552,7 @@
         return v;
     }
 
-    // 填裝資料到圖片
+    // 填裝資料到圖片 (嚴格依據六大板塊)
     function bindData() {
         document.getElementById('o_type').innerText = gV('v_type');
         document.getElementById('o_status').innerText = gV('v_status');
@@ -617,7 +612,7 @@
         document.getElementById('o_dep').innerText = gS('v_dpS','v_dpO');
         document.getElementById('o_rw').innerText = gS('v_rwS','v_rwO');
 
-        // 第三欄：座向/補充/登記
+        // 第三欄：其他資訊 / 座向 / 登記
         document.getElementById('o_solar').innerText = gS('v_solar','v_solarO');
         document.getElementById('o_gas').innerText = gS('v_gas','v_gasO');
         document.getElementById('o_mat').innerText = gS('v_mat','v_matO');
@@ -662,9 +657,9 @@
         document.getElementById('o_mN').innerText = mN;
 
         // 第五欄：建案與公設
-        let p1 = gS('v_proj1','v_proj1O'); document.getElementById('o_proj1').innerText = p1 !== '空白' && p1 !== '無' ? p1 : '空白';
+        let p1 = gS('v_proj1','v_proj1O'); document.getElementById('o_proj1').innerText = p1 !== '空白' && p1 !== '無' ? `建案名：${p1}` : '';
         document.getElementById('box_proj1').style.display = (p1 === '空白' || p1 === '無') ? 'none' : 'flex';
-        let p2 = gS('v_proj2','v_proj2O'); document.getElementById('o_proj2').innerText = p2 !== '空白' && p2 !== '無' ? p2 : '空白';
+        let p2 = gS('v_proj2','v_proj2O'); document.getElementById('o_proj2').innerText = p2 !== '空白' && p2 !== '無' ? `建商名：${p2}` : '';
         document.getElementById('box_proj2').style.display = (p2 === '空白' || p2 === '無') ? 'none' : 'flex';
         if((p1 === '空白' || p1 === '無') && (p2 === '空白' || p2 === '無')) document.getElementById('box_proj_section').style.display = 'none';
         else document.getElementById('box_proj_section').style.display = 'flex';
@@ -679,7 +674,7 @@
         document.getElementById('o_feat').innerText = feat || '空白';
     }
 
-    // 🏆 安全渲染畫布 (穩定直式 A4)
+    // 🏆 安全渲染畫布 (強制鎖定 A4 直式)
     async function generateCanvas() {
         document.getElementById('loader').style.display = 'flex';
         
@@ -699,7 +694,7 @@
                 scale: 1.5, 
                 useCORS: true, 
                 allowTaint: true,
-                imageTimeout: 2000,
+                imageTimeout: 2000, 
                 backgroundColor: '#FAFAFD',
                 width: 1050,
                 height: 1485
@@ -747,7 +742,7 @@
         }
     }
 
-    // 📋 強制複製黑科技
+    // 📋 強制複製黑科技 (移除結尾宣告)
     function fallbackCopyTextToClipboard(text) {
         var ta = document.createElement("textarea");
         ta.value = text; ta.style.position = "fixed"; ta.style.left = "-9999px";
@@ -825,7 +820,7 @@
                      `家門向：${gS('v_dD', 'v_dDO')} | 落地窗：${gS('v_dW', 'v_dWO')}\n` +
                      `學校：${sch}\n` +
                      `超商：${stList.join('、')}\n\n` +
-                     `【補充】\n` +
+                     `【其他資訊】\n` +
                      `太陽能：${gS('v_solar', 'v_solarO')}\n` +
                      `瓦斯/建材：${gS('v_gas', 'v_gasO')} / ${gS('v_mat', 'v_matO')}\n` +
                      `用途/分區：${gV('v_use')} / ${gS('v_zon', 'v_zonO')}\n\n` +
