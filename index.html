@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>永義房屋 成功莊敬店 - 物件明細建檔</title>
+    <title>永義房屋 成功莊敬店 - 物件明細建檔系統</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         /* =========================================
@@ -29,12 +29,10 @@
         }
         .container { max-width: 900px; margin: 0 auto; }
 
-        /* 頂部標題 */
         .header { text-align: center; margin-bottom: 25px; }
         .header img { height: 45px; margin-bottom: 10px; }
         .header h1 { color: var(--brand-green); font-size: 22px; margin: 0; font-weight: 900; letter-spacing: 1px;}
 
-        /* 動作按鈕區 */
         .top-actions { display: flex; gap: 10px; justify-content: center; margin-bottom: 25px; flex-wrap: wrap;}
         .btn-action {
             background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px);
@@ -48,17 +46,6 @@
         .btn-action.btn-pc { color: var(--brand-dark); border-color: rgba(0,31,91,0.3); }
         .btn-action.btn-copy { background: #111; color: #FFF; width: 100%; flex: none; border: none; margin-top: 5px;}
 
-        /* 類別切換 */
-        .category-selector { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 25px; }
-        .cat-btn {
-            background: rgba(255, 255, 255, 0.5); backdrop-filter: blur(20px);
-            border: 1px solid rgba(255,255,255,0.8); border-radius: var(--card-radius);
-            padding: 15px; text-align: center; font-size: 18px; font-weight: 900; color: #777; transition: 0.3s;
-        }
-        .cat-btn.active { background: #FFF; color: var(--brand-green); box-shadow: 0 8px 25px rgba(0,140,74,0.1); border-color: var(--brand-green); }
-        .cat-disabled { opacity: 0.5; cursor: not-allowed; }
-
-        /* 輸入卡片 */
         .card {
             background: rgba(255, 255, 255, 0.75); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
             border-radius: var(--card-radius); padding: 25px 20px; margin-bottom: 25px;
@@ -81,7 +68,6 @@
         input:focus, textarea:focus, select:focus { border-color: var(--brand-green); background-color: #FFF; box-shadow: 0 0 0 4px rgba(0, 140, 74, 0.15); }
         input[readonly] { background-color: #EFEFEF; color: var(--brand-red); cursor: not-allowed; }
 
-        /* 標籤/方塊系統 */
         .chip-group { display: flex; flex-wrap: wrap; gap: 8px; }
         .chip-group input[type="radio"], .chip-group input[type="checkbox"] { display: none; }
         .chip-label { padding: 8px 14px; border: 1px solid #DDD; border-radius: 10px; font-size: 15px; font-weight: 700; cursor: pointer; background: #FFF; color: #555; transition: all 0.2s;}
@@ -103,7 +89,6 @@
         .btn-remove-row { background: none; border: none; color: #CCC; font-size: 24px; cursor: pointer; padding: 0 5px;}
         .btn-remove-row:hover { color: var(--brand-red); }
 
-        /* Loader */
         #loader { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.9); z-index: 9999; justify-content: center; align-items: center; flex-direction: column; font-size: 22px; font-weight: 900; color: var(--brand-green);}
         .spinner { border: 5px solid #f3f3f3; border-top: 5px solid var(--brand-green); border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; margin-bottom: 15px;}
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
@@ -221,11 +206,6 @@
         <button type="button" class="btn-action btn-mobile" onclick="generateMobileImage()">📱 手機一鍵儲存圖片</button>
         <button type="button" class="btn-action btn-pc" onclick="generatePCImage()">💻 電腦一鍵下載圖片</button>
         <button type="button" class="btn-action btn-copy" onclick="copyText()">📋 一鍵複製所有訊息</button>
-    </div>
-
-    <div class="category-selector">
-        <div class="cat-btn active">🏠 房屋</div>
-        <div class="cat-btn cat-disabled">🌾 土地</div>
     </div>
 
     <form id="mainFormArea">
@@ -493,7 +473,7 @@
                     <div class="export-item"><div class="export-key">地址</div><div class="export-val" id="o_iAddr"></div></div>
                     <div class="export-item"><div class="export-key">鑰匙</div><div class="export-val" id="o_iKey"></div></div>
                     <div class="export-item"><div class="export-key">房屋補充</div><div class="export-val" id="o_iSup1"></div></div>
-                    <div class="export-item"><div class="export-key">重要補充</div><div class="export-val" id="o_iSup2"></div></div>
+                    <div class="export-item" style="border-bottom:none;"><div class="export-key">重要補充</div><div class="export-val" id="o_iSup2"></div></div>
                     <div id="o_iDyn"></div>
                 </div>
             </div>
@@ -560,7 +540,7 @@
         let pr = gV('v_price'); document.getElementById('o_price').innerText = pr ? pr+'萬' : '空白';
         
         let lr=gV('v_lR'), ll=gV('v_lL'), lb=gV('v_lB'), lba=gV('v_lBa'), lo=gV('v_lOther');
-        if(lr||ll||lb||lba) document.getElementById('o_lay').innerHTML = `<span style="font-size:36px; color:var(--brand-red);">${lr||0}</span>房 <span style="font-size:36px; color:var(--brand-red);">${ll||0}</span>廳 <span style="font-size:36px; color:var(--brand-red);">${lb||0}</span>衛 <span style="font-size:36px; color:var(--brand-red);">${lba||0}</span>陽`;
+        if(lr||ll||lb||lba) document.getElementById('o_lay').innerHTML = `<span style="font-size:32px;">${lr||0}</span>房 <span style="font-size:32px;">${ll||0}</span>廳 <span style="font-size:32px;">${lb||0}</span>衛 <span style="font-size:32px;">${lba||0}</span>陽`;
         else if (lo) document.getElementById('o_lay').innerText = lo;
         else document.getElementById('o_lay').innerText = '空白';
 
@@ -586,7 +566,7 @@
         document.getElementById('o_dW').innerText = gS('v_dW','v_dWO');
         document.getElementById('o_sch').innerText = gV('v_sch') || '空白';
         
-        let stArr=[]; document.querySelectorAll('input[name="st"]:checked').forEach(e=>stArr.push(e.value));
+        let stArr=[]; document.querySelectorAll('input[name="st"]:checked').forEach(e=>stArr.push(e.nextElementSibling.innerText));
         if(gV('v_stO')) stArr.push(gV('v_stO'));
         document.getElementById('o_st').innerText = stArr.length>0 ? stArr.join('、') : '空白';
 
@@ -610,7 +590,7 @@
         document.getElementById('o_use').innerText = gV('v_use') || '空白';
         document.getElementById('o_zon').innerText = gS('v_zon','v_zonO');
 
-        let facArr=[]; document.querySelectorAll('#facilityChecks input:checked').forEach(e=>facArr.push(e.value));
+        let facArr=[]; document.querySelectorAll('#facilityChecks input:checked').forEach(e=>facArr.push(e.nextElementSibling.innerText));
         if(gV('v_facO')) facArr.push(gV('v_facO'));
         document.getElementById('o_fac').innerText = facArr.length>0 ? facArr.join('、') : '空白';
 
@@ -633,7 +613,7 @@
         
         let intD = document.getElementById('o_iDyn'); intD.innerHTML='';
         document.getElementById('dyn-int').querySelectorAll('.dyn-val').forEach(i=>{
-            if(i.value.trim()) intD.innerHTML += `<div class="export-item"><div class="export-key">自訂補充</div><div class="export-val">${i.value.trim()}</div></div>`;
+            if(i.value.trim()) intD.innerHTML += `<div class="export-item" style="border-bottom:none;"><div class="export-key">自訂補充</div><div class="export-val">${i.value.trim()}</div></div>`;
         });
     }
 
@@ -649,7 +629,7 @@
         await new Promise(r => setTimeout(r, 100));
 
         try {
-            const canvas = await html2canvas(el, { scale: 1.5, useCORS: true, backgroundColor: '#F8F9FA' });
+            const canvas = await html2canvas(el, { scale: 1.5, useCORS: true, backgroundColor: '#FFFDF9' });
             el.style.left = '-9999px';
             if(rb) rb.style.display = 'block'; 
             document.getElementById('loader').style.display = 'none';
@@ -711,7 +691,7 @@
         }
     }
 
-    // 📋 強制複製黑科技 (移除結尾電話)
+    // 📋 強制複製黑科技 (結尾無電話版)
     function fallbackCopyTextToClipboard(text) {
         var ta = document.createElement("textarea");
         ta.value = text; ta.style.position = "fixed"; ta.style.left = "-9999px";
@@ -726,11 +706,11 @@
         let layText = (lr||ll||lb||lbal) ? `${lr||0}房${ll||0}廳${lb||0}衛${lbal||0}陽台` : lo;
 
         let fList = [];
-        document.querySelectorAll('#facilityChecks input:checked').forEach(e => fList.push(e.value));
+        document.querySelectorAll('#facilityChecks input:checked').forEach(e => fList.push(e.nextElementSibling.innerText));
         let fo = gV('v_facO'); if(fo) fList.push(fo);
 
         let stList = [];
-        document.querySelectorAll('input[name="st"]:checked').forEach(e => stList.push(e.value));
+        document.querySelectorAll('input[name="st"]:checked').forEach(e => stList.push(e.nextElementSibling.innerText));
         let sto = gV('v_stO'); if(sto) stList.push(sto);
 
         let featStr = gV('v_feat');
