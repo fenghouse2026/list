@@ -77,6 +77,8 @@
         .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
         @media (max-width: 600px) { .grid-3, .grid-2 { grid-template-columns: 1fr; } }
         
+        .other-input { display: none; margin-top: 8px; }
+        
         .flex-row { display: flex; gap: 5px; align-items: center; }
         .flex-row input { flex: 1; text-align: center; font-size: 18px; font-weight: 900; color: var(--brand-red); padding: 10px 0;}
         .flex-row label { margin: 0; padding: 0 5px; color: #666; font-size: 15px; font-weight: 900; white-space: nowrap;}
@@ -85,18 +87,19 @@
         .dynamic-row { display: flex; gap: 10px; margin-top: 10px; }
         .dynamic-row input { flex: 1; }
         .btn-remove-row { background: none; border: none; color: #CCC; font-size: 24px; cursor: pointer; padding: 0 5px;}
+        .btn-remove-row:hover { color: var(--brand-red); }
 
         #loader { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.9); z-index: 9999; justify-content: center; align-items: center; flex-direction: column; font-size: 22px; font-weight: 900; color: var(--brand-green);}
         .spinner { border: 5px solid #f3f3f3; border-top: 5px solid var(--brand-green); border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; margin-bottom: 15px;}
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
         /* =========================================
-           2. 輸出排版區 (A4 橫式, 水晶玻璃設計)
+           2. 隱藏輸出排版區 (A4 橫式, 水晶玻璃 APPLE 美學)
            ========================================= */
         #exportArea {
             position: absolute; left: -9999px; top: 0;
             width: 1485px; min-height: 1050px; height: auto; 
-            background-color: #F0F4F8;
+            background-color: #FAFAFD;
             background-image: 
                 radial-gradient(circle at 10% 10%, rgba(255, 255, 255, 1) 0%, transparent 60%),
                 radial-gradient(circle at 90% 90%, rgba(230, 240, 250, 0.6) 0%, transparent 60%),
@@ -104,31 +107,73 @@
             padding: 50px 60px; box-sizing: border-box; 
             display: flex; flex-direction: column;
         }
+        
         .export-watermark {
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
             width: 800px; opacity: 0.03; pointer-events: none; z-index: 1; filter: grayscale(100%);
         }
+
         .export-content { 
             position: relative; z-index: 2; flex: 1; display: flex; flex-direction: column;
             background: rgba(255, 255, 255, 0.5); backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px);
-            border: 1px solid rgba(255, 255, 255, 0.9); border-radius: 30px; padding: 40px; box-shadow: 0 20px 60px rgba(0,0,0,0.04);
+            border: 1px solid rgba(255, 255, 255, 0.9); border-radius: 30px; box-shadow: 0 20px 60px rgba(0,0,0,0.04);
+            padding: 40px;
         }
+        
         .export-header {
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            border-bottom: 2px solid rgba(0,0,0,0.06); padding-bottom: 25px; margin-bottom: 35px;
+            border-bottom: 2px solid rgba(0,0,0,0.06); padding-bottom: 25px; margin-bottom: 35px; background: transparent;
         }
-        .export-header-text { font-size: 38px; font-weight: 900; color: var(--brand-green); letter-spacing: 4px; }
+        .export-header img { height: 75px; margin-bottom: 15px; }
+        .export-header-text { 
+            font-size: 38px; font-weight: 900; color: var(--brand-green); 
+            letter-spacing: 4px; display: flex; align-items: center; gap: 15px;
+        }
+        .export-header-text .sep { color: #CCC; font-weight: 300; }
+
         .export-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 50px; flex: 1;}
-        .export-title { font-size: 28px; font-weight: 900; color: var(--brand-green); margin-bottom: 20px; border-bottom: 3px solid rgba(0,140,74,0.2); padding-bottom: 8px; display: block;}
-        .export-item { display: flex; font-size: 24px; margin-bottom: 16px; align-items: center; background: rgba(255, 255, 255, 0.9); border-radius: 12px; padding: 12px 18px; box-shadow: 0 4px 15px rgba(0,0,0,0.02);}
+        .export-col { display: flex; flex-direction: column; }
+        
+        .export-title { 
+            font-size: 28px; font-weight: 900; color: var(--brand-green); 
+            margin-bottom: 20px; letter-spacing: 2px; 
+            border-bottom: 3px solid rgba(0,140,74,0.2); padding-bottom: 8px; display: inline-block;
+        }
+        
+        .export-item { 
+            display: flex; font-size: 24px; margin-bottom: 16px; align-items: center;
+            background: rgba(255, 255, 255, 0.9); border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.02); padding: 12px 18px;
+        }
         .export-key { font-weight: 900; color: #777; width: 160px; flex-shrink: 0; }
         .export-val { font-weight: 900; color: #1D1D1F; flex: 1; line-height: 1.4;}
-        .val-price { color: var(--brand-dark); font-size: 36px; }
+        
+        /* 專屬顏色設定 */
+        .val-navy { color: var(--brand-dark); font-size: 32px; }
+        .val-price { color: var(--brand-red); font-size: 36px; }
         .val-total { color: var(--brand-red); font-size: 42px; }
-        .export-desc { font-size: 24px; font-weight: 900; color: #1D1D1F; line-height: 1.7; white-space: pre-wrap; margin-bottom: 20px; background: rgba(255, 255, 255, 0.9); border-radius: 16px; padding: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.02);}
-        .export-redbox { border: 3px solid rgba(216, 42, 41, 0.6); padding: 25px; margin-top: auto; background: rgba(255, 245, 245, 0.9); border-radius: 20px;}
-        .export-redbox-title { color: var(--brand-red); font-size: 28px; font-weight: 900; margin-bottom: 20px; text-align: center;}
+        .val-red { color: var(--brand-red); font-size: 30px;}
+
+        .export-desc { 
+            font-size: 24px; font-weight: 900; color: #1D1D1F; line-height: 1.7; white-space: pre-wrap; margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.9); border-radius: 16px; padding: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+        }
+        
+        .export-redbox { 
+            border: 3px solid rgba(216, 42, 41, 0.6); padding: 25px; margin-top: auto; 
+            background: rgba(255, 245, 245, 0.9); border-radius: 20px;
+        }
+        .export-redbox-title { 
+            color: var(--brand-red); font-size: 28px; font-weight: 900; 
+            margin-bottom: 20px; text-align: center; letter-spacing: 2px;
+        }
+        .export-redbox .export-key { color: var(--brand-red); }
+        .export-redbox .export-val { color: var(--brand-red); }
         .export-redbox .export-item { background: transparent; box-shadow: none; border-bottom: 1px dashed rgba(216,42,41,0.2); padding: 8px 0; margin-bottom: 10px; border-radius: 0;}
+        .export-redbox .export-item:last-child { border-bottom: none; padding-bottom: 0; margin-bottom: 0;}
+
+        /* 備用長按視窗 */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 9999; justify-content: center; align-items: center; flex-direction: column; padding: 20px;}
     </style>
 </head>
 <body>
@@ -144,7 +189,7 @@
     <div class="top-actions">
         <button type="button" class="btn-action btn-mobile" onclick="generateMobileImage()">📱 手機一鍵儲存圖片</button>
         <button type="button" class="btn-action btn-pc" onclick="generatePCImage()">💻 電腦一鍵下載圖片</button>
-        <button type="button" class="btn-action btn-copy" id="copyBtn" onclick="copyText()">📋 一鍵複製所有訊息</button>
+        <button type="button" class="btn-action btn-copy" onclick="copyText()">📋 一鍵複製所有訊息</button>
     </div>
 
     <form id="mainFormArea">
@@ -246,7 +291,20 @@
                 <div class="form-group"><label>主要用途</label><input type="text" id="v_use" value="集合住宅"></div>
                 <div class="form-group"><label>使用分區</label><select id="v_zon" onchange="toggle(this,'v_zonO')"><option value="住宅區">住宅區</option><option value="商業區">商業區</option><option value="甲種建地">甲種建地</option><option value="乙種建地">乙種建地</option><option value="丙種建地">丙種建地</option><option value="丁種建地">丁種建地</option><option value="都計內乙工">都計內乙工</option><option value="其他">其他</option></select><input type="text" id="v_zonO" class="other-input"></div>
             </div>
-            <div class="form-group">
+
+            <h3 style="color:var(--brand-green); font-size:16px; margin:20px 0 10px; border-bottom:1px solid #EEE; padding-bottom:5px;">建案資訊</h3>
+            <div class="grid-2">
+                <div class="form-group">
+                    <select id="v_proj1" onchange="toggle(this, 'v_proj1O')"><option value="空白">空白</option><option value="其他">自行填入</option></select>
+                    <input type="text" id="v_proj1O" class="other-input" placeholder="填入資訊">
+                </div>
+                <div class="form-group">
+                    <select id="v_proj2" onchange="toggle(this, 'v_proj2O')"><option value="空白">空白</option><option value="其他">自行填入</option></select>
+                    <input type="text" id="v_proj2O" class="other-input" placeholder="填入資訊">
+                </div>
+            </div>
+
+            <div class="form-group" style="margin-top: 15px;">
                 <label style="border-bottom:1px solid #EEE; padding-bottom:5px;">公設勾選</label>
                 <div class="chip-group" style="margin-top:8px;" id="facilityChecks">
                     <input type="checkbox" name="fac" id="f1" value="大廳"><label class="chip-label" for="f1">大廳</label>
@@ -299,7 +357,7 @@
             </div>
 
             <div class="grid-2">
-                <div class="form-group"><label>登記原因</label><select id="v_rRes"><option value="空白">空白</option><option value="買賣">買賣</option><option value="繼承">繼承</option><option value="贈與">贈與</option></select></div>
+                <div class="form-group"><label>取得原因</label><select id="v_rRes"><option value="空白">空白</option><option value="買賣">買賣</option><option value="繼承">繼承</option><option value="贈與">贈與</option></select></div>
                 <div class="form-group"><label>售屋動機</label><select id="v_mo" onchange="toggle(this,'v_moO')"><option value="空白">空白</option><option value="無">無</option><option value="轉投資">轉投資</option><option value="工作關係">工作關係</option><option value="閒置資產">閒置資產</option><option value="其他">其他</option></select><input type="text" id="v_moO" class="other-input"></div>
             </div>
             <div class="form-group"><label>登記日期</label><div class="flex-row"><input type="tel" id="v_ry"><label>年</label><input type="tel" id="v_rm"><label>月</label><input type="tel" id="v_rd"><label>日</label></div></div>
@@ -314,6 +372,12 @@
                 <div class="form-group"><label>開發人員</label><input type="text" id="v_iDev"></div>
                 <div class="form-group"><label>📌 地址</label><input type="text" id="v_iAddr"></div>
                 <div class="form-group"><label>🔑 鑰匙</label><input type="text" id="v_iKey"></div>
+                <div class="form-group"><label>服務費</label><div class="flex-row"><input type="number" id="v_iFee"><label>%</label></div></div>
+            </div>
+            <div class="form-group">
+                <label>中人費</label>
+                <select id="v_iBroker" onchange="toggle(this, 'v_iBrokerO')"><option value="無">無</option><option value="有">有</option><option value="其他">自行填寫</option></select>
+                <input type="text" id="v_iBrokerO" class="other-input" placeholder="填寫中人費">
             </div>
             <div class="form-group"><label>房屋補充說明</label><input type="text" id="v_iSup1" placeholder="※例如有漏水"></div>
             <div class="form-group"><label>重要補充說明</label><input type="text" id="v_iSup2"></div>
@@ -346,7 +410,7 @@
                 <div class="export-title">【基本資料】</div>
                 <div class="export-item"><div class="export-key">類型</div><div class="export-val" id="o_type"></div></div>
                 <div class="export-item"><div class="export-key">現況</div><div class="export-val" id="o_status"></div></div>
-                <div class="export-item"><div class="export-key">案名</div><div class="export-val" id="o_name"></div></div>
+                <div class="export-item"><div class="export-key">案名</div><div class="export-val val-navy" id="o_name"></div></div>
                 <div class="export-item"><div class="export-key">售價</div><div class="export-val val-price" id="o_price"></div></div>
                 <div class="export-item"><div class="export-key">格局</div><div class="export-val val-red" id="o_lay"></div></div>
                 <div class="export-item"><div class="export-key">主建物</div><div class="export-val" id="o_mA"></div></div>
@@ -382,6 +446,10 @@
                 <div class="export-item"><div class="export-key">主要用途</div><div class="export-val" id="o_use"></div></div>
                 <div class="export-item"><div class="export-key">使用分區</div><div class="export-val" id="o_zon"></div></div>
                 
+                <div class="export-title" style="margin-top: 20px;">【建案資訊】</div>
+                <div class="export-item" id="box_proj1"><div class="export-val" style="width:100%; text-align:center;" id="o_proj1"></div></div>
+                <div class="export-item" id="box_proj2"><div class="export-val" style="width:100%; text-align:center;" id="o_proj2"></div></div>
+
                 <div class="export-title" style="margin-top: 20px;">【公設】</div>
                 <div class="export-desc" id="o_fac"></div>
             </div>
@@ -399,7 +467,7 @@
                 <div class="export-desc" id="o_feat"></div>
 
                 <div class="export-title" style="margin-top:10px;">【登記事項】</div>
-                <div class="export-item"><div class="export-key">登記原因</div><div class="export-val" id="o_rRes"></div></div>
+                <div class="export-item"><div class="export-key">取得原因</div><div class="export-val" id="o_rRes"></div></div>
                 <div class="export-item"><div class="export-key">登記日期</div><div class="export-val" id="o_rDate"></div></div>
                 <div class="export-item"><div class="export-key">售屋動機</div><div class="export-val" id="o_mo"></div></div>
 
@@ -407,6 +475,8 @@
                     <div class="export-redbox-title">⚠️【 內部資料不公開】</div>
                     <div class="export-item"><div class="export-key">委託種類</div><div class="export-val" id="o_iTyp"></div></div>
                     <div class="export-item"><div class="export-key">委託編號</div><div class="export-val" id="o_iNo"></div></div>
+                    <div class="export-item"><div class="export-key">服務費</div><div class="export-val" id="o_iFee"></div></div>
+                    <div class="export-item"><div class="export-key">中人費</div><div class="export-val" id="o_iBroker"></div></div>
                     <div class="export-item"><div class="export-key">開發人員</div><div class="export-val" id="o_iDev"></div></div>
                     <div class="export-item"><div class="export-key">地址</div><div class="export-val" id="o_iAddr"></div></div>
                     <div class="export-item"><div class="export-key">鑰匙</div><div class="export-val" id="o_iKey"></div></div>
@@ -463,9 +533,11 @@
         c.appendChild(d);
     }
 
-    const gV = (id) => document.getElementById(id).value.trim();
+    const gV = (id) => { const el = document.getElementById(id); return el ? el.value.trim() : ''; }
     const gS = (sel, oth) => {
-        const v = document.getElementById(sel).value;
+        const el = document.getElementById(sel);
+        if(!el) return '空白';
+        const v = el.value;
         if(v.includes('其他')||v.includes('填寫')) return document.getElementById(oth).value.trim() || '空白';
         return v;
     }
@@ -478,7 +550,7 @@
         let pr = gV('v_price'); document.getElementById('o_price').innerText = pr ? pr+'萬' : '空白';
         
         let lr=gV('v_lR'), ll=gV('v_lL'), lb=gV('v_lB'), lba=gV('v_lBa'), lo=gV('v_lOther');
-        if(lr||ll||lb||lba) document.getElementById('o_lay').innerHTML = `<span style="font-size:36px; color:var(--brand-red);">${lr||0}</span>房 <span style="font-size:36px; color:var(--brand-red);">${ll||0}</span>廳 <span style="font-size:36px; color:var(--brand-red);">${lb||0}</span>衛 <span style="font-size:36px; color:var(--brand-red);">${lba||0}</span>陽`;
+        if(lr||ll||lb||lba) document.getElementById('o_lay').innerHTML = `<span style="font-size:30px; color:var(--brand-red);">${lr||0}</span>房 <span style="font-size:30px; color:var(--brand-red);">${ll||0}</span>廳 <span style="font-size:30px; color:var(--brand-red);">${lb||0}</span>衛 <span style="font-size:30px; color:var(--brand-red);">${lba||0}</span>陽`;
         else if (lo) document.getElementById('o_lay').innerText = lo;
         else document.getElementById('o_lay').innerText = '空白';
 
@@ -504,7 +576,7 @@
         document.getElementById('o_dW').innerText = gS('v_dW','v_dWO');
         document.getElementById('o_sch').innerText = gV('v_sch') || '空白';
         
-        let stArr=[]; document.querySelectorAll('input[name="st"]:checked').forEach(e=>stArr.push(e.value));
+        let stArr=[]; document.querySelectorAll('input[name="st"]:checked').forEach(e=>stArr.push(e.nextElementSibling.innerText));
         if(gV('v_stO')) stArr.push(gV('v_stO'));
         document.getElementById('o_st').innerText = stArr.length>0 ? stArr.join('、') : '空白';
 
@@ -528,7 +600,13 @@
         document.getElementById('o_use').innerText = gV('v_use') || '空白';
         document.getElementById('o_zon').innerText = gS('v_zon','v_zonO');
 
-        let facArr=[]; document.querySelectorAll('#facilityChecks input:checked').forEach(e=>facArr.push(e.value));
+        // 建案資訊
+        let p1 = gS('v_proj1','v_proj1O'); document.getElementById('o_proj1').innerText = p1;
+        document.getElementById('box_proj1').style.display = p1 === '空白' ? 'none' : 'flex';
+        let p2 = gS('v_proj2','v_proj2O'); document.getElementById('o_proj2').innerText = p2;
+        document.getElementById('box_proj2').style.display = p2 === '空白' ? 'none' : 'flex';
+
+        let facArr=[]; document.querySelectorAll('#facilityChecks input:checked').forEach(e=>facArr.push(e.nextElementSibling.innerText));
         if(gV('v_facO')) facArr.push(gV('v_facO'));
         document.getElementById('o_fac').innerText = facArr.length>0 ? facArr.join('、') : '空白';
 
@@ -543,6 +621,8 @@
         // 機密區填充 (在圖片上會自動隱藏)
         document.getElementById('o_iTyp').innerText = gV('v_iTyp');
         document.getElementById('o_iNo').innerText = gV('v_iNo') || '空白';
+        let fee = gV('v_iFee'); document.getElementById('o_iFee').innerText = fee ? fee+'%' : '空白';
+        document.getElementById('o_iBroker').innerText = gS('v_iBroker', 'v_iBrokerO');
         document.getElementById('o_iDev').innerText = gV('v_iDev') || '空白';
         document.getElementById('o_iAddr').innerText = gV('v_iAddr') || '空白';
         document.getElementById('o_iKey').innerText = gV('v_iKey') || '空白';
@@ -551,7 +631,7 @@
         
         let intD = document.getElementById('o_iDyn'); intD.innerHTML='';
         document.getElementById('dyn-int').querySelectorAll('.dyn-val').forEach(i=>{
-            if(i.value.trim()) intD.innerHTML += `<div class="export-item"><div class="export-key">自訂補充</div><div class="export-val">${i.value.trim()}</div></div>`;
+            if(i.value.trim()) intD.innerHTML += `<div class="export-item" style="border-bottom:none;"><div class="export-key">自訂補充</div><div class="export-val">${i.value.trim()}</div></div>`;
         });
     }
 
@@ -629,7 +709,7 @@
         }
     }
 
-    // 📋 強制複製黑科技 (移除結尾電話)
+    // 📋 強制複製黑科技
     function fallbackCopyTextToClipboard(text) {
         var ta = document.createElement("textarea");
         ta.value = text; ta.style.position = "fixed"; ta.style.left = "-9999px";
@@ -644,11 +724,11 @@
         let layText = (lr||ll||lb||lbal) ? `${lr||0}房${ll||0}廳${lb||0}衛${lbal||0}陽台` : lo;
 
         let fList = [];
-        document.querySelectorAll('#facilityChecks input:checked').forEach(e => fList.push(e.value));
+        document.querySelectorAll('#facilityChecks input:checked').forEach(e => fList.push(e.nextElementSibling.innerText));
         let fo = gV('v_facO'); if(fo) fList.push(fo);
 
         let stList = [];
-        document.querySelectorAll('input[name="st"]:checked').forEach(e => stList.push(e.value));
+        document.querySelectorAll('input[name="st"]:checked').forEach(e => stList.push(e.nextElementSibling.innerText));
         let sto = gV('v_stO'); if(sto) stList.push(sto);
 
         let featStr = gV('v_feat');
@@ -656,6 +736,12 @@
 
         let intDyn = '';
         document.getElementById('dyn-int').querySelectorAll('.dyn-val').forEach(i=>{ if(i.value.trim()) intDyn += `\n自訂補充：${i.value.trim()}`; });
+
+        let p1 = gS('v_proj1','v_proj1O');
+        let p2 = gS('v_proj2','v_proj2O');
+        let projStr = '';
+        if(p1 !== '空白') projStr += `建案資訊一：${p1}\n`;
+        if(p2 !== '空白') projStr += `建案資訊二：${p2}\n`;
 
         const text = `【基本資料】\n` +
                      `類型：${gV('v_type')} | 現況：${gV('v_status')}\n` +
@@ -680,13 +766,14 @@
                      `樓高：${gS('v_hS', 'v_hO')}\n` +
                      `面寬/深度/路寬：${gS('v_wS', 'v_wO')} / ${gS('v_dpS', 'v_dpO')} / ${gS('v_rwS', 'v_rwO')}\n` +
                      `瓦斯/建材：${gS('v_gas', 'v_gasO')} / ${gS('v_mat', 'v_matO')}\n` +
-                     `用途/分區：${gV('v_use')} / ${gS('v_zon', 'v_zonO')}\n\n` +
+                     `用途/分區：${gV('v_use')} / ${gS('v_zon', 'v_zonO')}\n` +
+                     projStr + `\n` +
+                     `【公設項目】\n${fList.join('、')}\n\n` +
                      `【座向與環境】\n` +
                      `房屋向：${gS('v_dH', 'v_dHO')} | 管理室：${gS('v_dL', 'v_dLO')}\n` +
                      `家門向：${gS('v_dD', 'v_dDO')} | 落地窗：${gS('v_dW', 'v_dWO')}\n` +
                      `學校：${gV('v_sch')}\n` +
                      `超商：${stList.join('、')}\n\n` +
-                     `【公設項目】\n${fList.join('、')}\n\n` +
                      `【物件介紹】\n${featStr}\n\n` +
                      `【登記事項】\n` +
                      `原因/日期：${gV('v_rRes')} / ${document.getElementById('o_rDate').innerText}\n` +
@@ -695,6 +782,8 @@
                      `⚠️【內部資料不公開】\n` +
                      `委託種類：${gV('v_iTyp')}\n` +
                      `委託編號：${gV('v_iNo')}\n` +
+                     `服務費：${document.getElementById('o_iFee').innerText}\n` +
+                     `中人費：${document.getElementById('o_iBroker').innerText}\n` +
                      `開發人員：${gV('v_iDev')}\n` +
                      `地址：${gV('v_iAddr')}\n` +
                      `鑰匙：${gV('v_iKey')}\n` +
