@@ -33,7 +33,7 @@
         .header img { height: 45px; margin-bottom: 10px; }
         .header h1 { color: var(--brand-green); font-size: 22px; margin: 0; font-weight: 900; letter-spacing: 1px;}
 
-        /* 動作按鈕區 */
+        /* 動作按鈕區 (移至最底部) */
         .bottom-actions { 
             display: flex; gap: 12px; justify-content: center; margin-top: 35px; flex-direction: column;
             background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(20px); padding: 20px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05);
@@ -64,7 +64,6 @@
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05); border: 1px solid rgba(255, 255, 255, 1);
         }
         .card-title { font-size: 20px; font-weight: 900; margin-top: 0; margin-bottom: 20px; color: var(--brand-green); border-bottom: 2px solid rgba(0,0,0,0.05); padding-bottom: 12px; }
-        
         .internal-card { border: 2px solid rgba(216, 42, 41, 0.4); background: rgba(255, 240, 240, 0.85); }
         .internal-card .card-title { color: var(--brand-red); border-bottom-color: rgba(216, 42, 41, 0.1); }
 
@@ -90,7 +89,6 @@
         @media (max-width: 600px) { .grid-3, .grid-2 { grid-template-columns: 1fr; } }
         
         .other-input { display: none; margin-top: 8px; }
-        
         .flex-row { display: flex; gap: 5px; align-items: center; }
         .flex-row input { flex: 1; text-align: center; font-size: 18px; font-weight: 900; color: var(--brand-red); padding: 10px 0;}
         .flex-row label { margin: 0; padding: 0 5px; color: #666; font-size: 15px; font-weight: 900; white-space: nowrap;}
@@ -106,18 +104,21 @@
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
         /* =========================================
-           2. 隱藏輸出排版區 (固定 A4 尺寸)
+           2. 隱藏輸出排版區 (強制鎖定 A4 尺寸 1485x1050)
            ========================================= */
         #exportArea {
             position: absolute; left: -9999px; top: 0;
-            width: 1485px; height: 1050px;
+            width: 1485px !important; 
+            height: 1050px !important; /* 絕對鎖死 A4 尺寸，不准延伸 */
+            max-height: 1050px !important;
+            overflow: hidden; /* 超出範圍自動隱藏，保證版面不變形 */
             background-color: #FAFAFD;
             background-image: 
                 radial-gradient(circle at 10% 10%, rgba(255, 255, 255, 1) 0%, transparent 60%),
                 radial-gradient(circle at 90% 90%, rgba(230, 240, 250, 0.6) 0%, transparent 60%),
                 linear-gradient(135deg, #FFFFFF 0%, #F0F4F8 100%);
             padding: 35px 50px; box-sizing: border-box; 
-            display: flex; flex-direction: column; overflow: hidden;
+            display: flex; flex-direction: column;
         }
         
         .export-watermark { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 800px; opacity: 0.03; pointer-events: none; z-index: 1; filter: grayscale(100%); }
@@ -126,7 +127,7 @@
             position: relative; z-index: 2; flex: 1; display: flex; flex-direction: column;
             background: rgba(255, 255, 255, 0.5); backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px);
             border: 1px solid rgba(255, 255, 255, 0.9); border-radius: 24px; box-shadow: 0 15px 40px rgba(0,0,0,0.04);
-            padding: 30px; display: flex; flex-direction: column; gap: 20px;
+            padding: 30px; gap: 20px; height: 100%; /* 確保內容區塊也鎖死高度 */
         }
         
         .export-header { display: flex; flex-direction: column; align-items: center; justify-content: center; border-bottom: 2px solid rgba(0,0,0,0.06); padding-bottom: 15px; background: transparent; }
@@ -134,9 +135,10 @@
         .export-header-text { font-size: 32px; font-weight: 900; color: var(--brand-green); letter-spacing: 4px; display: flex; align-items: center; gap: 15px; }
         .export-header-text .sep { color: #CCC; font-weight: 300; }
 
+        /* 網格系統：上中下配置，精準切割 */
         .export-row-top { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 30px; height: 440px; } 
         .export-row-mid { display: grid; grid-template-columns: 1fr 2fr; gap: 30px; height: 150px; } 
-        .export-row-bot { flex: 1; display: flex; flex-direction: column; min-height: 0;} 
+        .export-row-bot { flex: 1; display: flex; flex-direction: column; min-height: 0; max-height: 180px; overflow: hidden; } 
 
         .export-col { 
             background: rgba(255, 255, 255, 0.9); border-radius: 16px; padding: 20px; 
@@ -157,7 +159,7 @@
         .export-footer { text-align: center; font-size: 16px; font-weight: 900; color: #888; padding-top: 15px; border-top: 1px solid rgba(0,0,0,0.05); margin-top: 5px;}
 
         /* Modal 視窗 */
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 9999; justify-content: center; align-items: center; flex-direction: column; padding: 20px;}
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 9999; justify-content: center; align-items: center; flex-direction: column; padding: 20px;}
     </style>
 </head>
 <body>
@@ -177,7 +179,7 @@
 
     <form id="mainFormArea">
         <div class="card">
-            <h2 class="card-title">第一欄：基本資料與車位</h2>
+            <h2 class="card-title">第一欄：基本資料</h2>
             <div class="grid-2">
                 <div class="form-group"><label>類型</label><select id="v_type"><option value="大樓/公寓">大樓/公寓</option><option value="透天/別墅">透天/別墅</option><option value="其他">其他</option></select></div>
                 <div class="form-group"><label>現況</label><select id="v_status"><option value="空屋">空屋</option><option value="自用">自用</option><option value="出租中">出租中</option></select></div>
@@ -247,7 +249,6 @@
 
         <div class="card">
             <h2 class="card-title">第三欄：座向、補充與登記</h2>
-            
             <h3 style="color:var(--brand-green); font-size:16px; margin:10px 0 10px; border-bottom:1px solid #EEE; padding-bottom:5px;">座向與環境</h3>
             <div class="grid-2">
                 <div class="form-group"><label>房屋座向</label><select id="v_dH" onchange="toggle(this,'v_dHO')"><option value="空白">空白</option><option value="朝東">朝東</option><option value="朝西">朝西</option><option value="朝南">朝南</option><option value="朝北">朝北</option><option value="朝東南">朝東南</option><option value="朝東北">朝東北</option><option value="朝西南">朝西南</option><option value="朝西北">朝西北</option><option value="其他">其他</option></select><input type="text" id="v_dHO" class="other-input"></div>
@@ -348,7 +349,7 @@
         </div>
 
         <div class="card">
-            <h2 class="card-title">第六欄：物件介紹</h2>
+            <h2 class="card-title">第六欄：物件介紹 (圖片固定空間顯示)</h2>
             <div class="form-group">
                 <textarea id="v_feat" rows="4" placeholder="自行輸入介紹..."></textarea>
                 <div id="dyn-feat"></div>
@@ -357,7 +358,7 @@
         </div>
 
         <div class="card internal-card">
-            <h2 class="card-title">⚠️ 內部資料不公開 (圖片不顯示，僅供複製)</h2>
+            <h2 class="card-title">⚠️ 內部資料不公開 (圖片不顯示，僅供一鍵複製)</h2>
             <div class="grid-2">
                 <div class="form-group"><label>委託種類</label><select id="v_iTyp"><option value="空白">空白</option><option value="一般委託">一般委託</option><option value="專任委託">專任委託</option></select></div>
                 <div class="form-group"><label>委託編號</label><input type="text" id="v_iNo"></div>
@@ -384,7 +385,7 @@
     </form>
 </div>
 
-<div class="modal" id="mobileModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:9999; justify-content:center; align-items:center; flex-direction:column; padding:20px;">
+<div class="modal" id="mobileModal">
     <button onclick="document.getElementById('mobileModal').style.display='none'" style="align-self:flex-end; background:none; border:none; color:#FFF; font-size:30px; font-weight:bold; margin-bottom:10px;">✕</button>
     <h3 style="color:#FFF; font-weight:900; margin-bottom:5px;">✅ 圖片產生成功</h3>
     <p style="color:var(--brand-yellow); font-weight:900; margin-bottom:15px;">👉 手機請直接「長按圖片」選擇儲存或分享 👈</p>
@@ -402,6 +403,7 @@
         </div>
 
         <div class="export-row-top">
+            
             <div class="export-col">
                 <div class="export-title">【基本資料】</div>
                 <div class="export-item"><div class="export-key">類型</div><div class="export-val" id="o_type"></div></div>
@@ -546,13 +548,13 @@
         const v = el.value;
         if(v.includes('其他')||v.includes('填寫')) {
             const othEl = document.getElementById(oth);
-            if(othEl && othEl.tagName==='DIV') return '自行填寫'; // handle flex-row containers
+            if(othEl && othEl.tagName==='DIV') return '自行填寫'; 
             return othEl ? (othEl.value.trim() || '空白') : '空白';
         }
         return v;
     }
 
-    // 填裝資料到圖片 (嚴格依據六大板塊)
+    // 填裝資料到圖片
     function bindData() {
         document.getElementById('o_type').innerText = gV('v_type');
         document.getElementById('o_status').innerText = gV('v_status');
@@ -673,37 +675,24 @@
         document.getElementById('o_feat').innerText = feat || '空白';
     }
 
-    // 🏆 安全渲染畫布 (防卡死終極版)
+    // 🏆 安全渲染畫布 (絕對鎖定 A4 尺寸)
     async function generateCanvas() {
         document.getElementById('loader').style.display = 'flex';
-        
-        // 確保抓到最新資料
-        try { bindData(); } catch(e) { console.error(e); }
-        
+        bindData();
         const el = document.getElementById('exportArea');
         
-        // 防捲動卡死：將畫布定在當前螢幕視野外，但不是 -9999px
-        const scrollY = window.scrollY;
-        el.style.top = scrollY + 'px';
         el.style.left = '0';
-        el.style.zIndex = '-100'; // 墊在下面
-        
-        await new Promise(r => setTimeout(r, 200));
+        await new Promise(r => setTimeout(r, 100));
 
         try {
-            // scale 1.5 維持高畫質與手機穩定度
-            const canvasPromise = html2canvas(el, { 
+            // 加上 width 與 height 參數，強迫 html2canvas 以固定尺寸截取，絕不變形
+            const canvas = await html2canvas(el, { 
                 scale: 1.5, 
                 useCORS: true, 
-                allowTaint: true,
-                imageTimeout: 2000, // 防死等 Logo
-                backgroundColor: '#FAFAFD' 
+                backgroundColor: '#FAFAFD',
+                width: 1485,
+                height: 1050
             });
-            
-            // 15 秒強制保護
-            const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error('產圖超時')), 15000));
-            const canvas = await Promise.race([canvasPromise, timeoutPromise]);
-            
             el.style.left = '-9999px';
             document.getElementById('loader').style.display = 'none';
             return canvas;
@@ -719,13 +708,34 @@
     async function generateMobileImage() {
         const canvas = await generateCanvas();
         if(canvas) {
-            try {
-                const imgUrl = canvas.toDataURL('image/jpeg', 0.9);
-                document.getElementById('mobileImg').src = imgUrl;
-                document.getElementById('mobileModal').style.display = 'flex';
-            } catch(e) {
-                alert('圖片轉換失敗');
-            }
+            canvas.toBlob(async function(blob) {
+                const fName = (gV('v_name') || '物件明細') + '.jpg';
+                const file = new File([blob], fName, { type: 'image/jpeg' });
+                
+                if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                    try { await navigator.share({ files: [file], title: fName }); } 
+                    catch(e) { console.log('取消分享'); }
+                } else {
+                    const imgUrl = URL.createObjectURL(blob);
+                    const newWindow = window.open();
+                    if(newWindow) {
+                        newWindow.document.write(`
+                            <html>
+                            <head>
+                                <title>請長按圖片儲存</title>
+                                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                                <style>body{background:#333; display:flex; justify-content:center; padding:20px; margin:0;} img{max-width:100%; border-radius:10px;}</style>
+                            </head>
+                            <body>
+                                <img src="${imgUrl}" alt="請長按圖片儲存">
+                            </body>
+                            </html>
+                        `);
+                    } else {
+                        alert("請允許彈出視窗，或使用電腦版下載。");
+                    }
+                }
+            }, 'image/jpeg', 0.9);
         }
     }
 
@@ -742,7 +752,7 @@
         }
     }
 
-    // 📋 強制複製黑科技
+    // 📋 強制複製黑科技 (即時獲取最新資訊)
     function fallbackCopyTextToClipboard(text) {
         var ta = document.createElement("textarea");
         ta.value = text; ta.style.position = "fixed"; ta.style.left = "-9999px";
@@ -752,8 +762,7 @@
     }
 
     function copyText() {
-        // 呼叫這行保證抓到當下最新的資訊
-        try { bindData(); } catch(e) {} 
+        bindData(); // 保證抓到「當下最新」的資訊
         
         let lr = gV('v_lR'), ll = gV('v_lL'), lb = gV('v_lB'), lo = gV('v_lOther');
         let layText = (lr||ll||lb) ? `${lr||0}房${ll||0}廳${lb||0}衛` : lo;
