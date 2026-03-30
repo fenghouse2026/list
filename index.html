@@ -144,7 +144,7 @@
         .export-header-text .sep { color: #CCC; font-weight: 300; }
 
         /* 網格系統：上中下配置，精準切割 */
-        .export-row-top { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 30px; height: 430px; } /* 1,2,3欄 */
+        .export-row-top { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 30px; height: 420px; } /* 1,2,3欄 */
         .export-row-mid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; height: 160px; } /* 4,5欄 */
         .export-row-bot { flex: 1; display: flex; flex-direction: column; min-height: 0;} /* 6欄 (物件介紹)，填滿剩餘 */
 
@@ -153,7 +153,7 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.02); display: flex; flex-direction: column; overflow: hidden;
         }
         
-        .export-title { font-size: 22px; font-weight: 900; color: var(--brand-green); margin-bottom: 12px; border-bottom: 2px solid rgba(0,140,74,0.2); padding-bottom: 6px; display: inline-block;}
+        .export-title { font-size: 22px; font-weight: 900; color: var(--brand-green); margin-bottom: 15px; border-bottom: 2px solid rgba(0,140,74,0.2); padding-bottom: 6px; display: inline-block;}
         
         .export-item { display: flex; font-size: 19px; margin-bottom: 8px; align-items: center; border-bottom: 1px dashed rgba(0,0,0,0.08); padding-bottom: 6px;}
         .export-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
@@ -168,8 +168,9 @@
         .export-desc { font-size: 20px; font-weight: 900; color: #1D1D1F; line-height: 1.6; white-space: pre-wrap; flex: 1; overflow: hidden;}
         
         /* 底部版權宣告 */
-        .export-footer { text-align: center; font-size: 16px; font-weight: 900; color: #888; padding-top: 15px; border-top: 1px solid rgba(0,0,0,0.05); margin-top: 5px;}
+        .export-footer { text-align: center; font-size: 16px; font-weight: 700; color: #888; padding-top: 15px; border-top: 1px solid rgba(0,0,0,0.05); margin-top: 10px;}
 
+        /* 手機長按視窗 */
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 9999; justify-content: center; align-items: center; flex-direction: column; padding: 20px;}
     </style>
 </head>
@@ -361,7 +362,7 @@
         </div>
 
         <div class="card">
-            <h2 class="card-title">第六欄：物件介紹</h2>
+            <h2 class="card-title">第六欄：物件介紹 (固定超大版位)</h2>
             <div class="form-group">
                 <textarea id="v_feat" rows="4" placeholder="自行輸入介紹..."></textarea>
                 <div id="dyn-feat"></div>
@@ -422,7 +423,7 @@
                 <div class="export-item"><div class="export-key">現況</div><div class="export-val" id="o_status"></div></div>
                 <div class="export-item"><div class="export-key">案名</div><div class="export-val val-navy" id="o_name"></div></div>
                 <div class="export-item"><div class="export-key">售價</div><div class="export-val val-price" id="o_price"></div></div>
-                <div class="export-item"><div class="export-key">格局</div><div class="export-val" id="o_lay"></div></div>
+                <div class="export-item"><div class="export-key">格局</div><div class="export-val val-red" id="o_lay"></div></div>
                 <div class="export-item"><div class="export-key">主建物</div><div class="export-val" id="o_mA"></div></div>
                 <div class="export-item"><div class="export-key">附屬建物</div><div class="export-val" id="o_sA"></div></div>
                 <div class="export-item"><div class="export-key">主+附</div><div class="export-val" id="o_inA"></div></div>
@@ -684,25 +685,40 @@
         document.getElementById('o_feat').innerText = feat || '空白';
     }
 
-    // 🏆 安全渲染畫布
+    // 🏆 安全渲染畫布 (加入防卡死機制)
     async function generateCanvas() {
         document.getElementById('loader').style.display = 'flex';
         bindData();
         const el = document.getElementById('exportArea');
         
+        // 防卡死：捲動到最上面
+        window.scrollTo(0, 0);
+        
         el.style.left = '0';
-        await new Promise(r => setTimeout(r, 100));
+        el.style.zIndex = '-100'; // 確保底層渲染
+        await new Promise(r => setTimeout(r, 300)); // 增加緩衝時間確保排版完成
 
         try {
-            // scale 1.5 維持高畫質與手機穩定度
-            const canvas = await html2canvas(el, { scale: 1.5, useCORS: true, backgroundColor: '#FAFAFD' });
+            // 加上 imageTimeout 防止找不到圖片卡死，搭配 1.5 倍高畫質
+            const canvasPromise = html2canvas(el, { 
+                scale: 1.5, 
+                useCORS: true, 
+                allowTaint: true,
+                imageTimeout: 5000, 
+                backgroundColor: '#FAFAFD' 
+            });
+            
+            const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error('產圖超時')), 15000));
+            const canvas = await Promise.race([canvasPromise, timeoutPromise]);
+            
             el.style.left = '-9999px';
             document.getElementById('loader').style.display = 'none';
             return canvas;
         } catch(e) {
+            console.error(e);
             el.style.left = '-9999px';
             document.getElementById('loader').style.display = 'none';
-            alert('產生圖片失敗，請確定儲存空間充足。');
+            alert('產生圖片失敗，請確保記憶體充足或重新整理網頁。');
             return null;
         }
     }
@@ -800,7 +816,6 @@
                      `權狀總坪：${gV('v_totA')} 坪\n` +
                      `公設比：${gS('v_pubRSel', 'v_pubRO')} | 增建：${gS('v_addSel', 'v_addO')}\n\n` +
                      `【車位資料】\n` +
-                     `車位坪數：${gS('v_parkASel', 'v_parkAO')}\n` +
                      `類型：${gS('v_carT', 'v_carTO')}\n` +
                      `汽車號碼：${document.getElementById('o_cN').innerText}\n` +
                      `機車號碼：${document.getElementById('o_mN').innerText}\n\n` +
