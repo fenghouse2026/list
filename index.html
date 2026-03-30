@@ -96,7 +96,7 @@
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
         /* =========================================
-           2. 隱藏輸出排版區 (強制鎖死 直式 A4 1050x1485，絕對不破圖)
+           2. 隱藏輸出排版區 (強制鎖定 直式 A4 1050x1485)
            ========================================= */
         #exportArea {
             position: absolute; left: -9999px; top: 0;
@@ -106,7 +106,7 @@
                 radial-gradient(circle at 10% 10%, rgba(255, 255, 255, 1) 0%, transparent 60%),
                 radial-gradient(circle at 90% 90%, rgba(230, 240, 250, 0.6) 0%, transparent 60%),
                 linear-gradient(135deg, #FFFFFF 0%, #F0F4F8 100%);
-            padding: 30px 40px 20px 40px; box-sizing: border-box; 
+            padding: 30px 40px; box-sizing: border-box; 
             display: flex; flex-direction: column; overflow: hidden;
         }
         
@@ -116,66 +116,54 @@
             position: relative; z-index: 2; flex: 1; display: flex; flex-direction: column;
             background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px);
             border: 1px solid rgba(255, 255, 255, 0.9); border-radius: 24px; box-shadow: 0 15px 40px rgba(0,0,0,0.04);
-            padding: 25px 30px; gap: 12px; height: 100%;
+            padding: 25px 30px; gap: 15px; height: 100%; 
         }
         
         .export-header { display: flex; align-items: center; justify-content: center; border-bottom: 2px solid rgba(0,0,0,0.06); padding-bottom: 12px; margin-bottom: 5px; flex: none; }
         .export-header img { height: 45px; margin-right: 15px; }
-        .export-header-text { font-size: 30px; font-weight: 900; color: var(--brand-green); letter-spacing: 4px; display: flex; align-items: center; gap: 15px; }
+        .export-header-text { font-size: 34px; font-weight: 900; color: var(--brand-green); letter-spacing: 4px; display: flex; align-items: center; gap: 15px; }
         .export-header-text .sep { color: #CCC; font-weight: 300; }
 
-        /* --- 核心彈性網格系統：不再寫死高度，保證自動推擠不破圖 --- */
-        .export-body {
-            flex: 1; display: flex; flex-direction: column; gap: 12px; min-height: 0;
-        }
+        /* --- 網格系統：調整比例，放大上方資料區，縮小下方介紹區 --- */
+        .export-body { flex: 1; display: flex; flex-direction: column; gap: 15px; min-height: 0; }
 
-        /* 頂部：三等分直欄 */
-        .export-row-3col { 
-            display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; flex: none; 
-        }
-
-        /* 中部：滿版橫條 */
+        /* 頂部三直欄：加高以容納更大的字體 */
+        .export-row-3col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; height: 720px; flex: none; }
+        
+        /* 橫式條狀滿版 (登記、車位、建案、公設) */
         .export-row-horiz {
-            display: flex; flex-direction: row; align-items: stretch; gap: 15px; flex: none;
-            background: rgba(255, 255, 255, 0.85); border-radius: 12px; padding: 10px 15px; 
-            box-shadow: 0 2px 10px rgba(0,0,0,0.02); border: 1px solid rgba(0,0,0,0.03);
+            display: flex; flex-direction: row; align-items: center; gap: 15px; flex: none;
+            background: rgba(255, 255, 255, 0.85); border-radius: 12px; padding: 15px 20px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.02); border: 1px solid rgba(0,0,0,0.03);
         }
 
-        /* 底部：滿版大區域 */
-        .export-row-bot {
-            flex: 1; display: flex; flex-direction: column; min-height: 0;
-        }
-
-        /* 卡片白底與標題 */
         .export-section {
-            background: rgba(255, 255, 255, 0.85); border-radius: 12px; padding: 15px; 
+            background: rgba(255, 255, 255, 0.85); border-radius: 16px; padding: 20px; 
             box-shadow: 0 4px 15px rgba(0,0,0,0.02); display: flex; flex-direction: column;
-            border: 1px solid rgba(0,0,0,0.03); margin-bottom: 0;
+            border: 1px solid rgba(0,0,0,0.03);
         }
-        
-        .export-col-group { display: flex; flex-direction: column; gap: 12px; }
 
-        .export-title { font-size: 19px; font-weight: 900; color: var(--brand-green); margin-bottom: 8px; border-bottom: 2px solid rgba(0,140,74,0.15); padding-bottom: 5px; display: block; width: 100%;}
+        .export-col-group { display: flex; flex-direction: column; gap: 15px; }
+
+        /* 放大標題字體 */
+        .export-title { font-size: 24px; font-weight: 900; color: var(--brand-green); margin-bottom: 12px; border-bottom: 2px solid rgba(0,140,74,0.15); padding-bottom: 6px; display: inline-block; width: 100%; flex: none;}
+        .export-title-side { font-size: 22px; font-weight: 900; color: var(--brand-green); width: 110px; border-right: 2px solid rgba(0,140,74,0.15); padding-right: 15px; flex: none; text-align: center;}
         
-        /* 橫條專用側邊標題 */
-        .export-title-side { font-size: 18px; font-weight: 900; color: var(--brand-green); width: 80px; border-right: 2px solid rgba(0,140,74,0.15); padding-right: 10px; display: flex; align-items: center; justify-content: center; text-align: center;}
-        
-        .export-item { display: flex; font-size: 16px; margin-bottom: 5px; align-items: center; background: rgba(255, 255, 255, 0.9); border-radius: 6px; padding: 6px 10px; flex: none;}
+        /* 放大所有內容字體與間距 */
+        .export-item { display: flex; font-size: 20px; margin-bottom: 8px; align-items: center; background: rgba(255, 255, 255, 0.9); border-radius: 8px; padding: 10px 14px; box-shadow: 0 1px 5px rgba(0,0,0,0.02); flex: none;}
         .export-item:last-child { margin-bottom: 0; }
-        .export-key { font-weight: 900; color: #777; width: 90px; flex-shrink: 0; }
+        .export-key { font-weight: 900; color: #777; width: 110px; flex-shrink: 0; }
         .export-val { font-weight: 900; color: #1D1D1F; flex: 1; line-height: 1.3;}
         
-        .flex-1 { flex: 1; }
-        
-        /* 專屬質感顏色 */
-        .val-navy { color: var(--brand-dark); font-size: 18px; font-weight: 900;}
-        .val-price { color: var(--brand-red); font-size: 20px; font-weight: 900;}
-        .val-total { color: var(--brand-red); font-size: 20px; font-weight: 900;}
-        .val-red { color: var(--brand-red); font-size: 18px; font-weight: 900;}
+        /* 極致放大的專屬質感顏色 */
+        .val-navy { color: var(--brand-dark); font-size: 24px; font-weight: 900; }
+        .val-price { color: var(--brand-red); font-size: 28px; font-weight: 900; }
+        .val-total { color: var(--brand-red); font-size: 28px; font-weight: 900; }
+        .val-red { color: var(--brand-red); font-size: 24px; font-weight: 900; }
 
-        .export-desc { font-size: 16px; font-weight: 900; color: #1D1D1F; line-height: 1.6; white-space: pre-wrap; flex: 1; overflow: hidden; background: transparent; padding-top: 5px;}
+        .export-desc { font-size: 20px; font-weight: 900; color: #1D1D1F; line-height: 1.5; white-space: pre-wrap; flex: 1; overflow: hidden; background: transparent; padding-top: 5px;}
         
-        .export-footer { text-align: center; font-size: 14px; font-weight: 900; color: #888; padding-top: 10px; border-top: 1px solid rgba(0,0,0,0.05); margin-top: 5px; flex: none;}
+        .export-footer { text-align: center; font-size: 16px; font-weight: 900; color: #888; padding-top: 15px; border-top: 1px solid rgba(0,0,0,0.05); margin-top: 5px; flex: none;}
 
         /* Modal 視窗 */
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 9999; justify-content: center; align-items: center; flex-direction: column; padding: 20px;}
@@ -199,8 +187,8 @@
                 <div class="form-group"><label>現況</label><select id="v_status"><option value="空屋">空屋</option><option value="自用">自用</option><option value="出租中">出租中</option></select></div>
             </div>
 
-            <div class="form-group"><label class="required">案名 (海軍藍)</label><input type="text" id="v_name" placeholder="棒球場享未來"></div>
-            <div class="form-group"><label class="required">售價 (萬/紅色)</label><input type="text" id="v_price" class="format-num" placeholder="1198"></div>
+            <div class="form-group"><label class="required">案名</label><input type="text" id="v_name" placeholder="棒球場享未來"></div>
+            <div class="form-group"><label class="required">售價 (萬)</label><input type="text" id="v_price" class="format-num" placeholder="1198"></div>
             
             <div class="form-group">
                 <label>格局</label>
@@ -253,7 +241,7 @@
                 <input type="text" id="v_mTO" class="other-input" placeholder="請輸入">
             </div>
             <div class="grid-3">
-                <div class="form-group"><label>室內/一樓樓高</label><select id="v_hS" onchange="toggle(this,'v_hO')"><option value="空白">空白</option><option value="其他">填寫米數</option></select><input type="text" id="v_hO" class="other-input" placeholder="米"></div>
+                <div class="form-group"><label>大樓室內/透天樓高</label><select id="v_hS" onchange="toggle(this,'v_hO')"><option value="空白">空白</option><option value="其他">填寫米數</option></select><input type="text" id="v_hO" class="other-input" placeholder="米"></div>
                 <div class="form-group"><label>面寬</label><select id="v_wS" onchange="toggle(this,'v_wO')"><option value="無">無</option><option value="其他">填寫米數</option></select><input type="text" id="v_wO" class="other-input" placeholder="米"></div>
                 <div class="form-group"><label>深度</label><select id="v_dpS" onchange="toggle(this,'v_dpO')"><option value="無">無</option><option value="其他">填寫米數</option></select><input type="text" id="v_dpO" class="other-input" placeholder="米"></div>
                 <div class="form-group"><label>路寬</label><select id="v_rwS" onchange="toggle(this,'v_rwO')"><option value="無">無</option><option value="其他">填寫米數</option></select><input type="text" id="v_rwO" class="other-input" placeholder="米"></div>
@@ -419,6 +407,7 @@
 
         <div class="export-body">
             <div class="export-row-3col">
+                
                 <div class="export-section">
                     <div class="export-title">【基本資料】</div>
                     <div class="export-item"><div class="export-key">類型</div><div class="export-val" id="o_type"></div></div>
@@ -450,15 +439,15 @@
                     <div class="export-item"><div class="export-key">路寬</div><div class="export-val" id="o_rw"></div></div>
                 </div>
 
-                <div class="export-section" style="gap: 5px;">
+                <div class="export-section" style="padding-bottom:10px;">
                     <div class="export-title">【補充】</div>
                     <div class="export-item"><div class="export-key">太陽能</div><div class="export-val" id="o_solar"></div></div>
                     <div class="export-item"><div class="export-key">瓦斯</div><div class="export-val" id="o_gas"></div></div>
                     <div class="export-item"><div class="export-key">主要建材</div><div class="export-val" id="o_mat"></div></div>
                     <div class="export-item"><div class="export-key">主要用途</div><div class="export-val" id="o_use"></div></div>
                     <div class="export-item"><div class="export-key">使用分區</div><div class="export-val" id="o_zon"></div></div>
-                    
-                    <div class="export-title" style="margin-top: 10px;">【座向】</div>
+
+                    <div class="export-title" style="margin-top: 15px;">【座向】</div>
                     <div class="export-item"><div class="export-key">房屋座向</div><div class="export-val" id="o_dH"></div></div>
                     <div class="export-item"><div class="export-key">管理室看</div><div class="export-val" id="o_dL"></div></div>
                     <div class="export-item"><div class="export-key">家門看</div><div class="export-val" id="o_dD"></div></div>
@@ -569,10 +558,10 @@
         return v;
     }
 
-    // 填裝資料到圖片 (嚴格依據紅框指示)
+    // 填裝資料到圖片 (嚴格依據大直排滿版設計)
     function bindData() {
-        document.getElementById('o_type').innerText = gV('v_type') || '空白';
-        document.getElementById('o_status').innerText = gV('v_status') || '空白';
+        document.getElementById('o_type').innerText = gV('v_type');
+        document.getElementById('o_status').innerText = gV('v_status');
         document.getElementById('o_name').innerText = gV('v_name') || '空白';
         let pr = gV('v_price'); document.getElementById('o_price').innerText = pr ? pr+'萬' : '空白';
         
@@ -673,9 +662,9 @@
 
         // 建案與公設
         let p1 = gS('v_proj1','v_proj1O'); document.getElementById('o_proj1').innerText = p1 !== '空白' && p1 !== '無' ? `建案名：${p1}` : '';
-        document.getElementById('box_proj1').style.display = (p1 === '空白' || p1 === '無') ? 'none' : 'flex';
+        document.getElementById('box_proj1').style.display = (p1 === '空白' || p1 === '無') ? 'none' : 'block';
         let p2 = gS('v_proj2','v_proj2O'); document.getElementById('o_proj2').innerText = p2 !== '空白' && p2 !== '無' ? `建商名：${p2}` : '';
-        document.getElementById('box_proj2').style.display = (p2 === '空白' || p2 === '無') ? 'none' : 'flex';
+        document.getElementById('box_proj2').style.display = (p2 === '空白' || p2 === '無') ? 'none' : 'block';
         if((p1 === '空白' || p1 === '無') && (p2 === '空白' || p2 === '無')) document.getElementById('box_proj_section').style.display = 'none';
         else document.getElementById('box_proj_section').style.display = 'flex';
 
@@ -758,7 +747,7 @@
         }
     }
 
-    // 📋 強制複製黑科技 (保證抓最新，隱藏底部版權)
+    // 📋 強制複製黑科技 (即時獲取最新資訊，移除底部宣告)
     function fallbackCopyTextToClipboard(text) {
         var ta = document.createElement("textarea");
         ta.value = text; ta.style.position = "fixed"; ta.style.left = "-9999px";
