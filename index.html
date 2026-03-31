@@ -1390,6 +1390,40 @@
     display:none;
 }
 
+
+/* ===== 微調：頂部 LOGO 對齊文字 ===== */
+.export-header{
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    gap:10px !important;
+}
+.export-header img{
+    height:26px !important;
+    display:block !important;
+    transform: translateY(1px);
+}
+.export-header-text{
+    display:flex !important;
+    align-items:center !important;
+    gap:12px !important;
+}
+
+/* ===== 中央超淡浮水印 ===== */
+.export-watermark{
+    position:absolute !important;
+    top:50% !important;
+    left:50% !important;
+    transform:translate(-50%, -50%) !important;
+    width:420px !important;
+    max-width:65% !important;
+    opacity:0.035 !important;
+    pointer-events:none !important;
+    z-index:0 !important;
+    filter:none !important;
+    mix-blend-mode:normal !important;
+}
+
 </style>
 </head>
 <body>
@@ -1572,7 +1606,7 @@
 
 <div id="exportArea">
     <div class="export-bg"></div>
-    <img src="logo.png" class="export-watermark" onerror="this.style.display='none'">
+    <img src="logo浮水印.png" class="export-watermark" onerror="this.style.display='none'">
     
     <div class="export-content">
         <div class="export-header">
