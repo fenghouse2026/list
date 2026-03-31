@@ -6,98 +6,159 @@
     <title>永義房屋 成功莊敬店 - 物件明細建檔</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
-        :root { --brand-yellow: #FDB913; --brand-green: #008C4A; --brand-red: #D82A29; --brand-dark: #001F5B; --bg-cream: #FFFDF9; --card-radius: 12px; --input-radius: 8px; }
+        /* =========================================
+           1. 品牌視覺與全域變數
+           ========================================= */
+        :root {
+            --brand-yellow: #FDB913;
+            --brand-green: #008C4A; 
+            --brand-red: #D82A29;   
+            --brand-dark: #001F5B; 
+            --bg-cream: #F5F7F5; 
+            --card-radius: 12px;
+            --input-radius: 8px;
+        }
+
         * { box-sizing: border-box; font-family: 'PingFang TC', 'Helvetica Neue', Helvetica, Arial, sans-serif; }
-        body { background-color: var(--bg-cream); background-image: radial-gradient(circle at 20% 0%, rgba(253, 185, 19, 0.08) 0%, transparent 50%), radial-gradient(circle at 80% 100%, rgba(0, 140, 74, 0.05) 0%, transparent 50%); color: #333; margin: 0; padding: 10px; padding-bottom: 60px; -webkit-font-smoothing: antialiased; }
+        
+        body { 
+            background-color: var(--bg-cream); 
+            color: #333; margin: 0; padding: 10px; padding-bottom: 60px; -webkit-font-smoothing: antialiased; 
+        }
         .container { max-width: 900px; margin: 0 auto; }
+
         .header { text-align: center; margin-bottom: 20px; }
         .header img { height: 45px; margin-bottom: 5px; }
         .header h1 { color: var(--brand-green); font-size: 22px; margin: 0; font-weight: 900; letter-spacing: 1px;}
-        .top-tabs { display: flex; gap: 10px; margin-bottom: 20px; background: rgba(255,255,255,0.6); padding: 8px; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.03);}
-        .tab-btn { flex: 1; padding: 12px 0; text-align: center; font-size: 16px; font-weight: 900; color: #777; background: transparent; border: none; border-radius: 10px; cursor: pointer; transition: 0.3s; }
-        .tab-btn.active { background: #FFF; color: var(--brand-green); box-shadow: 0 4px 10px rgba(0,140,74,0.1); }
-        .card { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(30px); border-radius: var(--card-radius); padding: 20px; margin-bottom: 15px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04); border: 1px solid rgba(255, 255, 255, 1); }
-        .card-title { font-size: 18px; font-weight: 900; margin-top: 0; margin-bottom: 15px; color: var(--brand-green); border-bottom: 2px solid rgba(0,0,0,0.05); padding-bottom: 10px; }
-        .internal-card { border: 2px solid rgba(216, 42, 41, 0.4); background: rgba(255, 240, 240, 0.85); }
+
+        /* 選單系統 */
+        .top-tabs { display: flex; gap: 10px; margin-bottom: 20px; background: rgba(255,255,255,0.8); padding: 8px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.03);}
+        .tab-btn { flex: 1; padding: 12px 0; text-align: center; font-size: 16px; font-weight: 900; color: #777; background: transparent; border: none; border-radius: 8px; cursor: pointer; transition: 0.3s; }
+        .tab-btn.active { background: var(--brand-green); color: #FFF; box-shadow: 0 4px 10px rgba(0,140,74,0.2); }
+
+        /* 輸入卡片 */
+        .card { background: #FFF; border-radius: var(--card-radius); padding: 20px; margin-bottom: 15px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); border: 1px solid #E5E5E5; }
+        .card-title { font-size: 18px; font-weight: 900; margin-top: 0; margin-bottom: 15px; color: var(--brand-green); border-bottom: 2px solid rgba(0,140,74,0.1); padding-bottom: 8px; }
+        
+        .internal-card { border: 2px solid rgba(216, 42, 41, 0.4); background: rgba(216, 42, 41, 0.02); }
         .internal-card .card-title { color: var(--brand-red); border-bottom-color: rgba(216, 42, 41, 0.1); }
+
         .form-group { margin-bottom: 12px; }
         label { display: block; font-size: 14px; font-weight: 900; margin-bottom: 6px; color: #444; }
         .required::after { content: " *"; color: var(--brand-red); }
-        input[type="text"], input[type="number"], input[type="tel"], textarea, select, input[type="file"] { width: 100%; padding: 12px; border: 1px solid #DDD; border-radius: var(--input-radius); font-size: 16px; font-weight: 700; color: #111; background-color: rgba(255,255,255,0.9); box-sizing: border-box; outline: none; transition: 0.2s; }
-        input:focus, textarea:focus, select:focus { border-color: var(--brand-green); background-color: #FFF; box-shadow: 0 0 0 4px rgba(0, 140, 74, 0.15); }
-        input[readonly] { background-color: #F8F8F8; color: var(--brand-red); cursor: not-allowed; }
+
+        input[type="text"], input[type="number"], input[type="tel"], textarea, select, input[type="file"] { width: 100%; padding: 12px; border: 1px solid #DDD; border-radius: var(--input-radius); font-size: 16px; font-weight: 700; color: #111; background-color: #FAFAFA; box-sizing: border-box; outline: none; transition: 0.2s; }
+        input:focus, textarea:focus, select:focus { border-color: var(--brand-green); background-color: #FFF; box-shadow: 0 0 0 4px rgba(0, 140, 74, 0.1); }
+        input[readonly] { background-color: #EEE; color: var(--brand-red); cursor: not-allowed; }
+
         .chip-group { display: flex; flex-wrap: wrap; gap: 8px; }
         .chip-group input[type="radio"], .chip-group input[type="checkbox"] { display: none; }
-        .chip-label { padding: 8px 12px; border: 1px solid #DDD; border-radius: 8px; font-size: 14px; font-weight: 700; cursor: pointer; background: #FFF; color: #555; transition: all 0.2s;}
+        .chip-label { padding: 8px 12px; border: 1px solid #DDD; border-radius: 8px; font-size: 14px; font-weight: 700; cursor: pointer; background: #FAFAFA; color: #555; transition: all 0.2s;}
         .chip-group input:checked + .chip-label { background: var(--brand-green); color: #FFF; border-color: var(--brand-green); }
+
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
         .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
         .grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 12px; }
         @media (max-width: 600px) { .grid-4, .grid-3, .grid-2 { grid-template-columns: 1fr; } }
+        
         .other-input { display: none; margin-top: 8px; }
         .flex-row { display: flex; gap: 5px; align-items: center; }
         .flex-row input { flex: 1; text-align: center; font-size: 16px; font-weight: 900; color: var(--brand-red); padding: 8px 0;}
         .flex-row label { margin: 0; padding: 0 5px; color: #666; font-size: 14px; font-weight: 900; white-space: nowrap;}
-        .btn-add { background: rgba(0, 140, 74, 0.05); color: var(--brand-green); border: 1px dashed var(--brand-green); padding: 10px; border-radius: 10px; font-size: 15px; font-weight: 900; cursor: pointer; width: 100%; margin-top: 5px; transition: 0.2s;}
+        
+        .btn-add { background: rgba(0, 140, 74, 0.05); color: var(--brand-green); border: 1px dashed var(--brand-green); padding: 10px; border-radius: 8px; font-size: 14px; font-weight: 900; cursor: pointer; width: 100%; margin-top: 5px; transition: 0.2s;}
         .dynamic-row { display: flex; gap: 10px; margin-top: 10px; }
         .dynamic-row input { flex: 1; }
         .btn-remove-row { background: none; border: none; color: #CCC; font-size: 20px; cursor: pointer; padding: 0 5px;}
-        .bottom-actions { display: flex; gap: 10px; justify-content: center; margin-top: 20px; flex-direction: column; background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(20px); padding: 20px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); border: 1px solid rgba(0,0,0,0.05); }
+        
+        /* 底部動作按鈕區 */
+        .bottom-actions { display: flex; gap: 10px; justify-content: center; margin-top: 25px; flex-direction: column; background: #FFF; padding: 20px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); border: 1px solid #EEE; }
         .action-row { display: flex; gap: 10px; }
-        .btn-action { background: rgba(255, 255, 255, 0.9); border: 1px solid rgba(0,0,0,0.1); border-radius: 10px; padding: 14px 10px; font-size: 16px; font-weight: 900; color: #333; cursor: pointer; flex: 1; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.05); transition: 0.2s; }
+        .btn-action { background: #FAFAFA; border: 1px solid #DDD; border-radius: 10px; padding: 14px 10px; font-size: 16px; font-weight: 900; color: #333; cursor: pointer; flex: 1; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.02); transition: 0.2s; }
         .btn-action:active { transform: scale(0.98); }
-        .btn-action.btn-mobile { color: var(--brand-green); border-color: rgba(0,140,74,0.3); }
-        .btn-action.btn-pc { color: var(--brand-dark); border-color: rgba(0,31,91,0.3); }
-        .btn-action.btn-copy { background: #111; color: #FFF; width: 100%; flex: none; border: none; padding: 16px 10px;}
-        #loader { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.9); z-index: 9999; justify-content: center; align-items: center; flex-direction: column; font-size: 22px; font-weight: 900; color: var(--brand-green);}
+        .btn-action.btn-mobile { color: var(--brand-green); border-color: rgba(0,140,74,0.3); background: rgba(0,140,74,0.02);}
+        .btn-action.btn-pc { color: var(--brand-dark); border-color: rgba(0,31,91,0.3); background: rgba(0,31,91,0.02);}
+        .btn-action.btn-copy { background: #333; color: #FFF; width: 100%; flex: none; border: none; padding: 16px 10px;}
+
+        #loader { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.95); z-index: 9999; justify-content: center; align-items: center; flex-direction: column; font-size: 22px; font-weight: 900; color: var(--brand-green);}
         .spinner { border: 5px solid #f3f3f3; border-top: 5px solid var(--brand-green); border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; margin-bottom: 15px;}
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        /* ================= 隱藏輸出排版區 (完美十字對稱，絕不破圖) ================= */
-        #exportArea { position: absolute; left: -9999px; top: 0; width: 1050px !important; height: 1485px !important; max-height: 1485px !important; background-color: #FAFAFD; background-image: radial-gradient(circle at 10% 10%, rgba(255, 255, 255, 1) 0%, transparent 60%), radial-gradient(circle at 90% 90%, rgba(230, 240, 250, 0.6) 0%, transparent 60%), linear-gradient(135deg, #FFFFFF 0%, #F0F4F8 100%); padding: 30px 40px; box-sizing: border-box; display: flex; flex-direction: column; overflow: hidden; }
+        /* =========================================
+           2. 隱藏輸出排版區 (終極 15 版塊 - 十字象限無浪費排版)
+           ========================================= */
+        #exportArea {
+            position: absolute; left: -9999px; top: 0;
+            width: 1050px !important; height: 1485px !important; max-height: 1485px !important;
+            background-color: #F5F7F5; /* 淺灰背景凸顯卡片 */
+            padding: 30px 40px; box-sizing: border-box; 
+            display: flex; flex-direction: column; overflow: hidden;
+        }
+        
         .export-watermark { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 700px; opacity: 0.03; pointer-events: none; z-index: 1; filter: grayscale(100%); }
-        .export-content { position: relative; z-index: 2; flex: 1; display: flex; flex-direction: column; background: rgba(255, 255, 255, 0.5); backdrop-filter: blur(40px); border: 1px solid rgba(255, 255, 255, 0.9); border-radius: 20px; box-shadow: 0 15px 40px rgba(0,0,0,0.05); padding: 20px 25px; gap: 12px; height: 100%; }
-        .export-header { display: flex; align-items: center; justify-content: center; border-bottom: 2px solid rgba(0,0,0,0.06); padding-bottom: 10px; flex: none; margin-bottom: 0;}
+
+        .export-content { 
+            position: relative; z-index: 2; flex: 1; display: flex; flex-direction: column;
+            background: #FFF; border-radius: 24px; box-shadow: 0 10px 40px rgba(0,0,0,0.05);
+            padding: 25px 30px; gap: 15px; height: 100%; border: 1px solid #EBEBEB;
+        }
+        
+        .export-header { display: flex; align-items: center; justify-content: center; border-bottom: 2px solid rgba(0,0,0,0.05); padding-bottom: 12px; flex: none; margin-bottom: 5px;}
         .export-header img { height: 45px; margin-right: 15px; }
         .export-header-text { font-size: 30px; font-weight: 900; color: var(--brand-green); letter-spacing: 4px; display: flex; align-items: center; gap: 15px; }
         .export-header-text .sep { color: #CCC; font-weight: 300; }
 
-        .export-body { flex: 1; display: flex; flex-direction: column; gap: 12px; min-height: 0; }
+        /* --- 網格系統 --- */
+        .export-body { flex: 1; display: flex; flex-direction: column; gap: 15px; min-height: 0; }
         .export-grid-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; flex: none; align-items: stretch; }
         .export-row-full { display: flex; flex-direction: column; flex: none; }
 
-        .export-card { display: flex; flex-direction: column; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.04); background: #FFF; border: 2px solid var(--brand-green); overflow: hidden; box-sizing: border-box; }
-        .export-card-header { background: var(--brand-green); color: #FFF; padding: 6px 14px; font-size: 18px; font-weight: 900; display: flex; align-items: center; letter-spacing: 1px; flex: none; justify-content: center;}
-        .export-card-body { padding: 10px 14px; display: flex; flex-direction: column; gap: 6px; flex: 1; background: rgba(255,255,255,0.9); justify-content: center;}
+        /* --- 完美綠底白字卡片設計 --- */
+        .export-card { 
+            display: flex; flex-direction: column; border-radius: 12px; 
+            background: #FFF; border: 2px solid var(--brand-green); overflow: hidden; 
+        }
+        .export-card-header { 
+            background: var(--brand-green); color: #FFF; padding: 6px 14px; 
+            font-size: 18px; font-weight: 900; display: flex; align-items: center; 
+            justify-content: center; letter-spacing: 2px; flex: none;
+        }
+        .export-card-body { 
+            padding: 12px 16px; display: flex; flex-direction: column; gap: 8px; flex: 1; justify-content: center;
+        }
         
-        .split-card-body { display: flex; flex-direction: row; padding: 8px 12px; gap: 12px; flex: 1; background: rgba(255,255,255,0.9);}
-        .split-col { flex: 1; display: flex; flex-direction: column; gap: 6px; }
-        .split-divider { width: 2px; background-color: rgba(0,140,74,0.15); border-radius: 2px; margin: 0 5px;}
-        .split-title { text-align: center; font-size: 16px; font-weight: 900; color: var(--brand-dark); margin-bottom: 2px; border-bottom: 1px dashed rgba(0,0,0,0.1); padding-bottom: 4px; }
+        /* 內部雙拼結構 (坪數、資訊、補充專用) */
+        .split-card-body { display: flex; flex-direction: row; padding: 12px; gap: 15px; flex: 1; }
+        .split-col { flex: 1; display: flex; flex-direction: column; gap: 8px; }
+        .split-divider { width: 2px; background-color: var(--brand-green); opacity: 0.2; border-radius: 2px; margin: 0 5px;}
+        .split-title { text-align: center; font-size: 17px; font-weight: 900; color: var(--brand-dark); margin-bottom: 2px; padding-bottom: 4px; }
 
-        .export-title-block { display: flex; align-items: center; background: #FFF; border-radius: 12px; padding: 8px 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.02); border: 2px solid var(--brand-green); }
+        /* 案名橫幅專用 */
+        .export-title-block { display: flex; align-items: center; background: #FFF; border-radius: 12px; padding: 10px 15px; border: 2px solid var(--brand-green); }
         .badge-name { background: var(--brand-green); color: #FFF; padding: 5px 14px; border-radius: 8px; font-weight: 900; font-size: 18px; margin-right: 15px; flex: none; letter-spacing: 2px;}
         .val-name-big { font-size: 24px; font-weight: 900; color: var(--brand-dark); flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-        .export-item { display: flex; font-size: 16px; align-items: center; padding: 2px 0; border-bottom: 1px dashed rgba(0,0,0,0.05);}
+        /* 項目列表：移除背景色，改用虛線與緊湊排版 */
+        .export-item { display: flex; font-size: 17px; align-items: center; padding: 4px 0; border-bottom: 1px dashed rgba(0,0,0,0.1);}
         .export-item:last-child { border-bottom: none; padding-bottom: 0;}
         .export-key { font-weight: 900; color: #555; width: 85px; flex-shrink: 0; }
         .export-val { font-weight: 900; color: #111; flex: 1; line-height: 1.3;}
         
-        .val-price { color: var(--brand-red); font-size: 22px; font-weight: 900; }
+        /* 專屬質感顏色 */
+        .val-price { color: var(--brand-red); font-size: 24px; font-weight: 900; }
         .val-total { color: var(--brand-red); font-size: 20px; font-weight: 900; }
         .val-red { color: var(--brand-red); font-size: 18px; font-weight: 900; }
 
+        /* 介紹文字區 */
         .export-desc { font-size: 16px; font-weight: 900; color: #111; line-height: 1.6; white-space: pre-wrap; flex: 1; overflow: hidden;}
         
-        .export-image-grid { display: grid; gap: 10px; flex: none; width: 100%; justify-content: center;}
-        .export-image-grid.count-1 { grid-template-columns: 180px; }
-        .export-image-grid.count-2 { grid-template-columns: 1fr 1fr; } 
-        .export-image-box { aspect-ratio: 1 / 1; overflow: hidden; border-radius: 8px; border: 1px solid #EEE; background: #FAFAFA; display: flex; align-items: center; justify-content: center;}
+        /* 圖片網格系統 (強制作正方形雙拼) */
+        .export-image-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; flex: none; width: 100%; justify-content: center; height: 160px;}
+        .export-image-box { aspect-ratio: 1 / 1; overflow: hidden; border-radius: 8px; border: 2px solid #333; background: #FAFAFA; display: flex; align-items: center; justify-content: center; color: var(--brand-red); font-weight: 900; font-size: 18px;}
         .export-image-box img { width: 100%; height: 100%; object-fit: cover; }
-        .export-image-grid.empty { display: flex; height: 130px; align-items:center; justify-content:center; background: rgba(0,0,0,0.02); border: 2px dashed rgba(0,0,0,0.1); font-size:15px; font-weight:bold; color:#AAA; border-radius: 8px;}
 
-        .export-footer { text-align: center; font-size: 14px; font-weight: 900; color: #888; padding-top: 10px; border-top: 1px solid rgba(0,0,0,0.05); margin-top: auto; flex: none;}
+        .export-footer { text-align: center; font-size: 14px; font-weight: 900; color: #888; padding-top: 15px; border-top: 1px solid rgba(0,0,0,0.05); margin-top: 5px; flex: none;}
+
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 9999; justify-content: center; align-items: center; flex-direction: column; padding: 20px;}
     </style>
 </head>
@@ -113,14 +174,17 @@
 
     <div class="top-tabs">
         <button class="tab-btn active">1. 透天 / 別墅</button>
-        <button class="tab-btn" onclick="alert('公寓/大樓表單建置中！')">2. 公寓 / 大樓</button>
-        <button class="tab-btn" onclick="alert('農地/建地表單建置中！')">3. 農地 / 建地</button>
+        <button class="tab-btn" onclick="alert('公寓/大樓表單建置中，敬請期待！')">2. 公寓 / 大樓</button>
+        <button class="tab-btn" onclick="alert('農地/建地表單建置中，敬請期待！')">3. 農地 / 建地</button>
     </div>
 
     <form id="mainFormArea">
+        
         <div class="card">
             <h2 class="card-title">第一欄位：基本資料</h2>
-            <div class="grid-2"><div class="form-group"><label>類型</label><select id="v_type"><option value="透天/別墅">透天/別墅</option><option value="大樓/公寓">大樓/公寓</option><option value="其他">其他</option></select></div></div>
+            <div class="grid-2">
+                <div class="form-group"><label>類型</label><select id="v_type"><option value="透天/別墅">透天/別墅</option><option value="大樓/公寓">大樓/公寓</option><option value="其他">其他</option></select></div>
+            </div>
             <div class="form-group"><label class="required">案名 (海軍藍字體)</label><input type="text" id="v_name" placeholder="例：棒球場旁稀有釋出"></div>
         </div>
 
@@ -128,7 +192,15 @@
             <h2 class="card-title">第二欄位：售價與格局</h2>
             <div class="grid-2">
                 <div class="form-group"><label class="required">售價 (萬/紅字)</label><input type="text" id="v_price" class="format-num" placeholder="1198"></div>
-                <div class="form-group"><label>格局</label><div class="flex-row"><input type="tel" id="v_lR" maxlength="1"><label>房</label><input type="tel" id="v_lL" maxlength="1"><label>廳</label><input type="tel" id="v_lB" maxlength="1"><label>衛</label></div><input type="text" id="v_lOther" class="other-input" style="margin-top:10px;" placeholder="或其他格局 (自行填入)"></div>
+                <div class="form-group">
+                    <label>格局</label>
+                    <div class="flex-row">
+                        <input type="tel" id="v_lR" maxlength="1"><label>房</label>
+                        <input type="tel" id="v_lL" maxlength="1"><label>廳</label>
+                        <input type="tel" id="v_lB" maxlength="1"><label>衛</label>
+                    </div>
+                    <input type="text" id="v_lOther" class="other-input" style="display:block; margin-top:10px;" placeholder="或其他格局 (自行填入)">
+                </div>
             </div>
             <div class="grid-2">
                 <div class="form-group"><label>屋齡</label><select id="v_ageSel" onchange="toggle(this, 'v_ageO')"><option value="空白">空白</option><option value="其他">自行填入</option></select><div class="flex-row other-input" id="v_ageO"><input type="tel" id="v_age"><label>年</label></div></div>
@@ -137,9 +209,9 @@
         </div>
 
         <div class="card" style="border: 2px dashed var(--brand-green); background: rgba(0,140,74,0.02);">
-            <h2 class="card-title">第三、四欄位：圖片上傳 (正方形雙拼)</h2>
+            <h2 class="card-title">第三、四欄位：圖片上傳 (正方形固定尺寸)</h2>
             <div class="form-group">
-                <label>請選擇格局圖或實景照 (最多 2 張，自動裁切成正方形)</label>
+                <label>請選擇格局圖或實景照 (最多 2 張，將自動裁切為正方形)</label>
                 <input type="file" id="v_images" multiple accept="image/*" style="background: #FFF; padding: 10px;">
             </div>
         </div>
@@ -160,18 +232,27 @@
                 <div class="form-group"><label>附屬建物 (坪)</label><input type="number" id="v_subA" oninput="calcAreas()"></div>
                 <div class="form-group"><label style="color:var(--brand-red);">總建坪 (自動加總)</label><input type="text" id="v_totBuild" readonly placeholder="主建+附屬"></div>
             </div>
-            <div class="form-group"><label>增建</label><select id="v_addSel" onchange="toggle(this, 'v_addO')"><option value="空白">空白</option><option value="其他">約____幾坪/或其他</option></select><input type="text" id="v_addO" class="other-input" placeholder="例: 約5坪"></div>
+            <div class="form-group">
+                <label>增建</label>
+                <select id="v_addSel" onchange="toggle(this, 'v_addO')"><option value="空白">空白</option><option value="其他">約____幾坪/或其他</option></select>
+                <input type="text" id="v_addO" class="other-input" placeholder="例: 約5坪">
+            </div>
         </div>
 
         <div class="card">
-            <h2 class="card-title">第七欄位：房屋資訊 (樓層管理)</h2>
+            <h2 class="card-title">第七欄位：房屋資訊 (樓層)</h2>
             <div class="grid-2">
                 <div class="form-group"><label>樓層</label><div class="flex-row"><label>共</label><input type="text" id="v_fTot"><label>樓</label></div></div>
                 <div class="form-group"><label>電梯</label><select id="v_elevSel" onchange="toggle(this,'v_elevO')"><option value="有電梯">有電梯</option><option value="無電梯">無電梯</option><option value="其他">其他</option></select><input type="text" id="v_elevO" class="other-input" placeholder="自行填寫"></div>
             </div>
             <div class="grid-2">
                 <div class="form-group"><label>管理費</label><select id="v_mFSel" onchange="toggle(this,'v_mF')"><option value="有管理費">有管理費</option><option value="無管理費">無管理費</option><option value="其他">其他(自行填寫)</option></select><input type="text" id="v_mF" class="other-input" placeholder="自行填入"></div>
-                <div class="form-group"><label>管理員時間</label><select id="v_mTS" onchange="toggle(this, 'v_mTO')"><option value="有管理員">有管理員</option><option value="無管理員">無管理員</option><option value="24H">24H</option><option value="早晚">早上__點到晚上__點</option><option value="其他">其他</option></select><div id="v_mTimeBox" class="other-input flex-row"><label>早</label><input type="text" id="v_mT1"><label>到晚</label><input type="text" id="v_mT2"></div><input type="text" id="v_mTO" class="other-input" placeholder="自行填入"></div>
+                <div class="form-group">
+                    <label>管理員上班時間</label>
+                    <select id="v_mTS" onchange="toggle(this, 'v_mTO')"><option value="有管理員">有管理員</option><option value="無管理員">無管理員</option><option value="24H">24H</option><option value="早晚">早上__點到晚上__點</option><option value="其他">其他</option></select>
+                    <div id="v_mTimeBox" class="other-input flex-row"><label>早</label><input type="text" id="v_mT1"><label>點 到晚</label><input type="text" id="v_mT2"><label>點</label></div>
+                    <input type="text" id="v_mTO" class="other-input" placeholder="自行填入">
+                </div>
             </div>
         </div>
 
@@ -187,15 +268,35 @@
 
         <div class="card">
             <h2 class="card-title">第九欄位：座向</h2>
-            <div class="form-group"><label>房屋座向</label><select id="v_dH" onchange="toggle(this,'v_dHO')"><option value="空白">空白</option><option value="朝東">朝東</option><option value="朝西">朝西</option><option value="朝南">朝南</option><option value="朝北">朝北</option><option value="朝東南">朝東南</option><option value="朝東北">朝東北</option><option value="朝西南">朝西南</option><option value="朝西北">朝西北</option><option value="其他">其他</option></select><input type="text" id="v_dHO" class="other-input" placeholder="自行填入"></div>
+            <div class="form-group">
+                <label>房屋座向</label>
+                <select id="v_dH" onchange="toggle(this,'v_dHO')"><option value="空白">空白</option><option value="朝東">朝東</option><option value="朝西">朝西</option><option value="朝南">朝南</option><option value="朝北">朝北</option><option value="朝東南">朝東南</option><option value="朝東北">朝東北</option><option value="朝西南">朝西南</option><option value="朝西北">朝西北</option><option value="其他">其他</option></select>
+                <input type="text" id="v_dHO" class="other-input" placeholder="自行填入">
+            </div>
         </div>
 
         <div class="card">
             <h2 class="card-title">第十欄位：車位</h2>
             <div class="grid-3">
-                <div class="form-group"><label>汽車位</label><select id="v_carT" onchange="toggle(this, 'v_carTO')"><option value="無車位">無車位</option><option value="約可停一台">約可停一台</option><option value="約可停兩台">約可停兩台</option><option value="約可停三台">約可停三台</option><option value="約可停四台">約可停四台</option><option value="其他">其他</option></select><input type="text" id="v_carTO" class="other-input" placeholder="請填入"></div>
-                <div class="form-group"><label>汽車位號碼</label><select id="v_carNSel" onchange="toggle(this, 'v_carNO')"><option value="無">無</option><option value="其他">位於_層_號</option></select><div class="flex-row other-input" id="v_carNO" style="margin-bottom:5px;"><label>位於</label><input type="text" id="v_carL"><label>層</label><input type="text" id="v_carN"><label>號</label></div><input type="text" id="v_carNO2" class="other-input" placeholder="或 其他 (自行填寫)"></div>
-                <div class="form-group"><label>機車位號碼</label><select id="v_motoNSel" onchange="toggle(this, 'v_motoNO')"><option value="無">無</option><option value="其他">填寫號碼</option></select><div class="flex-row other-input" id="v_motoNO" style="margin-bottom:5px;"><input type="text" id="v_motoN"><label>號</label></div><input type="text" id="v_motoNO2" class="other-input" placeholder="或 其他 (自行填寫)"></div>
+                <div class="form-group">
+                    <label>汽車位</label>
+                    <select id="v_carT" onchange="toggle(this, 'v_carTO')">
+                        <option value="無車位">無車位</option><option value="約可停一台">約可停一台</option><option value="約可停兩台">約可停兩台</option><option value="約可停三台">約可停三台</option><option value="約可停四台">約可停四台</option><option value="其他">或其他(自行填入)</option>
+                    </select>
+                    <input type="text" id="v_carTO" class="other-input" placeholder="請填入">
+                </div>
+                <div class="form-group">
+                    <label>汽車位號碼</label>
+                    <select id="v_carNSel" onchange="toggle(this, 'v_carNO')"><option value="無">無</option><option value="其他">位於_層_號</option></select>
+                    <div class="flex-row other-input" id="v_carNO" style="margin-bottom:5px;"><label>位於</label><input type="text" id="v_carL"><label>層</label><input type="text" id="v_carN"><label>號</label></div>
+                    <input type="text" id="v_carNO2" class="other-input" placeholder="或 其他 (自行填寫)">
+                </div>
+                <div class="form-group">
+                    <label>機車位號碼</label>
+                    <select id="v_motoNSel" onchange="toggle(this, 'v_motoNO')"><option value="無">無</option><option value="其他">填寫號碼</option></select>
+                    <div class="flex-row other-input" id="v_motoNO" style="margin-bottom:5px;"><input type="text" id="v_motoN"><label>號</label></div>
+                    <input type="text" id="v_motoNO2" class="other-input" placeholder="或 其他 (自行填寫)">
+                </div>
             </div>
         </div>
 
@@ -226,14 +327,26 @@
                     <input type="text" id="v_stO" placeholder="其他" style="margin-top:8px;">
                 </div>
             </div>
-            <div class="form-group"><label>自訂學區環境介紹</label><div id="dyn-feat2"></div><button type="button" class="btn-add" onclick="addDyn('dyn-feat2')">➕ 新增一欄環境介紹</button></div>
+            <div class="form-group">
+                <label>自訂學區環境介紹</label>
+                <div id="dyn-feat2"></div>
+                <button type="button" class="btn-add" onclick="addDyn('dyn-feat2')">➕ 新增一欄環境介紹</button>
+            </div>
         </div>
 
         <div class="card">
             <h2 class="card-title">第十三、十四欄位：建案與公設</h2>
             <div class="grid-2">
-                <div class="form-group"><label>建案名稱</label><select id="v_proj1" onchange="toggle(this, 'v_proj1O')"><option value="無">無</option><option value="其他">自行填入</option></select><input type="text" id="v_proj1O" class="other-input" placeholder="建案名..."></div>
-                <div class="form-group"><label>建商名稱</label><select id="v_proj2" onchange="toggle(this, 'v_proj2O')"><option value="無">無</option><option value="其他">自行填入</option></select><input type="text" id="v_proj2O" class="other-input" placeholder="建商名..."></div>
+                <div class="form-group">
+                    <label>建案名稱</label>
+                    <select id="v_proj1" onchange="toggle(this, 'v_proj1O')"><option value="無">無</option><option value="其他">自行填入</option></select>
+                    <input type="text" id="v_proj1O" class="other-input" placeholder="建案名...">
+                </div>
+                <div class="form-group">
+                    <label>建商名稱</label>
+                    <select id="v_proj2" onchange="toggle(this, 'v_proj2O')"><option value="無">無</option><option value="其他">自行填入</option></select>
+                    <input type="text" id="v_proj2O" class="other-input" placeholder="建商名...">
+                </div>
             </div>
             <div class="form-group" style="margin-top: 15px;">
                 <label style="border-bottom:1px solid #EEE; padding-bottom:5px;">公設點選</label>
@@ -257,7 +370,9 @@
 
         <div class="card">
             <h2 class="card-title">第十五欄位：物件介紹</h2>
-            <div class="form-group"><textarea id="v_feat" rows="5" placeholder="自行輸入超大介紹..."></textarea></div>
+            <div class="form-group">
+                <textarea id="v_feat" rows="5" placeholder="自行輸入超大介紹..."></textarea>
+            </div>
         </div>
 
         <div class="card internal-card">
@@ -269,10 +384,12 @@
                 <div class="form-group"><label>登記日期</label><select id="v_rDateSel" onchange="toggle(this, 'v_rDateO')"><option value="空白">空白</option><option value="其他">自行填入</option></select><div class="flex-row other-input" id="v_rDateO"><input type="tel" id="v_ry"><label>年</label><input type="tel" id="v_rm"><label>月</label><input type="tel" id="v_rd"><label>日</label></div></div>
                 <div class="form-group"><label>售屋動機</label><select id="v_mo" onchange="toggle(this,'v_moO')"><option value="無">無</option><option value="轉投資">轉投資</option><option value="換屋">換屋</option><option value="工作關係">工作關係</option><option value="閒置資產">閒置資產</option><option value="其他">其他</option></select><input type="text" id="v_moO" class="other-input"></div>
             </div>
+            
             <div class="form-group"><label>房屋補充說明</label><input type="text" id="v_iSup1" placeholder="※例如有漏水"></div>
             <div class="form-group"><label>重要補充說明</label><input type="text" id="v_iSup2"></div>
             <div id="dyn-int"></div>
             <button type="button" class="btn-add" onclick="addDyn('dyn-int')">➕ 新增空白欄位</button>
+
             <div class="grid-2" style="margin-top: 15px;">
                 <div class="form-group"><label>委託種類</label><select id="v_iTyp"><option value="一般委託">一般委託</option><option value="專任委託">專任委託</option></select></div>
                 <div class="form-group"><label>委託編號</label><input type="text" id="v_iNo"></div>
@@ -338,7 +455,10 @@
                 <div class="export-card">
                     <div class="export-card-header">📸 物件照片</div>
                     <div class="export-card-body" style="padding: 10px;">
-                        <div id="o_images_box" class="export-image-grid empty">請上傳照片</div>
+                        <div id="o_images_box" class="export-image-grid empty">
+                            <div class="export-image-box">照片一</div>
+                            <div class="export-image-box">照片二</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -405,12 +525,17 @@
             <div class="export-grid-2col">
                 <div class="export-card">
                     <div class="export-card-header">📝 補充</div>
-                    <div class="export-card-body">
-                        <div class="export-item"><div class="export-key">太陽能</div><div class="export-val" id="o_solar"></div></div>
-                        <div class="export-item"><div class="export-key">瓦斯</div><div class="export-val" id="o_gas"></div></div>
-                        <div class="export-item"><div class="export-key">主要建材</div><div class="export-val" id="o_mat"></div></div>
-                        <div class="export-item"><div class="export-key">主要用途</div><div class="export-val" id="o_use"></div></div>
-                        <div class="export-item"><div class="export-key">使用分區</div><div class="export-val" id="o_zon"></div></div>
+                    <div class="split-card-body">
+                        <div class="split-col">
+                            <div class="export-item"><div class="export-key" style="width:60px;">太陽能</div><div class="export-val" id="o_solar"></div></div>
+                            <div class="export-item"><div class="export-key" style="width:60px;">瓦斯</div><div class="export-val" id="o_gas"></div></div>
+                        </div>
+                        <div class="split-divider"></div>
+                        <div class="split-col">
+                            <div class="export-item"><div class="export-key" style="width:70px;">主要建材</div><div class="export-val" id="o_mat"></div></div>
+                            <div class="export-item"><div class="export-key" style="width:70px;">主要用途</div><div class="export-val" id="o_use"></div></div>
+                            <div class="export-item"><div class="export-key" style="width:70px;">使用分區</div><div class="export-val" id="o_zon"></div></div>
+                        </div>
                     </div>
                 </div>
                 <div class="export-card">
@@ -518,7 +643,7 @@
         return v;
     }
 
-    // 處理圖片上傳預覽 (最多2張正方形)
+    // 處理圖片上傳預覽 (最多2張正方形雙拼)
     function bindImages() {
         const imgInput = document.getElementById('v_images');
         const imgBox = document.getElementById('o_images_box');
@@ -527,9 +652,9 @@
         
         if (imgInput && imgInput.files && imgInput.files.length > 0) {
             const fileArr = Array.from(imgInput.files).slice(0, 2);
-            imgBox.className = 'export-image-grid count-' + fileArr.length;
+            imgBox.className = 'export-image-grid count-2'; // 強制 2 欄網格
             
-            fileArr.forEach(f => {
+            fileArr.forEach((f, index) => {
                 const url = URL.createObjectURL(f);
                 const wrap = document.createElement('div');
                 wrap.className = 'export-image-box';
@@ -538,9 +663,17 @@
                 wrap.appendChild(img);
                 imgBox.appendChild(wrap);
             });
+
+            // 如果只有 1 張，補上照片二的佔位框
+            if(fileArr.length === 1) {
+                const wrap2 = document.createElement('div');
+                wrap2.className = 'export-image-box';
+                wrap2.innerText = '照片二';
+                imgBox.appendChild(wrap2);
+            }
         } else {
-            imgBox.innerHTML = '請上傳照片';
-            imgBox.className = 'export-image-grid empty';
+            imgBox.className = 'export-image-grid count-2 empty';
+            imgBox.innerHTML = '<div class="export-image-box">照片一</div><div class="export-image-box">照片二</div>';
         }
     }
 
@@ -666,7 +799,7 @@
         setTxt('o_feat', feat || '空白');
     }
 
-    // 🏆 安全渲染畫布
+    // 🏆 安全渲染畫布 (完美 15 版塊防破圖)
     async function generateCanvas() {
         document.getElementById('loader').style.display = 'flex';
         
@@ -863,13 +996,10 @@
                      `重要補充：${gV('v_iSup2')}${intDyn}`;
 
         fallbackCopyTextToClipboard(text);
-        
-        // 給予視覺回饋
         const btn = document.querySelector('.btn-copy'); 
         if(btn) {
-            const originalText = btn.innerText;
             btn.innerText = "✅ 已成功複製全文本！"; 
-            setTimeout(() => { btn.innerText = originalText; }, 3000);
+            setTimeout(() => { btn.innerText = "📋 一鍵複製所有訊息"; }, 3000);
         }
     }
 </script>
