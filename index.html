@@ -6,72 +6,43 @@
     <title>永義房屋 成功莊敬店 - 物件明細建檔</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
-        /* =========================================
-           1. 品牌視覺與全域變數
-           ========================================= */
-        :root {
-            --brand-yellow: #FDB913;
-            --brand-green: #008C4A; 
-            --brand-red: #D82A29;   
-            --brand-dark: #001F5B; 
-            --bg-cream: #F5F7F5; 
-            --card-radius: 12px;
-            --input-radius: 8px;
-        }
-
+        :root { --brand-yellow: #FDB913; --brand-green: #008C4A; --brand-red: #D82A29; --brand-dark: #001F5B; --bg-cream: #F5F7F5; --card-radius: 12px; --input-radius: 8px; }
         * { box-sizing: border-box; font-family: 'PingFang TC', 'Helvetica Neue', Helvetica, Arial, sans-serif; }
-        
-        body { 
-            background-color: var(--bg-cream); 
-            color: #333; margin: 0; padding: 10px; padding-bottom: 60px; -webkit-font-smoothing: antialiased; 
-        }
+        body { background-color: var(--bg-cream); background-image: radial-gradient(circle at 20% 0%, rgba(253, 185, 19, 0.08) 0%, transparent 50%), radial-gradient(circle at 80% 100%, rgba(0, 140, 74, 0.05) 0%, transparent 50%); color: #333; margin: 0; padding: 10px; padding-bottom: 60px; -webkit-font-smoothing: antialiased; }
         .container { max-width: 900px; margin: 0 auto; }
-
         .header { text-align: center; margin-bottom: 20px; }
         .header img { height: 45px; margin-bottom: 5px; }
         .header h1 { color: var(--brand-green); font-size: 22px; margin: 0; font-weight: 900; letter-spacing: 1px;}
-
-        /* 選單系統 */
         .top-tabs { display: flex; gap: 10px; margin-bottom: 20px; background: rgba(255,255,255,0.8); padding: 8px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.03);}
         .tab-btn { flex: 1; padding: 12px 0; text-align: center; font-size: 16px; font-weight: 900; color: #777; background: transparent; border: none; border-radius: 8px; cursor: pointer; transition: 0.3s; }
         .tab-btn.active { background: var(--brand-green); color: #FFF; box-shadow: 0 4px 10px rgba(0,140,74,0.2); }
-
-        /* 輸入卡片 */
         .card { background: #FFF; border-radius: var(--card-radius); padding: 20px; margin-bottom: 15px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); border: 1px solid #E5E5E5; }
         .card-title { font-size: 18px; font-weight: 900; margin-top: 0; margin-bottom: 15px; color: var(--brand-green); border-bottom: 2px solid rgba(0,140,74,0.1); padding-bottom: 8px; }
-        
         .internal-card { border: 2px solid rgba(216, 42, 41, 0.4); background: rgba(216, 42, 41, 0.02); }
         .internal-card .card-title { color: var(--brand-red); border-bottom-color: rgba(216, 42, 41, 0.1); }
-
         .form-group { margin-bottom: 12px; }
         label { display: block; font-size: 14px; font-weight: 900; margin-bottom: 6px; color: #444; }
         .required::after { content: " *"; color: var(--brand-red); }
-
         input[type="text"], input[type="number"], input[type="tel"], textarea, select, input[type="file"] { width: 100%; padding: 12px; border: 1px solid #DDD; border-radius: var(--input-radius); font-size: 16px; font-weight: 700; color: #111; background-color: #FAFAFA; box-sizing: border-box; outline: none; transition: 0.2s; }
         input:focus, textarea:focus, select:focus { border-color: var(--brand-green); background-color: #FFF; box-shadow: 0 0 0 4px rgba(0, 140, 74, 0.1); }
         input[readonly] { background-color: #EEE; color: var(--brand-red); cursor: not-allowed; }
-
         .chip-group { display: flex; flex-wrap: wrap; gap: 8px; }
         .chip-group input[type="radio"], .chip-group input[type="checkbox"] { display: none; }
         .chip-label { padding: 8px 12px; border: 1px solid #DDD; border-radius: 8px; font-size: 14px; font-weight: 700; cursor: pointer; background: #FAFAFA; color: #555; transition: all 0.2s;}
         .chip-group input:checked + .chip-label { background: var(--brand-green); color: #FFF; border-color: var(--brand-green); }
-
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
         .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
         .grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 12px; }
         @media (max-width: 600px) { .grid-4, .grid-3, .grid-2 { grid-template-columns: 1fr; } }
-        
         .other-input { display: none; margin-top: 8px; }
         .flex-row { display: flex; gap: 5px; align-items: center; }
         .flex-row input { flex: 1; text-align: center; font-size: 16px; font-weight: 900; color: var(--brand-red); padding: 8px 0;}
         .flex-row label { margin: 0; padding: 0 5px; color: #666; font-size: 14px; font-weight: 900; white-space: nowrap;}
-        
         .btn-add { background: rgba(0, 140, 74, 0.05); color: var(--brand-green); border: 1px dashed var(--brand-green); padding: 10px; border-radius: 8px; font-size: 14px; font-weight: 900; cursor: pointer; width: 100%; margin-top: 5px; transition: 0.2s;}
         .dynamic-row { display: flex; gap: 10px; margin-top: 10px; }
         .dynamic-row input { flex: 1; }
         .btn-remove-row { background: none; border: none; color: #CCC; font-size: 20px; cursor: pointer; padding: 0 5px;}
         
-        /* 底部動作按鈕區 */
         .bottom-actions { display: flex; gap: 10px; justify-content: center; margin-top: 25px; flex-direction: column; background: #FFF; padding: 20px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); border: 1px solid #EEE; }
         .action-row { display: flex; gap: 10px; }
         .btn-action { background: #FAFAFA; border: 1px solid #DDD; border-radius: 10px; padding: 14px 10px; font-size: 16px; font-weight: 900; color: #333; cursor: pointer; flex: 1; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.02); transition: 0.2s; }
@@ -79,86 +50,54 @@
         .btn-action.btn-mobile { color: var(--brand-green); border-color: rgba(0,140,74,0.3); background: rgba(0,140,74,0.02);}
         .btn-action.btn-pc { color: var(--brand-dark); border-color: rgba(0,31,91,0.3); background: rgba(0,31,91,0.02);}
         .btn-action.btn-copy { background: #333; color: #FFF; width: 100%; flex: none; border: none; padding: 16px 10px;}
-
         #loader { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.95); z-index: 9999; justify-content: center; align-items: center; flex-direction: column; font-size: 22px; font-weight: 900; color: var(--brand-green);}
         .spinner { border: 5px solid #f3f3f3; border-top: 5px solid var(--brand-green); border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; margin-bottom: 15px;}
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        /* =========================================
-           2. 隱藏輸出排版區 (終極 15 版塊 - 十字象限無浪費排版)
-           ========================================= */
-        #exportArea {
-            position: absolute; left: -9999px; top: 0;
-            width: 1050px !important; height: 1485px !important; max-height: 1485px !important;
-            background-color: #F5F7F5; /* 淺灰背景凸顯卡片 */
-            padding: 30px 40px; box-sizing: border-box; 
-            display: flex; flex-direction: column; overflow: hidden;
-        }
-        
+        /* ================= 隱藏輸出排版區 (完美 15 版塊 - 十字對齊) ================= */
+        #exportArea { position: absolute; left: -9999px; top: 0; width: 1050px !important; height: 1485px !important; max-height: 1485px !important; background-color: #F5F7F5; padding: 30px 40px; box-sizing: border-box; display: flex; flex-direction: column; overflow: hidden; }
         .export-watermark { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 700px; opacity: 0.03; pointer-events: none; z-index: 1; filter: grayscale(100%); }
-
-        .export-content { 
-            position: relative; z-index: 2; flex: 1; display: flex; flex-direction: column;
-            background: #FFF; border-radius: 24px; box-shadow: 0 10px 40px rgba(0,0,0,0.05);
-            padding: 25px 30px; gap: 15px; height: 100%; border: 1px solid #EBEBEB;
-        }
-        
-        .export-header { display: flex; align-items: center; justify-content: center; border-bottom: 2px solid rgba(0,0,0,0.05); padding-bottom: 12px; flex: none; margin-bottom: 5px;}
+        .export-content { position: relative; z-index: 2; flex: 1; display: flex; flex-direction: column; background: #FFF; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.06); padding: 25px; gap: 15px; height: 100%; border: 1px solid #EBEBEB; }
+        .export-header { display: flex; align-items: center; justify-content: center; border-bottom: 2px solid rgba(0,0,0,0.05); padding-bottom: 10px; flex: none; margin-bottom: 5px;}
         .export-header img { height: 45px; margin-right: 15px; }
         .export-header-text { font-size: 30px; font-weight: 900; color: var(--brand-green); letter-spacing: 4px; display: flex; align-items: center; gap: 15px; }
         .export-header-text .sep { color: #CCC; font-weight: 300; }
 
-        /* --- 網格系統 --- */
-        .export-body { flex: 1; display: flex; flex-direction: column; gap: 15px; min-height: 0; }
+        .export-body { flex: 1; display: flex; flex-direction: column; gap: 12px; min-height: 0; }
         .export-grid-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; flex: none; align-items: stretch; }
         .export-row-full { display: flex; flex-direction: column; flex: none; }
 
-        /* --- 完美綠底白字卡片設計 --- */
-        .export-card { 
-            display: flex; flex-direction: column; border-radius: 12px; 
-            background: #FFF; border: 2px solid var(--brand-green); overflow: hidden; 
-        }
-        .export-card-header { 
-            background: var(--brand-green); color: #FFF; padding: 6px 14px; 
-            font-size: 18px; font-weight: 900; display: flex; align-items: center; 
-            justify-content: center; letter-spacing: 2px; flex: none;
-        }
-        .export-card-body { 
-            padding: 12px 16px; display: flex; flex-direction: column; gap: 8px; flex: 1; justify-content: center;
-        }
+        .export-card { display: flex; flex-direction: column; border-radius: 10px; background: #FFF; border: 2px solid var(--brand-green); overflow: hidden; box-sizing: border-box; }
+        .export-card-header { background: var(--brand-green); color: #FFF; padding: 6px 14px; font-size: 18px; font-weight: 900; display: flex; align-items: center; justify-content: center; letter-spacing: 2px; flex: none;}
+        .export-card-body { padding: 10px 14px; display: flex; flex-direction: column; gap: 6px; flex: 1; justify-content: center;}
         
-        /* 內部雙拼結構 (坪數、資訊、補充專用) */
-        .split-card-body { display: flex; flex-direction: row; padding: 12px; gap: 15px; flex: 1; }
-        .split-col { flex: 1; display: flex; flex-direction: column; gap: 8px; }
-        .split-divider { width: 2px; background-color: var(--brand-green); opacity: 0.2; border-radius: 2px; margin: 0 5px;}
-        .split-title { text-align: center; font-size: 17px; font-weight: 900; color: var(--brand-dark); margin-bottom: 2px; padding-bottom: 4px; }
+        .split-card-body { display: flex; flex-direction: row; padding: 10px 14px; gap: 15px; flex: 1; }
+        .split-col { flex: 1; display: flex; flex-direction: column; gap: 6px; }
+        .split-divider { width: 1px; background-color: var(--brand-green); opacity: 0.3; margin: 0 5px;}
+        .split-title { text-align: center; font-size: 16px; font-weight: 900; color: var(--brand-dark); margin-bottom: 5px; border-bottom: 1px dashed rgba(0,0,0,0.1); padding-bottom: 4px; }
 
-        /* 案名橫幅專用 */
-        .export-title-block { display: flex; align-items: center; background: #FFF; border-radius: 12px; padding: 10px 15px; border: 2px solid var(--brand-green); }
-        .badge-name { background: var(--brand-green); color: #FFF; padding: 5px 14px; border-radius: 8px; font-weight: 900; font-size: 18px; margin-right: 15px; flex: none; letter-spacing: 2px;}
+        .export-title-block { display: flex; align-items: center; background: #FFF; border-radius: 10px; padding: 8px 15px; border: 2px solid var(--brand-green); }
+        .badge-name { background: var(--brand-green); color: #FFF; padding: 4px 12px; border-radius: 6px; font-weight: 900; font-size: 18px; margin-right: 15px; flex: none; letter-spacing: 2px;}
         .val-name-big { font-size: 24px; font-weight: 900; color: var(--brand-dark); flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-        /* 項目列表：移除背景色，改用虛線與緊湊排版 */
-        .export-item { display: flex; font-size: 17px; align-items: center; padding: 4px 0; border-bottom: 1px dashed rgba(0,0,0,0.1);}
+        .export-item { display: flex; font-size: 16px; align-items: center; padding: 4px 0; border-bottom: 1px dashed rgba(0,0,0,0.1);}
         .export-item:last-child { border-bottom: none; padding-bottom: 0;}
         .export-key { font-weight: 900; color: #555; width: 85px; flex-shrink: 0; }
         .export-val { font-weight: 900; color: #111; flex: 1; line-height: 1.3;}
         
-        /* 專屬質感顏色 */
-        .val-price { color: var(--brand-red); font-size: 24px; font-weight: 900; }
-        .val-total { color: var(--brand-red); font-size: 20px; font-weight: 900; }
-        .val-red { color: var(--brand-red); font-size: 18px; font-weight: 900; }
+        .val-price { color: var(--brand-red); font-size: 22px; font-weight: 900; }
+        .val-red-bold { color: var(--brand-red); font-size: 18px; font-weight: 900; }
 
-        /* 介紹文字區 */
         .export-desc { font-size: 16px; font-weight: 900; color: #111; line-height: 1.6; white-space: pre-wrap; flex: 1; overflow: hidden;}
         
-        /* 圖片網格系統 (強制作正方形雙拼) */
-        .export-image-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; flex: none; width: 100%; justify-content: center; height: 160px;}
+        .export-image-grid { display: grid; gap: 15px; flex: none; width: 100%; justify-content: center; height: 170px;}
+        .export-image-grid.count-1 { grid-template-columns: 180px; }
+        .export-image-grid.count-2 { grid-template-columns: 1fr 1fr; } 
         .export-image-box { aspect-ratio: 1 / 1; overflow: hidden; border-radius: 8px; border: 2px solid #333; background: #FAFAFA; display: flex; align-items: center; justify-content: center; color: var(--brand-red); font-weight: 900; font-size: 18px;}
         .export-image-box img { width: 100%; height: 100%; object-fit: cover; }
+        .export-image-grid.empty { display: flex; height: 160px; align-items:center; justify-content:center; background: rgba(0,0,0,0.02); border: 2px dashed rgba(0,0,0,0.1); font-size:15px; font-weight:bold; color:#AAA; border-radius: 8px;}
 
-        .export-footer { text-align: center; font-size: 14px; font-weight: 900; color: #888; padding-top: 15px; border-top: 1px solid rgba(0,0,0,0.05); margin-top: 5px; flex: none;}
-
+        .export-footer { text-align: center; font-size: 14px; font-weight: 900; color: #888; padding-top: 10px; border-top: 1px solid rgba(0,0,0,0.05); margin-top: auto; flex: none;}
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 9999; justify-content: center; align-items: center; flex-direction: column; padding: 20px;}
     </style>
 </head>
@@ -174,30 +113,22 @@
 
     <div class="top-tabs">
         <button class="tab-btn active">1. 透天 / 別墅</button>
-        <button class="tab-btn" onclick="alert('公寓/大樓表單建置中，敬請期待！')">2. 公寓 / 大樓</button>
-        <button class="tab-btn" onclick="alert('農地/建地表單建置中，敬請期待！')">3. 農地 / 建地</button>
+        <button class="tab-btn" onclick="alert('公寓/大樓表單建置中！')">2. 公寓 / 大樓</button>
+        <button class="tab-btn" onclick="alert('農地/建地表單建置中！')">3. 農地 / 建地</button>
     </div>
 
     <form id="mainFormArea">
-        
         <div class="card">
-            <h2 class="card-title">第一欄位：基本資料</h2>
-            <div class="grid-2">
-                <div class="form-group"><label>類型</label><select id="v_type"><option value="透天/別墅">透天/別墅</option><option value="大樓/公寓">大樓/公寓</option><option value="其他">其他</option></select></div>
-            </div>
+            <h2 class="card-title">第一、二欄位：基本資料與售價</h2>
             <div class="form-group"><label class="required">案名 (海軍藍字體)</label><input type="text" id="v_name" placeholder="例：棒球場旁稀有釋出"></div>
-        </div>
-
-        <div class="card">
-            <h2 class="card-title">第二欄位：售價與格局</h2>
             <div class="grid-2">
                 <div class="form-group"><label class="required">售價 (萬/紅字)</label><input type="text" id="v_price" class="format-num" placeholder="1198"></div>
                 <div class="form-group">
-                    <label>格局</label>
+                    <label>格局 (自動跳格)</label>
                     <div class="flex-row">
-                        <input type="tel" id="v_lR" maxlength="1"><label>房</label>
-                        <input type="tel" id="v_lL" maxlength="1"><label>廳</label>
-                        <input type="tel" id="v_lB" maxlength="1"><label>衛</label>
+                        <input type="tel" id="v_lR" class="auto-next" maxlength="1"><label>房</label>
+                        <input type="tel" id="v_lL" class="auto-next" maxlength="1"><label>廳</label>
+                        <input type="tel" id="v_lB" class="auto-next" maxlength="1"><label>衛</label>
                     </div>
                     <input type="text" id="v_lOther" class="other-input" style="display:block; margin-top:10px;" placeholder="或其他格局 (自行填入)">
                 </div>
@@ -209,7 +140,7 @@
         </div>
 
         <div class="card" style="border: 2px dashed var(--brand-green); background: rgba(0,140,74,0.02);">
-            <h2 class="card-title">第三、四欄位：圖片上傳 (正方形固定尺寸)</h2>
+            <h2 class="card-title">第三、四欄位：圖片上傳 (正方形雙拼)</h2>
             <div class="form-group">
                 <label>請選擇格局圖或實景照 (最多 2 張，將自動裁切為正方形)</label>
                 <input type="file" id="v_images" multiple accept="image/*" style="background: #FFF; padding: 10px;">
@@ -217,30 +148,22 @@
         </div>
 
         <div class="card">
-            <h2 class="card-title">第五欄位：房屋資訊 (地坪)</h2>
+            <h2 class="card-title">第五、六欄位：房屋坪數</h2>
             <div class="grid-3">
                 <div class="form-group"><label>地坪(肉地)</label><input type="number" id="v_landA" oninput="calcAreas()"></div>
                 <div class="form-group"><label>地坪(路地)</label><input type="number" id="v_landRoad" oninput="calcAreas()"></div>
                 <div class="form-group"><label style="color:var(--brand-red);">總地坪 (自動加總)</label><input type="text" id="v_totLand" readonly placeholder="肉地+路地"></div>
             </div>
-        </div>
-
-        <div class="card">
-            <h2 class="card-title">第六欄位：房屋資訊 (建坪)</h2>
             <div class="grid-3">
                 <div class="form-group"><label>主建物 (坪)</label><input type="number" id="v_mainA" oninput="calcAreas()"></div>
                 <div class="form-group"><label>附屬建物 (坪)</label><input type="number" id="v_subA" oninput="calcAreas()"></div>
                 <div class="form-group"><label style="color:var(--brand-red);">總建坪 (自動加總)</label><input type="text" id="v_totBuild" readonly placeholder="主建+附屬"></div>
             </div>
-            <div class="form-group">
-                <label>增建</label>
-                <select id="v_addSel" onchange="toggle(this, 'v_addO')"><option value="空白">空白</option><option value="其他">約____幾坪/或其他</option></select>
-                <input type="text" id="v_addO" class="other-input" placeholder="例: 約5坪">
-            </div>
+            <div class="form-group"><label>增建</label><select id="v_addSel" onchange="toggle(this, 'v_addO')"><option value="空白">空白</option><option value="其他">約____幾坪/或其他</option></select><input type="text" id="v_addO" class="other-input" placeholder="例: 約5坪"></div>
         </div>
 
         <div class="card">
-            <h2 class="card-title">第七欄位：房屋資訊 (樓層)</h2>
+            <h2 class="card-title">第七、八欄位：房屋資訊</h2>
             <div class="grid-2">
                 <div class="form-group"><label>樓層</label><div class="flex-row"><label>共</label><input type="text" id="v_fTot"><label>樓</label></div></div>
                 <div class="form-group"><label>電梯</label><select id="v_elevSel" onchange="toggle(this,'v_elevO')"><option value="有電梯">有電梯</option><option value="無電梯">無電梯</option><option value="其他">其他</option></select><input type="text" id="v_elevO" class="other-input" placeholder="自行填寫"></div>
@@ -248,121 +171,55 @@
             <div class="grid-2">
                 <div class="form-group"><label>管理費</label><select id="v_mFSel" onchange="toggle(this,'v_mF')"><option value="有管理費">有管理費</option><option value="無管理費">無管理費</option><option value="其他">其他(自行填寫)</option></select><input type="text" id="v_mF" class="other-input" placeholder="自行填入"></div>
                 <div class="form-group">
-                    <label>管理員上班時間</label>
-                    <select id="v_mTS" onchange="toggle(this, 'v_mTO')"><option value="有管理員">有管理員</option><option value="無管理員">無管理員</option><option value="24H">24H</option><option value="早晚">早上__點到晚上__點</option><option value="其他">其他</option></select>
-                    <div id="v_mTimeBox" class="other-input flex-row"><label>早</label><input type="text" id="v_mT1"><label>點 到晚</label><input type="text" id="v_mT2"><label>點</label></div>
+                    <label>管理員</label>
+                    <select id="v_mTS" onchange="toggle(this, 'v_mTO')"><option value="有管理員">有管理員</option><option value="無管理員">無管理員</option><option value="有管理員24H">有管理員24H</option><option value="早晚">早上__到__點</option><option value="其他">其他</option></select>
+                    <div id="v_mTimeBox" class="other-input flex-row"><label>早</label><input type="text" id="v_mT1"><label>到</label><input type="text" id="v_mT2"><label>點</label></div>
                     <input type="text" id="v_mTO" class="other-input" placeholder="自行填入">
                 </div>
             </div>
-        </div>
-
-        <div class="card">
-            <h2 class="card-title">第八欄位：房屋資訊 (尺寸)</h2>
             <div class="grid-4">
-                <div class="form-group"><label>一樓樓高 (米)</label><input type="text" id="v_h1" placeholder="填寫米數"></div>
-                <div class="form-group"><label>面寬 (米)</label><input type="text" id="v_wS" placeholder="填寫米數"></div>
-                <div class="form-group"><label>深度 (米)</label><input type="text" id="v_dpS" placeholder="填寫米數"></div>
-                <div class="form-group"><label>路寬 (米)</label><input type="text" id="v_rwS" placeholder="填寫米數"></div>
+                <div class="form-group"><label>一樓樓高(米)</label><input type="text" id="v_h1"></div>
+                <div class="form-group"><label>面寬(米)</label><input type="text" id="v_wS"></div>
+                <div class="form-group"><label>深度(米)</label><input type="text" id="v_dpS"></div>
+                <div class="form-group"><label>路寬(米)</label><input type="text" id="v_rwS"></div>
             </div>
         </div>
 
         <div class="card">
-            <h2 class="card-title">第九欄位：座向</h2>
-            <div class="form-group">
-                <label>房屋座向</label>
-                <select id="v_dH" onchange="toggle(this,'v_dHO')"><option value="空白">空白</option><option value="朝東">朝東</option><option value="朝西">朝西</option><option value="朝南">朝南</option><option value="朝北">朝北</option><option value="朝東南">朝東南</option><option value="朝東北">朝東北</option><option value="朝西南">朝西南</option><option value="朝西北">朝西北</option><option value="其他">其他</option></select>
-                <input type="text" id="v_dHO" class="other-input" placeholder="自行填入">
-            </div>
-        </div>
-
-        <div class="card">
-            <h2 class="card-title">第十欄位：車位</h2>
+            <h2 class="card-title">第九、十欄位：座向與車位</h2>
+            <div class="form-group"><label>房屋座向</label><select id="v_dH" onchange="toggle(this,'v_dHO')"><option value="空白">空白</option><option value="朝東">朝東</option><option value="朝西">朝西</option><option value="朝南">朝南</option><option value="朝北">朝北</option><option value="朝東南">朝東南</option><option value="朝東北">朝東北</option><option value="朝西南">朝西南</option><option value="朝西北">朝西北</option><option value="其他">其他</option></select><input type="text" id="v_dHO" class="other-input" placeholder="自行填入"></div>
             <div class="grid-3">
-                <div class="form-group">
-                    <label>汽車位</label>
-                    <select id="v_carT" onchange="toggle(this, 'v_carTO')">
-                        <option value="無車位">無車位</option><option value="約可停一台">約可停一台</option><option value="約可停兩台">約可停兩台</option><option value="約可停三台">約可停三台</option><option value="約可停四台">約可停四台</option><option value="其他">或其他(自行填入)</option>
-                    </select>
-                    <input type="text" id="v_carTO" class="other-input" placeholder="請填入">
-                </div>
-                <div class="form-group">
-                    <label>汽車位號碼</label>
-                    <select id="v_carNSel" onchange="toggle(this, 'v_carNO')"><option value="無">無</option><option value="其他">位於_層_號</option></select>
-                    <div class="flex-row other-input" id="v_carNO" style="margin-bottom:5px;"><label>位於</label><input type="text" id="v_carL"><label>層</label><input type="text" id="v_carN"><label>號</label></div>
-                    <input type="text" id="v_carNO2" class="other-input" placeholder="或 其他 (自行填寫)">
-                </div>
-                <div class="form-group">
-                    <label>機車位號碼</label>
-                    <select id="v_motoNSel" onchange="toggle(this, 'v_motoNO')"><option value="無">無</option><option value="其他">填寫號碼</option></select>
-                    <div class="flex-row other-input" id="v_motoNO" style="margin-bottom:5px;"><input type="text" id="v_motoN"><label>號</label></div>
-                    <input type="text" id="v_motoNO2" class="other-input" placeholder="或 其他 (自行填寫)">
-                </div>
+                <div class="form-group"><label>汽車位</label><select id="v_carT" onchange="toggle(this, 'v_carTO')"><option value="無車位">無車位</option><option value="約可停一台">約可停一台</option><option value="約可停兩台">約可停兩台</option><option value="約可停三台">約可停三台</option><option value="約可停四台">約可停四台</option><option value="其他">其他</option></select><input type="text" id="v_carTO" class="other-input"></div>
+                <div class="form-group"><label>汽車號碼</label><select id="v_carNSel" onchange="toggle(this, 'v_carNO')"><option value="無">無</option><option value="其他">位於_層_號</option></select><div class="flex-row other-input" id="v_carNO"><label>位於</label><input type="text" id="v_carL"><label>層</label><input type="text" id="v_carN"><label>號</label></div><input type="text" id="v_carNO2" class="other-input"></div>
+                <div class="form-group"><label>機車號碼</label><select id="v_motoNSel" onchange="toggle(this, 'v_motoNO')"><option value="無">無</option><option value="其他">填寫號碼</option></select><div class="flex-row other-input" id="v_motoNO"><input type="text" id="v_motoN"><label>號</label></div><input type="text" id="v_motoNO2" class="other-input"></div>
             </div>
         </div>
 
         <div class="card">
-            <h2 class="card-title">第十一欄位：補充</h2>
+            <h2 class="card-title">第十一、十二欄位：補充與學區環境</h2>
             <div class="grid-2">
-                <div class="form-group"><label>是否有太陽能</label><select id="v_solar" onchange="toggle(this,'v_solarO')"><option value="空白">空白</option><option value="有私有太陽能">有私有太陽能</option><option value="無私有太陽能">無私有太陽能</option><option value="租賃太陽能">租賃太陽能</option><option value="社區頂樓租賃的太陽能">社區頂樓租賃的太陽能</option><option value="其他">其他(自行填寫)</option></select><input type="text" id="v_solarO" class="other-input"></div>
+                <div class="form-group"><label>太陽能</label><select id="v_solar" onchange="toggle(this,'v_solarO')"><option value="空白">空白</option><option value="有私有太陽能">有私有</option><option value="無私有太陽能">無私有</option><option value="租賃太陽能">租賃</option><option value="社區頂樓租賃的太陽能">社區頂樓租賃</option><option value="其他">其他</option></select><input type="text" id="v_solarO" class="other-input"></div>
                 <div class="form-group"><label>瓦斯方式</label><select id="v_gas" onchange="toggle(this,'v_gasO')"><option value="空白">空白</option><option value="天然瓦斯">天然瓦斯</option><option value="桶裝瓦斯">桶裝瓦斯</option><option value="無瓦斯">無瓦斯</option><option value="其他">其他</option></select><input type="text" id="v_gasO" class="other-input"></div>
-                <div class="form-group"><label>主要建材</label><select id="v_mat" onchange="toggle(this,'v_matO')"><option value="空白">空白</option><option value="RC鋼筋混凝土">RC鋼筋混凝土</option><option value="磚造">磚造</option><option value="加強磚造">加強磚造</option><option value="其他">其他</option></select><input type="text" id="v_matO" class="other-input"></div>
-                <div class="form-group"><label>主要用途</label><select id="v_useSel" onchange="toggle(this,'v_use')"><option value="集合住宅">集合住宅</option><option value="其他">其他(自行填寫)</option></select><input type="text" id="v_use" class="other-input" placeholder="自行填入"></div>
-                <div class="form-group"><label>使用分區</label><select id="v_zon" onchange="toggle(this,'v_zonO')"><option value="空白">空白</option><option value="住宅區">住宅區</option><option value="商業區">商業區</option><option value="甲種建地">甲種建地</option><option value="乙種建地">乙種建地</option><option value="丙種建地">丙種建地</option><option value="丁種建地">丁種建地</option><option value="都計內乙工">都計內乙工</option><option value="其他">其他</option></select><input type="text" id="v_zonO" class="other-input"></div>
+                <div class="form-group"><label>主要建材</label><select id="v_mat" onchange="toggle(this,'v_matO')"><option value="RC鋼筋混凝土">RC鋼筋混凝土</option><option value="磚造">磚造</option><option value="加強磚造">加強磚造</option><option value="其他">其他</option></select><input type="text" id="v_matO" class="other-input"></div>
+                <div class="form-group"><label>主要用途</label><select id="v_useSel" onchange="toggle(this,'v_use')"><option value="集合住宅">集合住宅</option><option value="其他">其他</option></select><input type="text" id="v_use" class="other-input"></div>
+                <div class="form-group"><label>使用分區</label><select id="v_zon" onchange="toggle(this,'v_zonO')"><option value="住宅區">住宅區</option><option value="商業區">商業區</option><option value="甲種建地">甲種建地</option><option value="乙種建地">乙種建地</option><option value="丙種建地">丙種建地</option><option value="丁種建地">丁種建地</option><option value="都計內乙工">都計內乙工</option><option value="其他">其他</option></select><input type="text" id="v_zonO" class="other-input"></div>
             </div>
-        </div>
-
-        <div class="card">
-            <h2 class="card-title">第十二欄位：學區及環境</h2>
             <div class="grid-2">
-                <div class="form-group"><label>附近學校</label><select id="v_schSel" onchange="toggle(this,'v_sch')"><option value="空白">空白</option><option value="其他">自行填入</option></select><input type="text" id="v_sch" class="other-input" placeholder="填入學校"></div>
-                <div class="form-group">
-                    <label>附近超商 (多選)</label>
-                    <div class="chip-group" id="storeChecks">
-                        <input type="checkbox" id="s1"><label class="chip-label" for="s1">7-11</label>
-                        <input type="checkbox" id="s2"><label class="chip-label" for="s2">全家</label>
-                        <input type="checkbox" id="s3"><label class="chip-label" for="s3">萊爾富</label>
-                        <input type="checkbox" id="s4"><label class="chip-label" for="s4">全聯</label>
-                        <input type="checkbox" id="s5"><label class="chip-label" for="s5">市場</label>
-                    </div>
-                    <input type="text" id="v_stO" placeholder="其他" style="margin-top:8px;">
-                </div>
+                <div class="form-group"><label>附近學校</label><select id="v_schSel" onchange="toggle(this,'v_sch')"><option value="空白">空白</option><option value="其他">自行填入</option></select><input type="text" id="v_sch" class="other-input"></div>
+                <div class="form-group"><label>附近超商(多選)</label><div class="chip-group" id="storeChecks"><input type="checkbox" id="s1"><label class="chip-label" for="s1">7-11</label><input type="checkbox" id="s2"><label class="chip-label" for="s2">全家</label><input type="checkbox" id="s3"><label class="chip-label" for="s3">萊爾富</label><input type="checkbox" id="s4"><label class="chip-label" for="s4">全聯</label><input type="checkbox" id="s5"><label class="chip-label" for="s5">市場</label></div><input type="text" id="v_stO" placeholder="其他" style="margin-top:8px;"></div>
             </div>
-            <div class="form-group">
-                <label>自訂學區環境介紹</label>
-                <div id="dyn-feat2"></div>
-                <button type="button" class="btn-add" onclick="addDyn('dyn-feat2')">➕ 新增一欄環境介紹</button>
-            </div>
+            <div class="form-group"><label>自訂學區環境介紹</label><div id="dyn-feat2"></div><button type="button" class="btn-add" onclick="addDyn('dyn-feat2')">➕ 新增環境介紹</button></div>
         </div>
 
         <div class="card">
             <h2 class="card-title">第十三、十四欄位：建案與公設</h2>
             <div class="grid-2">
-                <div class="form-group">
-                    <label>建案名稱</label>
-                    <select id="v_proj1" onchange="toggle(this, 'v_proj1O')"><option value="無">無</option><option value="其他">自行填入</option></select>
-                    <input type="text" id="v_proj1O" class="other-input" placeholder="建案名...">
-                </div>
-                <div class="form-group">
-                    <label>建商名稱</label>
-                    <select id="v_proj2" onchange="toggle(this, 'v_proj2O')"><option value="無">無</option><option value="其他">自行填入</option></select>
-                    <input type="text" id="v_proj2O" class="other-input" placeholder="建商名...">
-                </div>
+                <div class="form-group"><label>建案名稱</label><select id="v_proj1" onchange="toggle(this, 'v_proj1O')"><option value="無">無</option><option value="其他">自行填入</option></select><input type="text" id="v_proj1O" class="other-input"></div>
+                <div class="form-group"><label>建商名稱</label><select id="v_proj2" onchange="toggle(this, 'v_proj2O')"><option value="無">無</option><option value="其他">自行填入</option></select><input type="text" id="v_proj2O" class="other-input"></div>
             </div>
-            <div class="form-group" style="margin-top: 15px;">
-                <label style="border-bottom:1px solid #EEE; padding-bottom:5px;">公設點選</label>
-                <div class="chip-group" style="margin-top:8px;" id="facilityChecks">
-                    <input type="checkbox" id="f1"><label class="chip-label" for="f1">大廳</label>
-                    <input type="checkbox" id="f2"><label class="chip-label" for="f2">中庭花園</label>
-                    <input type="checkbox" id="f3"><label class="chip-label" for="f3">交誼廳</label>
-                    <input type="checkbox" id="f4"><label class="chip-label" for="f4">視聽室</label>
-                    <input type="checkbox" id="f5"><label class="chip-label" for="f5">閱讀室</label>
-                    <input type="checkbox" id="f6"><label class="chip-label" for="f6">卡拉OK</label>
-                    <input type="checkbox" id="f7"><label class="chip-label" for="f7">健身房</label>
-                    <input type="checkbox" id="f8"><label class="chip-label" for="f8">媽媽教室</label>
-                    <input type="checkbox" id="f9"><label class="chip-label" for="f9">遊戲室</label>
-                    <input type="checkbox" id="f10"><label class="chip-label" for="f10">游泳池</label>
-                    <input type="checkbox" id="f11"><label class="chip-label" for="f11">曬被區</label>
-                    <input type="checkbox" id="f12"><label class="chip-label" for="f12">回收區</label>
+            <div class="form-group"><label>公設點選</label>
+                <div class="chip-group" id="facilityChecks">
+                    <input type="checkbox" id="f1"><label class="chip-label" for="f1">大廳</label><input type="checkbox" id="f2"><label class="chip-label" for="f2">中庭花園</label><input type="checkbox" id="f3"><label class="chip-label" for="f3">交誼廳</label><input type="checkbox" id="f4"><label class="chip-label" for="f4">視聽室</label><input type="checkbox" id="f5"><label class="chip-label" for="f5">閱讀室</label><input type="checkbox" id="f6"><label class="chip-label" for="f6">卡拉OK</label><input type="checkbox" id="f7"><label class="chip-label" for="f7">健身房</label><input type="checkbox" id="f8"><label class="chip-label" for="f8">媽媽教室</label><input type="checkbox" id="f9"><label class="chip-label" for="f9">遊戲室</label><input type="checkbox" id="f10"><label class="chip-label" for="f10">游泳池</label><input type="checkbox" id="f11"><label class="chip-label" for="f11">曬被區</label><input type="checkbox" id="f12"><label class="chip-label" for="f12">回收區</label>
                 </div>
                 <input type="text" id="v_facO" placeholder="其他公設補充" style="margin-top:8px;">
             </div>
@@ -370,34 +227,29 @@
 
         <div class="card">
             <h2 class="card-title">第十五欄位：物件介紹</h2>
-            <div class="form-group">
-                <textarea id="v_feat" rows="5" placeholder="自行輸入超大介紹..."></textarea>
-            </div>
+            <div class="form-group"><textarea id="v_feat" rows="5" placeholder="自行輸入超大介紹..."></textarea></div>
         </div>
 
         <div class="card internal-card">
-            <h2 class="card-title">⚠️ 內部資料不公開 (圖片不顯示，僅供一鍵複製)</h2>
+            <h2 class="card-title">⚠️ 內部資料不公開 (不上圖片，僅供複製)</h2>
             <div class="grid-3">
                 <div class="form-group"><label>現況</label><select id="v_intStatus"><option value="空屋">空屋</option><option value="自用">自用</option><option value="出租中">出租中</option></select></div>
                 <div class="form-group"><label>取得原因</label><select id="v_rRes"><option value="買賣">買賣</option><option value="繼承">繼承</option><option value="贈與">贈與</option></select></div>
-                <div class="form-group"><label>實價登錄</label><input type="text" id="v_realPrice" placeholder="自行填入"></div>
-                <div class="form-group"><label>登記日期</label><select id="v_rDateSel" onchange="toggle(this, 'v_rDateO')"><option value="空白">空白</option><option value="其他">自行填入</option></select><div class="flex-row other-input" id="v_rDateO"><input type="tel" id="v_ry"><label>年</label><input type="tel" id="v_rm"><label>月</label><input type="tel" id="v_rd"><label>日</label></div></div>
+                <div class="form-group"><label>實價登錄</label><input type="text" id="v_realPrice"></div>
+                <div class="form-group"><label>登記日期</label><select id="v_rDateSel" onchange="toggle(this, 'v_rDateO')"><option value="空白">空白</option><option value="其他">填入</option></select><div class="flex-row other-input" id="v_rDateO"><input type="tel" id="v_ry"><label>年</label><input type="tel" id="v_rm"><label>月</label><input type="tel" id="v_rd"><label>日</label></div></div>
                 <div class="form-group"><label>售屋動機</label><select id="v_mo" onchange="toggle(this,'v_moO')"><option value="無">無</option><option value="轉投資">轉投資</option><option value="換屋">換屋</option><option value="工作關係">工作關係</option><option value="閒置資產">閒置資產</option><option value="其他">其他</option></select><input type="text" id="v_moO" class="other-input"></div>
             </div>
-            
             <div class="form-group"><label>房屋補充說明</label><input type="text" id="v_iSup1" placeholder="※例如有漏水"></div>
             <div class="form-group"><label>重要補充說明</label><input type="text" id="v_iSup2"></div>
-            <div id="dyn-int"></div>
-            <button type="button" class="btn-add" onclick="addDyn('dyn-int')">➕ 新增空白欄位</button>
-
+            <div id="dyn-int"></div><button type="button" class="btn-add" onclick="addDyn('dyn-int')">➕ 新增</button>
             <div class="grid-2" style="margin-top: 15px;">
                 <div class="form-group"><label>委託種類</label><select id="v_iTyp"><option value="一般委託">一般委託</option><option value="專任委託">專任委託</option></select></div>
                 <div class="form-group"><label>委託編號</label><input type="text" id="v_iNo"></div>
                 <div class="form-group"><label>開發人員</label><input type="text" id="v_iDev"></div>
-                <div class="form-group"><label>服務費</label><div class="flex-row"><input type="number" id="v_iFee"><label>%</label></div></div>
-                <div class="form-group"><label>中人費</label><select id="v_iBroker" onchange="toggle(this, 'v_iBrokerO')"><option value="有">有</option><option value="無">無</option><option value="其他">自行填寫</option></select><input type="text" id="v_iBrokerO" class="other-input" placeholder="填寫中人費"></div>
-                <div class="form-group"><label>房屋建號</label><div class="flex-row"><input type="text" id="v_buildNo1"><label>段</label><input type="text" id="v_buildNo2"><label>建號</label></div></div>
-                <div class="form-group"><label>房屋地號</label><div class="flex-row"><input type="text" id="v_landNo1"><label>段</label><input type="text" id="v_landNo2"><label>地號</label></div></div>
+                <div class="form-group"><label>服務費%</label><input type="number" id="v_iFee"></div>
+                <div class="form-group"><label>中人費</label><select id="v_iBroker" onchange="toggle(this, 'v_iBrokerO')"><option value="有">有</option><option value="無">無</option><option value="其他">自行填寫</option></select><input type="text" id="v_iBrokerO" class="other-input"></div>
+                <div class="form-group"><label>房屋建號</label><div class="flex-row"><input type="text" id="v_buildNo1"><label>段</label><input type="text" id="v_buildNo2"><label>號</label></div></div>
+                <div class="form-group"><label>房屋地號</label><div class="flex-row"><input type="text" id="v_landNo1"><label>段</label><input type="text" id="v_landNo2"><label>號</label></div></div>
                 <div class="form-group"><label>📌地址(門牌)</label><input type="text" id="v_iAddr"></div>
                 <div class="form-group"><label>📌Google地標網址</label><input type="text" id="v_iAddrUrl"></div>
                 <div class="form-group"><label>🔑 鑰匙</label><input type="text" id="v_iKey"></div>
@@ -407,7 +259,7 @@
 </div>
 
 <div class="container" style="padding-top: 0; padding-bottom: 50px;">
-    <div class="bottom-actions">
+    <div class="bottom-actions-wrapper">
         <div class="action-row">
             <button type="button" class="btn-action btn-mobile" onclick="generateMobileImage()">📱 手機一鍵儲存圖片</button>
             <button type="button" class="btn-action btn-pc" onclick="generatePCImage()">💻 電腦一鍵下載圖片</button>
@@ -430,7 +282,7 @@
     <div class="export-content">
         <div class="export-header">
             <img src="logo.png" onerror="this.style.display='none'">
-            <div class="export-header-text">成功莊敬店 <span class="sep">|</span> 物件明細</div>
+            <div class="export-header-text">成功莊敬店 <span class="sep">|</span> 物件明細 <span style="font-size:18px; color:#008C4A;">透天別墅</span></div>
         </div>
 
         <div class="export-body">
@@ -469,17 +321,17 @@
                     <div class="split-card-body">
                         <div class="split-col">
                             <div class="split-title">土地</div>
-                            <div class="export-item"><div class="export-key" style="width:60px;">肉地</div><div class="export-val" id="o_landA"></div></div>
-                            <div class="export-item"><div class="export-key" style="width:60px;">路地</div><div class="export-val" id="o_landRoad"></div></div>
-                            <div class="export-item"><div class="export-key" style="width:60px;">總地坪</div><div class="export-val val-total" id="o_totLand"></div></div>
+                            <div class="export-item"><div class="export-key" style="width:55px;">肉地</div><div class="export-val" id="o_landA"></div></div>
+                            <div class="export-item"><div class="export-key" style="width:55px;">路地</div><div class="export-val" id="o_landRoad"></div></div>
+                            <div class="export-item"><div class="export-key" style="width:55px;">總地坪</div><div class="export-val val-red-bold" id="o_totLand"></div></div>
                         </div>
                         <div class="split-divider"></div>
                         <div class="split-col">
                             <div class="split-title">建物</div>
-                            <div class="export-item"><div class="export-key" style="width:60px;">主建</div><div class="export-val" id="o_mA"></div></div>
-                            <div class="export-item"><div class="export-key" style="width:60px;">附屬</div><div class="export-val" id="o_sA"></div></div>
-                            <div class="export-item"><div class="export-key" style="width:60px;">總建坪</div><div class="export-val val-total" id="o_totBuild"></div></div>
-                            <div class="export-item"><div class="export-key" style="width:60px;">增建</div><div class="export-val" id="o_add"></div></div>
+                            <div class="export-item"><div class="export-key" style="width:55px;">主建</div><div class="export-val" id="o_mA"></div></div>
+                            <div class="export-item"><div class="export-key" style="width:55px;">附屬</div><div class="export-val" id="o_sA"></div></div>
+                            <div class="export-item"><div class="export-key" style="width:55px;">總建坪</div><div class="export-val val-red-bold" id="o_totBuild"></div></div>
+                            <div class="export-item"><div class="export-key" style="width:55px;">增建</div><div class="export-val" id="o_add"></div></div>
                         </div>
                     </div>
                 </div>
@@ -488,10 +340,10 @@
                     <div class="split-card-body">
                         <div class="split-col">
                             <div class="split-title">樓層</div>
-                            <div class="export-item"><div class="export-key" style="width:60px;">樓層</div><div class="export-val" id="o_fl"></div></div>
-                            <div class="export-item"><div class="export-key" style="width:60px;">電梯</div><div class="export-val" id="o_elev"></div></div>
-                            <div class="export-item"><div class="export-key" style="width:60px;">管理費</div><div class="export-val" id="o_mF"></div></div>
-                            <div class="export-item"><div class="export-key" style="width:60px;">管時間</div><div class="export-val" id="o_mT"></div></div>
+                            <div class="export-item"><div class="export-key" style="width:55px;">樓層</div><div class="export-val" id="o_fl"></div></div>
+                            <div class="export-item"><div class="export-key" style="width:55px;">電梯</div><div class="export-val" id="o_elev"></div></div>
+                            <div class="export-item"><div class="export-key" style="width:55px;">管理費</div><div class="export-val" id="o_mF"></div></div>
+                            <div class="export-item"><div class="export-key" style="width:55px;">管時間</div><div class="export-val" id="o_mT"></div></div>
                         </div>
                         <div class="split-divider"></div>
                         <div class="split-col">
@@ -578,25 +430,29 @@
 </div>
 
 <script>
-    // 初始化日期
-    const today = new Date();
-    const twYear = today.getFullYear() - 1911;
-    document.getElementById('o_today').innerText = `${twYear} 年 ${today.getMonth()+1} 月 ${today.getDate()} 日`;
+    // === 核心功能區 ===
+    document.getElementById('o_today').innerText = `${new Date().getFullYear()-1911} 年 ${new Date().getMonth()+1} 月 ${new Date().getDate()} 日`;
+
+    // 自動換格防呆
+    document.querySelectorAll('.auto-next').forEach(input => {
+        input.addEventListener('input', function() {
+            if (this.value.length === parseInt(this.getAttribute('maxlength'))) {
+                let next = this.nextElementSibling;
+                while(next && next.tagName !== 'INPUT') next = next.nextElementSibling;
+                if(next) next.focus();
+            }
+        });
+    });
 
     function toggle(sel, id) {
         const el = document.getElementById(id);
         if(!el) return;
-        if(sel.value.includes('其他') || sel.value.includes('手動') || sel.value.includes('填寫') || sel.value.includes('早晚') || sel.value.includes('大樓每層')) {
+        if(sel.value.includes('其他') || sel.value.includes('有管理員早上') || sel.value.includes('大樓每層')) {
             el.style.display = 'flex'; el.focus();
             if(el.tagName === 'INPUT') el.style.display = 'block';
         } else { el.style.display = 'none'; }
     }
-    document.getElementById('v_mTS').addEventListener('change', function(){
-        const box = document.getElementById('v_mTimeBox');
-        if(this.value === '早晚') { box.style.display = 'flex'; } else { box.style.display = 'none'; }
-    });
-
-    // 格式化千分位
+    
     document.querySelectorAll('.format-num').forEach(input => {
         input.addEventListener('blur', function() {
             if(this.value) {
@@ -608,18 +464,15 @@
         input.addEventListener('focus', function() { this.value = this.value.replace(/,/g, ''); });
     });
 
-    // 全自動計算 (坪數)
     function calcAreas() {
         try {
             let m = parseFloat(document.getElementById('v_mainA').value) || 0;
             let s = parseFloat(document.getElementById('v_subA').value) || 0;
-            let i = m + s;
-            document.getElementById('v_totBuild').value = i>0 ? i.toFixed(2) : '';
+            document.getElementById('v_totBuild').value = (m+s)>0 ? (m+s).toFixed(2) : '';
             
             let l1 = parseFloat(document.getElementById('v_landA').value) || 0;
             let l2 = parseFloat(document.getElementById('v_landRoad').value) || 0;
-            let totL = l1 + l2;
-            document.getElementById('v_totLand').value = totL>0 ? totL.toFixed(2) : '';
+            document.getElementById('v_totLand').value = (l1+l2)>0 ? (l1+l2).toFixed(2) : '';
         } catch(e) {}
     }
 
@@ -635,56 +488,41 @@
         const el = document.getElementById(sel);
         if(!el) return '空白';
         const v = el.value;
-        if(v.includes('其他')||v.includes('填寫')||v.includes('大樓每層')) {
+        if(v.includes('其他')) {
             const othEl = document.getElementById(oth);
-            if(othEl && othEl.tagName==='DIV') return '自行填寫'; 
             return othEl ? (othEl.value.trim() || '空白') : '空白';
         }
         return v;
     }
 
-    // 處理圖片上傳預覽 (最多2張正方形雙拼)
     function bindImages() {
         const imgInput = document.getElementById('v_images');
         const imgBox = document.getElementById('o_images_box');
         if(!imgBox) return;
         imgBox.innerHTML = '';
-        
         if (imgInput && imgInput.files && imgInput.files.length > 0) {
             const fileArr = Array.from(imgInput.files).slice(0, 2);
-            imgBox.className = 'export-image-grid count-2'; // 強制 2 欄網格
-            
-            fileArr.forEach((f, index) => {
-                const url = URL.createObjectURL(f);
-                const wrap = document.createElement('div');
-                wrap.className = 'export-image-box';
-                const img = document.createElement('img');
-                img.src = url;
-                wrap.appendChild(img);
-                imgBox.appendChild(wrap);
+            imgBox.className = 'export-image-grid count-2';
+            fileArr.forEach(f => {
+                const wrap = document.createElement('div'); wrap.className = 'export-image-box';
+                const img = document.createElement('img'); img.src = URL.createObjectURL(f);
+                wrap.appendChild(img); imgBox.appendChild(wrap);
             });
-
-            // 如果只有 1 張，補上照片二的佔位框
             if(fileArr.length === 1) {
-                const wrap2 = document.createElement('div');
-                wrap2.className = 'export-image-box';
-                wrap2.innerText = '照片二';
-                imgBox.appendChild(wrap2);
+                const w = document.createElement('div'); w.className = 'export-image-box'; w.innerText = '照片二'; imgBox.appendChild(w);
             }
         } else {
-            imgBox.className = 'export-image-grid count-2 empty';
+            imgBox.className = 'export-image-grid empty';
             imgBox.innerHTML = '<div class="export-image-box">照片一</div><div class="export-image-box">照片二</div>';
         }
     }
 
-    // 填裝資料到圖片
     const setTxt = (id, val) => { const el = document.getElementById(id); if(el) el.innerText = val; };
 
     function bindData() {
-        bindImages(); // 載入圖片
-
+        bindImages();
         setTxt('o_name', gV('v_name') || '空白');
-        let pr = gV('v_price'); setTxt('o_price', pr ? pr+'萬' : '空白');
+        setTxt('o_price', gV('v_price') ? gV('v_price')+'萬' : '空白');
         
         let lr=gV('v_lR'), ll=gV('v_lL'), lb=gV('v_lB'), lo=gV('v_lOther');
         if(lr||ll||lb) setTxt('o_lay', `${lr||0}房${ll||0}廳${lb||0}衛`);
@@ -692,315 +530,81 @@
         else setTxt('o_lay', '空白');
 
         const pt = (v) => v ? v+'坪' : '空白';
-        setTxt('o_mA', pt(gV('v_mainA')));
-        setTxt('o_sA', pt(gV('v_subA')));
-        setTxt('o_totBuild', pt(gV('v_totBuild')));
-        setTxt('o_landA', pt(gV('v_landA')));
-        setTxt('o_landRoad', pt(gV('v_landRoad')));
-        setTxt('o_totLand', pt(gV('v_totLand')));
+        setTxt('o_mA', pt(gV('v_mainA'))); setTxt('o_sA', pt(gV('v_subA'))); setTxt('o_totBuild', pt(gV('v_totBuild')));
+        setTxt('o_landA', pt(gV('v_landA'))); setTxt('o_landRoad', pt(gV('v_landRoad'))); setTxt('o_totLand', pt(gV('v_totLand')));
         setTxt('o_add', gS('v_addSel', 'v_addO'));
 
-        // 房屋資訊
-        let age=gS('v_ageSel','v_ageO');
-        if(age === '自行填寫') age = gV('v_age') ? gV('v_age')+'年' : '空白';
-        setTxt('o_age', age);
-        
-        let bDate = gS('v_bDateSel', 'v_bDateO');
-        if(bDate === '自行填寫') {
-            let by=gV('v_by'), bm=gV('v_bm'), bd=gV('v_bd');
-            bDate = (by||bm||bd) ? `${by||'_'}年${bm||'_'}月${bd||'_'}日` : '空白';
-        }
-        setTxt('o_bDate', bDate);
+        let age=gS('v_ageSel','v_ageO'); setTxt('o_age', age==='自行填寫'?(gV('v_age')?gV('v_age')+'年':'空白'):age);
+        let bDate = gS('v_bDateSel', 'v_bDateO'); setTxt('o_bDate', bDate==='自行填寫'?((gV('v_by')||gV('v_bm')||gV('v_bd'))?`${gV('v_by')||'_'}年${gV('v_bm')||'_'}月${gV('v_bd')||'_'}日`:'空白'):bDate);
 
-        let fl = gS('v_flSel', 'v_flO');
-        if(fl === '自行填寫') {
-            let ft=gV('v_fTot'); 
-            fl = ft ? `共${ft}樓` : '空白';
-        }
-        setTxt('o_fl', fl);
-
-        let elType = gS('v_elevSel', 'v_elevO');
-        if(elType === '自行填寫') elType = gV('v_elevO') || '空白';
-        setTxt('o_elev', elType);
+        setTxt('o_fl', gV('v_fTot') ? `共${gV('v_fTot')}樓` : '空白');
+        setTxt('o_elev', gS('v_elevSel', 'v_elevO'));
         
-        let mf = gS('v_mFSel', 'v_mF');
-        if(mf === '其他(自行填寫)' || mf === '其他') mf = gV('v_mF') || '空白';
-        setTxt('o_mF', mf);
+        let mf = gS('v_mFSel', 'v_mF'); setTxt('o_mF', mf==='其他(自行填寫)' ? (gV('v_mF')||'空白') : mf);
         
         let mts=gV('v_mTS');
-        if(mts==='早晚') setTxt('o_mT', `早上${gV('v_mT1')||'_'}點到晚上${gV('v_mT2')||'_'}點`);
+        if(mts.includes('早上')) setTxt('o_mT', `早${gV('v_mT1')||'_'}到晚${gV('v_mT2')||'_'}點`);
         else setTxt('o_mT', gS('v_mTS','v_mTO'));
 
-        setTxt('o_h1', gV('v_h1') ? gV('v_h1')+'米' : '空白');
-        setTxt('o_wid', gV('v_wS') ? gV('v_wS')+'米' : '空白');
-        setTxt('o_dep', gV('v_dpS') ? gV('v_dpS')+'米' : '空白');
-        setTxt('o_rw', gV('v_rwS') ? gV('v_rwS')+'米' : '空白');
+        setTxt('o_h1', gV('v_h1') ? gV('v_h1')+'米' : '空白'); setTxt('o_wid', gV('v_wS') ? gV('v_wS')+'米' : '空白');
+        setTxt('o_dep', gV('v_dpS') ? gV('v_dpS')+'米' : '空白'); setTxt('o_rw', gV('v_rwS') ? gV('v_rwS')+'米' : '空白');
 
-        // 座向
         setTxt('o_dH', gS('v_dH','v_dHO'));
+        setTxt('o_solar', gS('v_solar','v_solarO')); setTxt('o_gas', gS('v_gas','v_gasO')); setTxt('o_mat', gS('v_mat','v_matO')); setTxt('o_use', gS('v_useSel','v_use')); setTxt('o_zon', gS('v_zon','v_zonO'));
 
-        // 補充
-        setTxt('o_solar', gS('v_solar','v_solarO'));
-        setTxt('o_gas', gS('v_gas','v_gasO'));
-        setTxt('o_mat', gS('v_mat','v_matO'));
-        setTxt('o_use', gS('v_useSel','v_use'));
-        setTxt('o_zon', gS('v_zon','v_zonO'));
-
-        // 車位
+        let cN = gS('v_carNSel', 'v_carNO'); setTxt('o_cN', cN.includes('位於') ? `位於${gV('v_carL')||'_'}層${gV('v_carN')||'_'}號` : (gV('v_carNO2')||'空白'));
+        let mN = gS('v_motoNSel', 'v_motoNO'); setTxt('o_mN', mN.includes('填寫') ? (gV('v_motoN')?gV('v_motoN')+'號':gV('v_motoNO2')||'空白') : mN);
         setTxt('o_cT', gS('v_carT', 'v_carTO'));
-        let cN = gS('v_carNSel', 'v_carNO');
-        if(cN === '其他' || cN === '自行填寫') {
-            let cl=gV('v_carL'), cn=gV('v_carN'); 
-            cN = (cl||cn) ? `位於${cl||'_'}層${cn||'_'}號` : gV('v_carNO2')||'空白';
-        }
-        setTxt('o_cN', cN);
 
-        let mN = gS('v_motoNSel', 'v_motoNO');
-        if(mN === '其他' || mN === '自行填寫') {
-            mN = gV('v_motoN') ? gV('v_motoN')+'號' : gV('v_motoNO2')||'空白';
-        }
-        setTxt('o_mN', mN);
-
-        // 建案與公設
         let p1 = gS('v_proj1','v_proj1O'); setTxt('o_proj1', p1 !== '空白' && p1 !== '無' ? p1 : '空白');
-        let elP1 = document.getElementById('box_proj1');
-        if(elP1) elP1.style.display = (p1 === '空白' || p1 === '無') ? 'none' : 'flex';
-        
         let p2 = gS('v_proj2','v_proj2O'); setTxt('o_proj2', p2 !== '空白' && p2 !== '無' ? p2 : '空白');
-        let elP2 = document.getElementById('box_proj2');
-        if(elP2) elP2.style.display = (p2 === '空白' || p2 === '無') ? 'none' : 'flex';
-        
-        let elSect = document.getElementById('box_proj_section');
-        if(elSect) elSect.style.display = ((p1 === '空白' || p1 === '無') && (p2 === '空白' || p2 === '無')) ? 'none' : 'flex';
+        let elSect = document.getElementById('box_proj_section'); if(elSect) elSect.style.display = ((p1 === '空白' || p1 === '無') && (p2 === '空白' || p2 === '無')) ? 'none' : 'flex';
 
-        let facArr=[]; document.querySelectorAll('#facilityChecks input:checked').forEach(e=>{
-            if(e.nextElementSibling) facArr.push(e.nextElementSibling.innerText);
-        });
-        if(gV('v_facO')) facArr.push(gV('v_facO'));
-        setTxt('o_fac', facArr.length>0 ? facArr.join('、') : '無公設');
+        let facArr=[]; document.querySelectorAll('#facilityChecks input:checked').forEach(e=>{if(e.nextElementSibling) facArr.push(e.nextElementSibling.innerText);}); if(gV('v_facO')) facArr.push(gV('v_facO')); setTxt('o_fac', facArr.length>0 ? facArr.join('、') : '無公設');
 
-        // 學區環境
         setTxt('o_sch', gS('v_schSel', 'v_sch'));
-        let stArr=[]; document.querySelectorAll('#storeChecks input:checked').forEach(e=>{
-            if(e.nextElementSibling) stArr.push(e.nextElementSibling.innerText);
-        });
-        if(gV('v_stO')) stArr.push(gV('v_stO'));
-        setTxt('o_st', stArr.length>0 ? stArr.join('、') : '空白');
+        let stArr=[]; document.querySelectorAll('#storeChecks input:checked').forEach(e=>{if(e.nextElementSibling) stArr.push(e.nextElementSibling.innerText);}); if(gV('v_stO')) stArr.push(gV('v_stO')); setTxt('o_st', stArr.length>0 ? stArr.join('、') : '空白');
 
-        let feat2 = '';
-        const dFeats2 = document.querySelectorAll('#dyn-feat2 .dyn-val');
-        if(dFeats2) dFeats2.forEach(i=>{ if(i.value.trim()) feat2 += '\n'+i.value.trim(); });
-        setTxt('o_feat2', feat2);
-
-        // 介紹
-        let feat = gV('v_feat');
-        const dFeats = document.querySelectorAll('#dyn-feat .dyn-val');
-        if(dFeats) dFeats.forEach(i=>{ if(i.value.trim()) feat += '\n'+i.value.trim(); });
-        setTxt('o_feat', feat || '空白');
+        let feat2 = ''; document.querySelectorAll('#dyn-feat2 .dyn-val').forEach(i=>{ if(i.value.trim()) feat2 += '\n'+i.value.trim(); }); setTxt('o_feat2', feat2);
+        let feat = gV('v_feat'); document.querySelectorAll('#dyn-feat .dyn-val').forEach(i=>{ if(i.value.trim()) feat += '\n'+i.value.trim(); }); setTxt('o_feat', feat || '空白');
     }
 
-    // 🏆 安全渲染畫布 (完美 15 版塊防破圖)
     async function generateCanvas() {
         document.getElementById('loader').style.display = 'flex';
-        
-        try { bindData(); } catch(e) { console.error(e); }
-        
+        try { bindData(); } catch(e) {}
         const el = document.getElementById('exportArea');
-        if(!el) return null;
-        
-        const scrollY = window.scrollY;
-        el.style.top = scrollY + 'px';
-        el.style.left = '0';
-        el.style.zIndex = '-100'; 
-        
+        el.style.top = window.scrollY + 'px'; el.style.left = '0'; el.style.zIndex = '-100'; 
         await new Promise(r => setTimeout(r, 200));
-
         try {
-            const canvasPromise = html2canvas(el, { 
-                scale: 1.5, 
-                useCORS: true, 
-                allowTaint: true,
-                imageTimeout: 2000, 
-                backgroundColor: '#FAFAFD',
-                width: 1050,
-                height: 1485
-            });
-            
-            const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error('產圖超時')), 15000));
-            const canvas = await Promise.race([canvasPromise, timeoutPromise]);
-            
-            el.style.left = '-9999px';
-            document.getElementById('loader').style.display = 'none';
-            return canvas;
-        } catch(e) {
-            console.error(e);
-            el.style.left = '-9999px';
-            document.getElementById('loader').style.display = 'none';
-            alert('產生圖片失敗，請確保記憶體充足或重新整理網頁。');
-            return null;
-        }
+            const canvasPromise = html2canvas(el, { scale: 1.5, useCORS: true, imageTimeout: 2000, backgroundColor: '#FAFAFD', width: 1050, height: 1485 });
+            const canvas = await Promise.race([canvasPromise, new Promise((_, r) => setTimeout(() => r(new Error('超時')), 15000))]);
+            el.style.left = '-9999px'; document.getElementById('loader').style.display = 'none'; return canvas;
+        } catch(e) { el.style.left = '-9999px'; document.getElementById('loader').style.display = 'none'; alert('失敗'); return null; }
     }
 
-    // 📱 手機儲存相片
-    async function generateMobileImage() {
-        const canvas = await generateCanvas();
-        if(canvas) {
-            try {
-                const imgUrl = canvas.toDataURL('image/jpeg', 0.9);
-                const mImg = document.getElementById('mobileImg');
-                if(mImg) mImg.src = imgUrl;
-                const modal = document.getElementById('mobileModal');
-                if(modal) modal.style.display = 'flex';
-            } catch(e) {
-                alert('圖片轉換失敗');
-            }
-        }
-    }
-
-    // 💻 電腦儲存相片
-    async function generatePCImage() {
-        const canvas = await generateCanvas();
-        if(canvas) {
-            const link = document.createElement('a');
-            link.download = (gV('v_name') || '物件明細') + '.jpg';
-            link.href = canvas.toDataURL('image/jpeg', 0.9);
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        }
-    }
-
-    // 📋 強制複製黑科技 (即時更新)
-    function fallbackCopyTextToClipboard(text) {
-        var ta = document.createElement("textarea");
-        ta.value = text; ta.style.position = "fixed"; ta.style.left = "-9999px";
-        document.body.appendChild(ta); ta.focus(); ta.select();
-        try { document.execCommand('copy'); } catch (err) {}
-        document.body.removeChild(ta);
-    }
+    async function generateMobileImage() { const c = await generateCanvas(); if(c) { document.getElementById('mobileImg').src = c.toDataURL('image/jpeg', 0.9); document.getElementById('mobileModal').style.display = 'flex'; } }
+    async function generatePCImage() { const c = await generateCanvas(); if(c) { const link = document.createElement('a'); link.download = (gV('v_name') || '物件明細') + '.jpg'; link.href = c.toDataURL('image/jpeg', 0.9); link.click(); } }
 
     function copyText() {
         try { bindData(); } catch(e) {} 
+        let lr=gV('v_lR'), ll=gV('v_lL'), lb=gV('v_lB'), lo=gV('v_lOther'); let layText = (lr||ll||lb) ? `${lr||0}房${ll||0}廳${lb||0}衛` : lo;
+        let fList=[]; document.querySelectorAll('#facilityChecks input:checked').forEach(e => { if(e.nextElementSibling) fList.push(e.nextElementSibling.innerText); }); if(gV('v_facO')) fList.push(gV('v_facO'));
+        let stList=[]; document.querySelectorAll('#storeChecks input:checked').forEach(e => { if(e.nextElementSibling) stList.push(e.nextElementSibling.innerText); }); if(gV('v_stO')) stList.push(gV('v_stO'));
+        let featStr = gV('v_feat'); document.querySelectorAll('#dyn-feat .dyn-val').forEach(i=>{ if(i.value.trim()) featStr += '\n' + i.value.trim(); });
+        let feat2Str = ''; document.querySelectorAll('#dyn-feat2 .dyn-val').forEach(i=>{ if(i.value.trim()) feat2Str += '\n' + i.value.trim(); });
+        let intDyn = ''; document.querySelectorAll('#dyn-int .dyn-val').forEach(i=>{ if(i.value.trim()) intDyn += `\n自訂：${i.value.trim()}`; });
+
+        let p1 = gS('v_proj1','v_proj1O'); let p2 = gS('v_proj2','v_proj2O'); let projStr = ''; if(p1 !== '空白' && p1 !== '無') projStr += `建案名：${p1}\n`; if(p2 !== '空白' && p2 !== '無') projStr += `建商名：${p2}\n`;
+        let rDate = gS('v_rDateSel', 'v_rDateO'); if(rDate === '自行填寫') { rDate = (gV('v_ry')||gV('v_rm')||gV('v_rd')) ? `${gV('v_ry')||'_'}年${gV('v_rm')||'_'}月${gV('v_rd')||'_'}日` : '空白'; }
+        let cN = gS('v_carNSel', 'v_carNO'); if(cN.includes('位於')) { cN = (gV('v_carL')||gV('v_carN')) ? `位於${gV('v_carL')||'_'}層${gV('v_carN')||'_'}號` : gV('v_carNO2')||'空白'; }
+        let mN = gS('v_motoNSel', 'v_motoNO'); if(mN.includes('填寫')) { mN = gV('v_motoN') ? gV('v_motoN')+'號' : gV('v_motoNO2')||'空白'; }
         
-        let lr = gV('v_lR'), ll = gV('v_lL'), lb = gV('v_lB'), lo = gV('v_lOther');
-        let layText = (lr||ll||lb) ? `${lr||0}房${ll||0}廳${lb||0}衛` : lo;
+        const txt = `【基本資料】\n類型：${gV('v_type')} | 現況：${gV('v_intStatus')}\n案名：${gV('v_name')}\n售價：${gV('v_price')} 萬\n格局：${layText}\n屋齡/完工：${gS('v_ageSel','v_ageO')==='自行填寫'?(gV('v_age')?gV('v_age')+'年':'空白'):gS('v_ageSel','v_ageO')} / ${gS('v_bDateSel','v_bDateO')==='自行填寫'?((gV('v_by')||gV('v_bm')||gV('v_bd'))?`${gV('v_by')||'_'}年${gV('v_bm')||'_'}月${gV('v_bd')||'_'}日`:'空白'):gS('v_bDateSel','v_bDateO')}\n\n【房屋坪數】\n主建：${gV('v_mainA')}坪 | 附屬：${gV('v_subA')}坪\n總建坪：${gV('v_totBuild')} 坪\n肉地：${gV('v_landA')}坪 | 路地：${gV('v_landRoad')}坪\n總地坪：${gV('v_totLand')} 坪\n增建：${gS('v_addSel', 'v_addO')}\n\n【房屋資訊】\n樓層：${gV('v_fTot') ? '共'+gV('v_fTot')+'樓' : '空白'}\n電梯：${gS('v_elevSel', 'v_elevO')}\n管理費：${gS('v_mFSel', 'v_mF')==='其他(自行填寫)' ? (gV('v_mF')||'空白') : gS('v_mFSel', 'v_mF')}\n管理時間：${gV('v_mTS').includes('早上') ? `早上${gV('v_mT1')||'_'}點到晚上${gV('v_mT2')||'_'}點` : gS('v_mTS', 'v_mTO')}\n一樓樓高：${gV('v_h1') ? gV('v_h1')+'米' : '空白'}\n面寬/深度/路寬：${gV('v_wS')||'空白'}米 / ${gV('v_dpS')||'空白'}米 / ${gV('v_rwS')||'空白'}米\n\n【車位資料】\n汽車位：${gS('v_carT', 'v_carTO')}\n汽車號碼：${cN}\n機車號碼：${mN}\n\n【座向與環境】\n房屋向：${gS('v_dH', 'v_dHO')}\n學校：${gS('v_schSel', 'v_sch')}\n超商：${stList.join('、')}\n${feat2Str}\n\n【補充】\n太陽能：${gS('v_solar', 'v_solarO')}\n瓦斯/建材：${gS('v_gas', 'v_gasO')} / ${gS('v_mat', 'v_matO')}\n用途/分區：${gS('v_useSel', 'v_use')} / ${gS('v_zon', 'v_zonO')}\n\n【建案】\n${projStr}【公設】\n${fList.join('、')}\n\n【物件介紹】\n${featStr}\n\n====================\n⚠️【內部資料不公開】\n取得原因/日期：${gV('v_rRes')} / ${rDate}\n實價登錄：${gV('v_realPrice')}\n售屋動機：${gS('v_mo', 'v_moO')}\n委託種類：${gV('v_iTyp')} | 委託編號：${gV('v_iNo')}\n服務費：${gV('v_iFee')}% | 中人費：${gS('v_iBroker', 'v_iBrokerO')}\n開發人員：${gV('v_iDev')}\n房屋建號：${gV('v_buildNo1')}段${gV('v_buildNo2')}號\n房屋地號：${gV('v_landNo1')}段${gV('v_landNo2')}號\n門牌：${gV('v_iAddr')}\n地標：${gV('v_iAddrUrl')}\n鑰匙：${gV('v_iKey')}\n補1：${gV('v_iSup1')}\n補2：${gV('v_iSup2')}${intDyn}`;
 
-        let fList = [];
-        document.querySelectorAll('#facilityChecks input:checked').forEach(e => {
-            if(e.nextElementSibling) fList.push(e.nextElementSibling.innerText);
-        });
-        let fo = gV('v_facO'); if(fo) fList.push(fo);
-
-        let stList = [];
-        document.querySelectorAll('#storeChecks input:checked').forEach(e => {
-            if(e.nextElementSibling) stList.push(e.nextElementSibling.innerText);
-        });
-        let sto = gV('v_stO'); if(sto) stList.push(sto);
-
-        let featStr = gV('v_feat');
-        document.querySelectorAll('#dyn-feat .dyn-val').forEach(i=>{ if(i.value.trim()) featStr += '\n' + i.value.trim(); });
-
-        let feat2Str = '';
-        document.querySelectorAll('#dyn-feat2 .dyn-val').forEach(i=>{ if(i.value.trim()) feat2Str += '\n' + i.value.trim(); });
-
-        let intDyn = '';
-        document.querySelectorAll('#dyn-int .dyn-val').forEach(i=>{ if(i.value.trim()) intDyn += `\n自訂補充：${i.value.trim()}`; });
-
-        let p1 = gS('v_proj1','v_proj1O');
-        let p2 = gS('v_proj2','v_proj2O');
-        let projStr = '';
-        if(p1 !== '空白' && p1 !== '無') projStr += `建案名：${p1}\n`;
-        if(p2 !== '空白' && p2 !== '無') projStr += `建商名：${p2}\n`;
-
-        let sch = gS('v_schSel', 'v_sch');
-        
-        let rDate = gS('v_rDateSel', 'v_rDateO');
-        if(rDate === '自行填寫') {
-            let ry=gV('v_ry'), rm=gV('v_rm'), rd=gV('v_rd'); 
-            rDate = (ry||rm||rd) ? `${ry||'_'}年${rm||'_'}月${rd||'_'}日` : '空白';
-        }
-
-        let cN = gS('v_carNSel', 'v_carNO');
-        if(cN === '其他' || cN === '自行填寫') {
-            let cl=gV('v_carL'), cn=gV('v_carN'); 
-            cN = (cl||cn) ? `位於${cl||'_'}層${cn||'_'}號` : gV('v_carNO2')||'空白';
-        }
-        let mN = gS('v_motoNSel', 'v_motoNO');
-        if(mN === '其他' || mN === '自行填寫') {
-            mN = gV('v_motoN') ? gV('v_motoN')+'號' : gV('v_motoNO2')||'空白';
-        }
-        
-        let fl = gS('v_flSel', 'v_flO');
-        if(fl === '自行填寫') {
-            let ft=gV('v_fTot'); 
-            fl = ft ? `共${ft}樓` : '空白';
-        }
-        
-        let elType = gS('v_elevSel', 'v_elevO');
-        if(elType === '自行填寫') elType = gV('v_elevO') || '空白';
-        
-        let mf = gS('v_mFSel', 'v_mF');
-        if(mf === '其他(自行填寫)' || mf === '其他') mf = gV('v_mF') || '空白';
-
-        const text = `【基本資料】\n` +
-                     `類型：${gV('v_type')} | 現況：${gV('v_intStatus')}\n` +
-                     `案名：${gV('v_name')}\n` +
-                     `售價：${gV('v_price')} 萬\n` +
-                     `格局：${layText.replace(/\n/g,'')}\n` +
-                     `主建：${gV('v_mainA')}坪 | 附屬：${gV('v_subA')}坪\n` +
-                     `總建坪：${gV('v_totBuild')} 坪\n` +
-                     `肉地：${gV('v_landA')}坪 | 路地：${gV('v_landRoad')}坪\n` +
-                     `總地坪：${gV('v_totLand')} 坪\n` +
-                     `公設比：${gS('v_pubRSel', 'v_pubRO')} | 增建：${gS('v_addSel', 'v_addO')}\n\n` +
-                     `【車位資料】\n` +
-                     `汽車位：${gS('v_carT', 'v_carTO')}\n` +
-                     `汽車號碼：${cN}\n` +
-                     `機車號碼：${mN}\n\n` +
-                     `【房屋資訊】\n` +
-                     `屋齡/完工：${gS('v_ageSel','v_ageO')==='自行填寫'?(gV('v_age')?gV('v_age')+'年':'空白'):gS('v_ageSel','v_ageO')} / ${gS('v_bDateSel','v_bDateO')==='自行填寫'?((gV('v_by')||gV('v_bm')||gV('v_bd'))?`${gV('v_by')||'_'}年${gV('v_bm')||'_'}月${gV('v_bd')||'_'}日`:'空白'):gS('v_bDateSel','v_bDateO')}\n` +
-                     `樓層：${fl}\n` +
-                     `電梯：${elType}\n` +
-                     `管理費：${mf}\n` +
-                     `管理時間：${gV('v_mTS')==='早晚' ? `早上${gV('v_mT1')||'_'}點到晚上${gV('v_mT2')||'_'}點` : gS('v_mTS', 'v_mTO')}\n` +
-                     `一樓樓高：${gV('v_h1') ? gV('v_h1')+'米' : '空白'}\n` +
-                     `面寬/深度/路寬：${gV('v_wS')||'空白'}米 / ${gV('v_dpS')||'空白'}米 / ${gV('v_rwS')||'空白'}米\n\n` +
-                     `【座向與環境】\n` +
-                     `房屋向：${gS('v_dH', 'v_dHO')}\n` +
-                     `學校：${sch}\n` +
-                     `超商：${stList.join('、')}\n` +
-                     `${feat2Str}\n\n` +
-                     `【補充】\n` +
-                     `太陽能：${gS('v_solar', 'v_solarO')}\n` +
-                     `瓦斯/建材：${gS('v_gas', 'v_gasO')} / ${gS('v_mat', 'v_matO')}\n` +
-                     `用途/分區：${gS('v_useSel', 'v_use')} / ${gS('v_zon', 'v_zonO')}\n\n` +
-                     `【建案】\n` +
-                     projStr +
-                     `【公設】\n${fList.join('、')}\n\n` +
-                     `【物件介紹】\n${featStr}\n\n` +
-                     `====================\n` +
-                     `⚠️【內部資料不公開】\n` +
-                     `取得原因/日期：${gV('v_rRes')} / ${rDate}\n` +
-                     `實價登錄：${gV('v_realPrice')}\n` +
-                     `售屋動機：${gS('v_mo', 'v_moO')}\n` +
-                     `委託種類：${gV('v_iTyp')}\n` +
-                     `委託編號：${gV('v_iNo')}\n` +
-                     `服務費：${gV('v_iFee')}%\n` +
-                     `中人費：${gS('v_iBroker', 'v_iBrokerO')}\n` +
-                     `開發人員：${gV('v_iDev')}\n` +
-                     `房屋建號：${gV('v_buildNo1')}段${gV('v_buildNo2')}建號\n` +
-                     `房屋地號：${gV('v_landNo1')}段${gV('v_landNo2')}地號\n` +
-                     `地址門牌：${gV('v_iAddr')}\n` +
-                     `地標網址：${gV('v_iAddrUrl')}\n` +
-                     `鑰匙：${gV('v_iKey')}\n` +
-                     `房屋補充：${gV('v_iSup1')}\n` +
-                     `重要補充：${gV('v_iSup2')}${intDyn}`;
-
-        fallbackCopyTextToClipboard(text);
+        var ta = document.createElement("textarea"); ta.value = txt; ta.style.position = "fixed"; ta.style.left = "-9999px";
+        document.body.appendChild(ta); ta.focus(); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
         const btn = document.querySelector('.btn-copy'); 
-        if(btn) {
-            btn.innerText = "✅ 已成功複製全文本！"; 
-            setTimeout(() => { btn.innerText = "📋 一鍵複製所有訊息"; }, 3000);
-        }
+        if(btn) { btn.innerText = "✅ 已成功複製全文本！"; setTimeout(() => { btn.innerText = "📋 一鍵複製所有訊息"; }, 3000); }
     }
 </script>
 
