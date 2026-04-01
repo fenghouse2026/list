@@ -1424,6 +1424,171 @@
     mix-blend-mode:normal !important;
 }
 
+
+/* ===== 微調：公設移到下方後，基本資料右側改為貼齊 ===== */
+.basic-right-col{
+    justify-content: flex-start !important;
+    gap: 8px !important;
+}
+
+
+/* ===== 微調：回收第一排下方多餘空間 ===== */
+.export-body > .export-grid-2col:first-of-type{
+    margin-bottom: -10px !important;
+    align-items: start !important;
+}
+.export-body > .export-grid-2col:first-of-type > .export-card{
+    align-self: start !important;
+}
+.export-body > .export-grid-2col:first-of-type > .export-card > .export-card-body{
+    padding-bottom: 8px !important;
+}
+
+/* ===== 學區三欄輸出 ===== */
+.school-grid{
+    display:grid;
+    grid-template-columns: 1fr;
+    gap:6px;
+}
+.school-row{
+    display:flex;
+    align-items:flex-start;
+    gap:10px;
+    padding:3px 0;
+    border-bottom:1px dashed rgba(0,0,0,0.05);
+}
+.school-row:last-child{ border-bottom:none; }
+.school-k{
+    width:44px;
+    flex-shrink:0;
+    color:#6b7280;
+    font-weight:700;
+}
+.school-v{
+    flex:1;
+    min-width:0;
+    word-break:break-word;
+}
+
+
+/* ===== 微調：基本資料右側建案資訊往下 ===== */
+.basic-right-col{
+    padding-top: 26px !important;
+}
+
+/* ===== 學區改成國小/國中/高中三列 ===== */
+.school-grid{
+    display:grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 4px !important;
+}
+.school-row{
+    display:flex !important;
+    align-items:flex-start !important;
+    gap:10px !important;
+    padding:3px 0 !important;
+    border-bottom:1px dashed rgba(0,0,0,0.05) !important;
+}
+.school-row:last-child{border-bottom:none !important;}
+.school-k{
+    width:44px !important;
+    flex-shrink:0 !important;
+    color:#6b7280 !important;
+    font-weight:700 !important;
+}
+.school-v{
+    flex:1 !important;
+    min-width:0 !important;
+    word-break:break-word !important;
+}
+
+
+/* ===== 最終版微調 ===== */
+.basic-right-col{
+    justify-content: flex-start !important;
+    padding-top: 58px !important;
+}
+.export-body > .export-grid-2col:first-of-type{
+    margin-bottom: -12px !important;
+    align-items: start !important;
+}
+.export-body > .export-grid-2col:first-of-type > .export-card{
+    align-self: start !important;
+}
+.export-body > .export-grid-2col:first-of-type > .export-card > .export-card-body{
+    padding-bottom: 6px !important;
+}
+.export-footer{
+    position: absolute !important;
+    left: 0;
+    right: 0;
+    bottom: 8px;
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+    border-top: none !important;
+    text-align: center !important;
+    font-size: 10px !important;
+    color: #9ca3af !important;
+    letter-spacing: 0.4px !important;
+}
+.school-grid{
+    display:grid !important;
+    grid-template-columns:1fr !important;
+    gap:6px !important;
+    width:100% !important;
+}
+.school-row{
+    display:flex !important;
+    align-items:flex-start !important;
+    gap:10px !important;
+    padding:3px 0 !important;
+    border-bottom:1px dashed rgba(0,0,0,0.05) !important;
+}
+.school-row:last-child{
+    border-bottom:none !important;
+}
+.school-k{
+    width:44px !important;
+    flex-shrink:0 !important;
+    color:#6b7280 !important;
+    font-weight:700 !important;
+}
+.school-v{
+    flex:1 !important;
+    min-width:0 !important;
+    word-break:break-word !important;
+}
+
+
+/* ===== 主視覺強化（最終版） ===== */
+.export-price{
+    font-size:34px !important;
+    font-weight:800 !important;
+    letter-spacing:1px;
+}
+.export-layout{
+    font-size:20px !important;
+    font-weight:700 !important;
+}
+.export-title{
+    font-size:22px !important;
+    font-weight:800 !important;
+    letter-spacing:1px;
+}
+.basic-right-col{
+    padding-top:48px !important;
+}
+.basic-right-col .export-key{
+    font-size:14px !important;
+    font-weight:700 !important;
+    color:#374151;
+}
+.basic-right-col .export-val{
+    font-size:16px !important;
+    font-weight:600 !important;
+    color:#111827;
+}
+
 </style>
 </head>
 <body>
@@ -1479,16 +1644,19 @@
         <div class="card">
             <h2 class="card-title">房屋坪數</h2>
             <div class="grid-3">
-                <div class="form-group"><label>地坪(肉地)</label><input type="number" id="v_landA" oninput="calcAreas()"></div>
-                <div class="form-group"><label>地坪(路地)</label><input type="number" id="v_landRoad" oninput="calcAreas()"></div>
-                <div class="form-group"><label style="color:var(--brand-red);">總地坪 (自動加總)</label><input type="text" id="v_totLand" readonly placeholder="肉地+路地"></div>
+                <div class="form-group"><label>土地(肉地)</label><input type="number" id="v_landA" oninput="calcAreas()"></div>
+                <div class="form-group"><label>土地(路地)</label><input type="number" id="v_landRoad" oninput="calcAreas()"></div>
+                <div class="form-group"><label style="color:var(--brand-red);">土地 (自動加總)</label><input type="text" id="v_totLand" readonly placeholder="肉地+路地"></div>
             </div>
             <div class="grid-3">
                 <div class="form-group"><label>主建物 (坪)</label><input type="number" id="v_mainA" oninput="calcAreas()"></div>
                 <div class="form-group"><label>附屬建物 (坪)</label><input type="number" id="v_subA" oninput="calcAreas()"></div>
-                <div class="form-group"><label style="color:var(--brand-red);">總建坪 (自動加總)</label><input type="text" id="v_totBuild" readonly placeholder="主建+附屬"></div>
+                <div class="form-group"><label style="color:var(--brand-red);">權狀 (自動加總)</label><input type="text" id="v_totBuild" readonly placeholder="主建+附屬"></div>
             </div>
-            <div class="form-group"><label>增建</label><select id="v_addSel" onchange="toggle(this, 'v_addO')"><option value="空白">空白</option><option value="其他">約____幾坪/或其他</option></select><input type="text" id="v_addO" class="other-input" placeholder="例: 約5坪"></div>
+            <div class="form-group"><label>公設</label><select id="v_addSel" onchange="toggle(this, 'v_addO')"><option value="空白">空白</option><option value="其他">約____幾坪/或其他</option></select><input type="text" id="v_addO" class="other-input" oninput="calcAreas()" placeholder="例: 約5坪">
+<div class="flex-row other-input" id="v_carBox" style="display:block; margin-top:8px;">
+    <input type="text" id="v_car" placeholder="車位坪數" oninput="calcAreas()">
+</div></div>
         </div>
 
         <div class="card">
@@ -1534,7 +1702,13 @@
                 <div class="form-group"><label>使用分區</label><select id="v_zon" onchange="toggle(this,'v_zonO')"><option value="住宅區">住宅區</option><option value="商業區">商業區</option><option value="甲種建地">甲種建地</option><option value="乙種建地">乙種建地</option><option value="丙種建地">丙種建地</option><option value="丁種建地">丁種建地</option><option value="都計內乙工">都計內乙工</option><option value="其他">其他</option></select><input type="text" id="v_zonO" class="other-input"></div>
             </div>
             <div class="grid-2">
-                <div class="form-group"><label>附近學校</label><select id="v_schSel" onchange="toggle(this,'v_sch')"><option value="空白">空白</option><option value="其他">自行填入</option></select><input type="text" id="v_sch" class="other-input"></div>
+                <div class="form-group"><label>附近學區</label>
+                        <div class="grid-3">
+                            <input type="text" id="v_sch_ele" placeholder="國小">
+                            <input type="text" id="v_sch_mid" placeholder="國中">
+                            <input type="text" id="v_sch_high" placeholder="高中">
+                        </div>
+                    </div>
                 <div class="form-group"><label>附近超商(多選)</label><div class="chip-group" id="storeChecks"><input type="checkbox" id="s1"><label class="chip-label" for="s1">7-11</label><input type="checkbox" id="s2"><label class="chip-label" for="s2">全家</label><input type="checkbox" id="s3"><label class="chip-label" for="s3">萊爾富</label><input type="checkbox" id="s4"><label class="chip-label" for="s4">全聯</label><input type="checkbox" id="s5"><label class="chip-label" for="s5">市場</label></div><input type="text" id="v_stO" placeholder="其他" style="margin-top:8px;"></div>
             </div>
 </div>
@@ -1642,12 +1816,7 @@
                                         <div class="mini-info-val" id="o_proj2"></div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="mini-fac-box">
-                                <div class="basic-right-title">公設種類</div>
-                                <div class="mini-fac-text" id="o_fac"></div>
-                            </div>
-                        </div>
+                            </div>                        </div>
                     </div>
                 </div>
                 <div class="export-card">
@@ -1666,17 +1835,18 @@
                     <div class="split-card-body">
                         <div class="split-col">
                             <div class="split-title">土地</div>
-<div class="export-item"><div class="export-key" style="width:60px;">總地坪</div><div class="export-val val-red-bold" id="o_totLand"></div></div>
+<div class="export-item"><div class="export-key" style="width:60px;">土地</div><div class="export-val val-red-bold" id="o_totLand"></div></div>
                             <div class="export-item"><div class="export-key" style="width:60px;">肉地</div><div class="export-val" id="o_landA"></div></div>
                             <div class="export-item"><div class="export-key" style="width:60px;">路地</div><div class="export-val" id="o_landRoad"></div></div>
 </div>
                         <div class="split-divider"></div>
                         <div class="split-col">
-                            <div class="split-title">建物</div>
-<div class="export-item"><div class="export-key" style="width:60px;">總建坪</div><div class="export-val val-red-bold" id="o_totBuild"></div></div>
+                            <div class="split-title">權狀</div>
+<div class="export-item"><div class="export-key" style="width:60px;">權狀</div><div class="export-val val-red-bold" id="o_totBuild"></div></div>
                             <div class="export-item"><div class="export-key" style="width:60px;">主建</div><div class="export-val" id="o_mA"></div></div>
                             <div class="export-item"><div class="export-key" style="width:60px;">附屬</div><div class="export-val" id="o_sA"></div></div>
-                            <div class="export-item"><div class="export-key" style="width:60px;">增建</div><div class="export-val" id="o_add"></div></div>
+                            <div class="export-item"><div class="export-key" style="width:60px;">公設</div><div class="export-val" id="o_add"></div></div>
+                            <div class="export-item"><div class="export-key" style="width:60px;">車位</div><div class="export-val" id="o_car"></div></div>
 </div>
                     </div>
                 </div>
@@ -1740,27 +1910,17 @@
                     <div class="split-card-body">
                         <div class="split-col">
                             <div class="split-title">學區</div>
-                            <div class="export-item"><div class="export-key" style="width:60px;">學校</div><div class="export-val" id="o_sch"></div></div>
+                            <div id="o_school_grid" class="school-grid">
+                                <div class="school-row"><div class="school-k">國小</div><div class="school-v" id="o_sch_ele"></div></div>
+                                <div class="school-row"><div class="school-k">國中</div><div class="school-v" id="o_sch_mid"></div></div>
+                                <div class="school-row"><div class="school-k">高中</div><div class="school-v" id="o_sch_high"></div></div>
+                            </div>
                         </div>
                         <div class="split-divider"></div>
                         <div class="split-col">
                             <div class="split-title">環境</div>
-                            <div class="export-item"><div class="export-key" style="width:60px;">超商</div><div class="export-val" id="o_st"></div></div>
-                            <div class="export-desc" id="o_feat2" style="font-size:16px;"></div>
+                            <div class="export-item"><div class="export-key">超商</div><div class="export-val" id="o_st"></div></div>
                         </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="export-row-full" id="legacy_project_row">
-                <div class="export-card">
-                    <div class="export-card-header">🏢 建案與公設</div>
-                    <div class="export-card-body">
-                        <div style="display:flex; gap:15px;" id="box_proj_section">
-                            <div class="export-item" style="flex:1;" id="box_proj1"><div class="export-key">建案名</div><div class="export-val" id="o_proj1"></div></div>
-                            <div class="export-item" style="flex:1;" id="box_proj2"><div class="export-key">建商名</div><div class="export-val" id="o_proj2"></div></div>
-                        </div>
-                        <div class="export-desc" id="o_fac" style="padding-top: 5px; border-top: 1px dashed #DDD; margin-top: 5px;"></div>
                     </div>
                 </div>
             </div>
@@ -1838,13 +1998,15 @@
         try {
             let m = parseFloat(document.getElementById('v_mainA').value) || 0;
             let s = parseFloat(document.getElementById('v_subA').value) || 0;
-            let i = m + s;
-            document.getElementById('v_totBuild').value = i>0 ? i.toFixed(2) : '';
-            
+            let p = parseFloat(document.getElementById('v_addO') ? document.getElementById('v_addO').value : '') || 0;
+            let c = parseFloat(document.getElementById('v_car') ? document.getElementById('v_car').value : '') || 0;
+            let build = m + s + p + c;
+            document.getElementById('v_totBuild').value = build > 0 ? build.toFixed(2) : '';
+
             let l1 = parseFloat(document.getElementById('v_landA').value) || 0;
             let l2 = parseFloat(document.getElementById('v_landRoad').value) || 0;
-            let totL = l1 + l2;
-            document.getElementById('v_totLand').value = totL>0 ? totL.toFixed(2) : '';
+            let land = l1 + l2;
+            document.getElementById('v_totLand').value = land > 0 ? land.toFixed(2) : '';
         } catch(e) {}
     }
 
