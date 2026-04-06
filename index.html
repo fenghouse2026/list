@@ -1643,6 +1643,12 @@ input::placeholder{
     letter-spacing:0.5px;
 }
 
+
+/* 透天/別墅版本隱藏公設欄位 */
+body.tab-villa .public-facility-section{
+    display:none !important;
+}
+
 </style>
 </head>
 <body>
@@ -1656,8 +1662,8 @@ input::placeholder{
     </div>
 
     <div class="top-tabs">
-        <button class="tab-btn active">1. 房屋</button>
-        <button class="tab-btn" onclick="alert('公寓/大樓表單建置中！')">2. 土地</button>
+        <button class="tab-btn active">1. 透天 / 別墅</button>
+        <button class="tab-btn" onclick="alert('公寓/大樓表單建置中！')">2. 公寓 / 大樓</button>
         
     </div>
 
@@ -1717,14 +1723,14 @@ input::placeholder{
             <h2 class="card-title">房屋資訊</h2>
             <div class="grid-2">
                 <div class="form-group"><label>樓層</label><div class="flex-row"><label>共</label><input type="text" id="v_fTot"><label>樓</label></div></div>
-                <div class="form-group"><label>電梯</label><select id="v_elevSel" onchange="toggle(this,'v_elevO')"><option value="有電梯">有電梯</option><option value="無電梯">無電梯</option><option value="其他">其他</option></select><input type="text" id="v_elevO" class="other-input" placeholder="自行填寫"></div>
+                <div class="form-group"><label>電梯</label><select id="v_elevSel" onchange="toggle(this,'v_elevO')"><option value="有電梯">有電梯</option><option value="無電梯">無電梯</option><option value="其他">其他-自行填入</option></select><input type="text" id="v_elevO" class="other-input" placeholder="自行填寫"></div>
             </div>
             <div class="grid-2">
-                <div class="form-group"><label>管理費</label><select id="v_mFSel" onchange="toggle(this,'v_mF')"><option value="有管理費">有管理費</option><option value="無管理費">無管理費</option><option value="其他">其他(自行填寫)</option></select><input type="text" id="v_mF" class="other-input" placeholder="自行填入"></div>
+                <div class="form-group"><label>管理費</label><select id="v_mFSel" onchange="toggle(this,'v_mF')"><option value="有管理費">有管理費</option><option value="無管理費">無管理費</option><option value="其他-自行填入">其他-自行填入</option></select><input type="text" id="v_mF" class="other-input" placeholder="自行填入"></div>
                 <div class="form-group">
                     <label>管理員</label>
-                    <select id="v_mTS" onchange="toggle(this, 'v_mTO')"><option value="有管理員">有管理員</option><option value="無管理員">無管理員</option><option value="有管理員24H">有管理員24H</option><option value="早晚">早上__到__點</option><option value="其他">其他</option></select>
-                    <div id="v_mTimeBox" class="other-input flex-row"><label>早</label><input type="text" id="v_mT1"><label>到</label><input type="text" id="v_mT2"><label>點</label></div>
+                    <select id="v_mTS" onchange="toggle(this, 'v_mTO')"><option value="有管理員">有管理員</option><option value="無管理員">無管理員</option><option value="其他-自行填入">其他-自行填入</option></select>
+                    <div id="REMOVED" class="other-input flex-row"><label>早</label><input type="text" id="v_mT1"><label>到</label><input type="text" id="v_mT2"><label>點</label></div>
                     <input type="text" id="v_mTO" class="other-input" placeholder="自行填入">
                 </div>
             </div>
@@ -1738,29 +1744,29 @@ input::placeholder{
 
         <div class="card">
             <h2 class="card-title">座向與車位</h2>
-            <div class="form-group"><label>房屋座向</label><select id="v_dH" onchange="toggle(this,'v_dHO')"><option value="空白">空白</option><option value="朝東">朝東</option><option value="朝西">朝西</option><option value="朝南">朝南</option><option value="朝北">朝北</option><option value="朝東南">朝東南</option><option value="朝東北">朝東北</option><option value="朝西南">朝西南</option><option value="朝西北">朝西北</option><option value="其他">其他</option></select><input type="text" id="v_dHO" class="other-input" placeholder="自行填入"></div>
+            <div class="form-group"><label>房屋座向</label><select id="v_dH" onchange="toggle(this,'v_dHO')"><option value="空白">空白</option><option value="朝東">朝東</option><option value="朝西">朝西</option><option value="朝南">朝南</option><option value="朝北">朝北</option><option value="朝東南">朝東南</option><option value="朝東北">朝東北</option><option value="朝西南">朝西南</option><option value="朝西北">朝西北</option><option value="其他">其他-自行填入</option></select><input type="text" id="v_dHO" class="other-input" placeholder="自行填入"></div>
             <div class="grid-3">
-                <div class="form-group"><label>汽車位</label><select id="v_carT" onchange="toggle(this, 'v_carTO')"><option value="無車位">無車位</option><option value="約可停一台">約可停一台</option><option value="約可停兩台">約可停兩台</option><option value="約可停三台">約可停三台</option><option value="約可停四台">約可停四台</option><option value="其他">其他</option></select><input type="text" id="v_carTO" class="other-input"></div>
-                <div class="form-group"><label>汽車號碼</label><select id="v_carNSel" onchange="toggle(this, 'v_carNO')"><option value="無">無</option><option value="其他">位於_層_號</option></select><div class="flex-row other-input" id="v_carNO"><label>於</label><input type="text" id="v_carL"><label>層</label><input type="text" id="v_carN"><label>號</label></div><input type="text" id="v_carNO2" class="other-input"></div>
-                <div class="form-group"><label>機車號碼</label><select id="v_motoNSel" onchange="toggle(this, 'v_motoNO')"><option value="無">無</option><option value="其他">號碼</option></select><div class="flex-row other-input" id="v_motoNO"><input type="text" id="v_motoN"><label>號</label></div><input type="text" id="v_motoNO2" class="other-input"></div>
+                <div class="form-group"><label>車位(有/無)</label><select id="v_carT" onchange="toggle(this, 'v_carTO')"><option value="無車位">無車位</option><option value="單車位">單車位</option><option value="雙車位">雙車位</option><option value="三車位">三車位</option><option value="四車位">四車位</option><option value="其他-自行填入">其他-自行填入</option></select><input type="text" id="v_carTO" class="other-input" placeholder="自行填入"></div>
+                <div class="form-group"><label>車位總類(自行輸入)</label><input type="text" id="v_carNO2" placeholder=""></div>
+                <div class="form-group"><label>車位格數(自行輸入) 台</label><input type="text" id="v_carN" placeholder=""></div>
             </div>
         </div>
 
         <div class="card">
             <h2 class="card-title">補充 及 學區/環境</h2>
             <div class="grid-2">
-                <div class="form-group"><label>太陽能</label><select id="v_solar" onchange="toggle(this,'v_solarO')"><option value="空白">空白</option><option value="有私有太陽能">有私有</option><option value="無私有太陽能">無私有</option><option value="租賃太陽能">租賃</option><option value="社區頂樓租賃的太陽能">社區頂樓租賃</option><option value="其他">其他</option></select><input type="text" id="v_solarO" class="other-input"></div>
-                <div class="form-group"><label>瓦斯</label><select id="v_gas" onchange="toggle(this,'v_gasO')"><option value="空白">空白</option><option value="天然瓦斯">天然瓦斯</option><option value="桶裝瓦斯">桶裝瓦斯</option><option value="無瓦斯">無瓦斯</option><option value="其他">其他</option></select><input type="text" id="v_gasO" class="other-input"></div>
-                <div class="form-group"><label>主要建材</label><select id="v_mat" onchange="toggle(this,'v_matO')"><option value="RC鋼筋混凝土">RC鋼筋混凝土</option><option value="磚造">磚造</option><option value="加強磚造">加強磚造</option><option value="其他">其他</option></select><input type="text" id="v_matO" class="other-input"></div>
-                <div class="form-group"><label>主要用途</label><select id="v_useSel" onchange="toggle(this,'v_use')"><option value="集合住宅">集合住宅</option><option value="其他">其他</option></select><input type="text" id="v_use" class="other-input"></div>
-                <div class="form-group"><label>使用分區</label><select id="v_zon" onchange="toggle(this,'v_zonO')"><option value="住宅區">住宅區</option><option value="商業區">商業區</option><option value="甲種建地">甲種建地</option><option value="乙種建地">乙種建地</option><option value="丙種建地">丙種建地</option><option value="丁種建地">丁種建地</option><option value="都計內乙工">都計內乙工</option><option value="其他">其他</option></select><input type="text" id="v_zonO" class="other-input"></div>
+                <div class="form-group"><label>太陽能</label><select id="v_solar" onchange="toggle(this,'v_solarO')"><option value="空白">空白</option><option value="有私有太陽能">有私有</option><option value="無私有太陽能">無私有</option><option value="租賃太陽能">租賃</option><option value="社區頂樓租賃的太陽能">社區頂樓租賃</option><option value="其他">其他-自行填入</option></select><input type="text" id="v_solarO" class="other-input"></div>
+                <div class="form-group"><label>瓦斯</label><select id="v_gas" onchange="toggle(this,'v_gasO')"><option value="空白">空白</option><option value="天然瓦斯">天然瓦斯</option><option value="桶裝瓦斯">桶裝瓦斯</option><option value="無瓦斯">無瓦斯</option><option value="其他">其他-自行填入</option></select><input type="text" id="v_gasO" class="other-input"></div>
+                <div class="form-group"><label>主要建材</label><select id="v_mat" onchange="toggle(this,'v_matO')"><option value="RC鋼筋混凝土">RC鋼筋混凝土</option><option value="磚造">磚造</option><option value="加強磚造">加強磚造</option><option value="其他">其他-自行填入</option></select><input type="text" id="v_matO" class="other-input"></div>
+                <div class="form-group"><label>主要用途</label><select id="v_useSel" onchange="toggle(this,'v_use')"><option value="集合住宅">集合住宅</option><option value="其他">其他-自行填入</option></select><input type="text" id="v_use" class="other-input"></div>
+                <div class="form-group"><label>使用分區</label><select id="v_zon" onchange="toggle(this,'v_zonO')"><option value="住宅區">住宅區</option><option value="商業區">商業區</option><option value="甲種建地">甲種建地</option><option value="乙種建地">乙種建地</option><option value="丙種建地">丙種建地</option><option value="丁種建地">丁種建地</option><option value="都計內乙工">都計內乙工</option><option value="其他">其他-自行填入</option></select><input type="text" id="v_zonO" class="other-input"></div>
             </div>
             <div class="grid-2">
                 <div class="form-group"><label>附近學區</label>
                         <div class="grid-3">
-                            <input type="text" id="v_sch_ele" placeholder="國小">
-                            <input type="text" id="v_sch_mid" placeholder="國中">
-                            <input type="text" id="v_sch_high" placeholder="高中">
+                            <input type="text" id="v_sch_ele" placeholder="">
+                            <input type="text" id="v_sch_mid" placeholder="">
+                            <input type="text" id="v_sch_high" placeholder="">
                         </div>
                     </div>
                 <div class="form-group"><label>附近超商(多選)</label><div class="chip-group" id="storeChecks"><input type="checkbox" id="s1"><label class="chip-label" for="s1">7-11</label><input type="checkbox" id="s2"><label class="chip-label" for="s2">全家</label><input type="checkbox" id="s3"><label class="chip-label" for="s3">萊爾富</label><input type="checkbox" id="s4"><label class="chip-label" for="s4">全聯</label><input type="checkbox" id="s5"><label class="chip-label" for="s5">市場</label></div><input type="text" id="v_stO" placeholder="其他" style="margin-top:8px;"></div>
@@ -1770,8 +1776,8 @@ input::placeholder{
         <div class="card">
             <h2 class="card-title">建案與公設</h2>
             <div class="grid-2">
-                <div class="form-group"><label>建案名稱</label><select id="v_proj1" onchange="toggle(this, 'v_proj1O')"><option value="無">無</option><option value="其他">自行填入</option></select><input type="text" id="v_proj1O" class="other-input" placeholder="建案名..."></div>
-                <div class="form-group"><label>建商名稱</label><select id="v_proj2" onchange="toggle(this, 'v_proj2O')"><option value="無">無</option><option value="其他">自行填入</option></select><input type="text" id="v_proj2O" class="other-input" placeholder="建商名..."></div>
+                <div class="form-group"><label>建案名稱</label><select id="v_proj1" onchange="toggle(this, 'v_proj1O')"><option value="無">無</option><option value="其他">其他-自行填入</option></select><input type="text" id="v_proj1O" class="other-input" placeholder="建案名..."></div>
+                <div class="form-group"><label>建商名稱</label><select id="v_proj2" onchange="toggle(this, 'v_proj2O')"><option value="無">無</option><option value="其他">其他-自行填入</option></select><input type="text" id="v_proj2O" class="other-input" placeholder="建商名..."></div>
             </div>
             <div class="form-group" style="margin-top:10px;">
                 <label>總戶數</label>
@@ -1787,7 +1793,7 @@ input::placeholder{
                     <input type="text" id="v_elevators" placeholder="例：2部">
                 </div>
             </div>
-            <div class="form-group" style="margin-top: 15px;">
+            <div class="form-group public-facility-section" style="margin-top: 15px;">
                 <label style="border-bottom:1px solid #EEE; padding-bottom:5px;">公設點選</label>
                 <div class="chip-group" style="margin-top:8px;" id="facilityChecks">
                     <input type="checkbox" id="f1"><label class="chip-label" for="f1">大廳</label><input type="checkbox" id="f2"><label class="chip-label" for="f2">中庭花園</label><input type="checkbox" id="f3"><label class="chip-label" for="f3">交誼廳</label><input type="checkbox" id="f4"><label class="chip-label" for="f4">視聽室</label><input type="checkbox" id="f5"><label class="chip-label" for="f5">閱讀室</label><input type="checkbox" id="f6"><label class="chip-label" for="f6">卡拉OK</label><input type="checkbox" id="f7"><label class="chip-label" for="f7">健身房</label><input type="checkbox" id="f8"><label class="chip-label" for="f8">媽媽教室</label><input type="checkbox" id="f9"><label class="chip-label" for="f9">遊戲室</label><input type="checkbox" id="f10"><label class="chip-label" for="f10">游泳池</label><input type="checkbox" id="f11"><label class="chip-label" for="f11">曬被區</label><input type="checkbox" id="f12"><label class="chip-label" for="f12">回收區</label>
@@ -1808,7 +1814,7 @@ input::placeholder{
                 <div class="form-group"><label>取得原因</label><select id="v_rRes"><option value="買賣">買賣</option><option value="繼承">繼承</option><option value="贈與">贈與</option></select></div>
                 <div class="form-group"><label>實價登錄</label><input type="text" id="v_realPrice"></div>
                 <div class="form-group"><label>登記日期</label><select id="v_rDateSel" onchange="toggle(this, 'v_rDateO')"><option value="空白">空白</option><option value="其他">填入</option></select><div class="flex-row other-input" id="v_rDateO"><input type="tel" id="v_ry"><label>年</label><input type="tel" id="v_rm"><label>月</label><input type="tel" id="v_rd"><label>日</label></div></div>
-                <div class="form-group"><label>售屋動機</label><select id="v_mo" onchange="toggle(this,'v_moO')"><option value="無">無</option><option value="轉投資">轉投資</option><option value="換屋">換屋</option><option value="工作關係">工作關係</option><option value="閒置資產">閒置資產</option><option value="其他">其他</option></select><input type="text" id="v_moO" class="other-input"></div>
+                <div class="form-group"><label>售屋動機</label><select id="v_mo" onchange="toggle(this,'v_moO')"><option value="無">無</option><option value="轉投資">轉投資</option><option value="換屋">換屋</option><option value="工作關係">工作關係</option><option value="閒置資產">閒置資產</option><option value="其他">其他-自行填入</option></select><input type="text" id="v_moO" class="other-input"></div>
             </div>
             <div class="form-group"><label>房屋補充說明</label><input type="text" id="v_iSup1" placeholder="※例如有漏水"></div>
             <div class="form-group"><label>重要補充說明</label><input type="text" id="v_iSup2"></div>
@@ -1958,9 +1964,9 @@ input::placeholder{
                 <div class="export-card">
                     <div class="export-card-header">🚗 車位</div>
                     <div class="export-card-body">
-                        <div class="export-item"><div class="export-key">汽車位</div><div class="export-val" id="o_cT"></div></div>
-                        <div class="export-item"><div class="export-key">汽車號碼</div><div class="export-val" id="o_cN"></div></div>
-                        <div class="export-item"><div class="export-key">機車號碼</div><div class="export-val" id="o_mN"></div></div>
+                        <div class="export-item"><div class="export-key">車位</div><div class="export-val" id="o_cT"></div></div>
+                        <div class="export-item"><div class="export-key">車位總類</div><div class="export-val" id="o_cN"></div></div>
+                        <div class="export-item"><div class="export-key">車位格數</div><div class="export-val" id="o_mN"></div></div>
                     </div>
                 </div>
             </div>
@@ -2053,7 +2059,7 @@ input::placeholder{
     }
     
     document.getElementById('v_mTS').addEventListener('change', function(){
-        const box = document.getElementById('v_mTimeBox');
+        const box = document.getElementById('REMOVED');
         if(this.value === '早晚') { box.style.display = 'flex'; } else { box.style.display = 'none'; }
     });
 
@@ -2170,8 +2176,8 @@ input::placeholder{
         setTxt('o_solar', gS('v_solar','v_solarO')); setTxt('o_gas', gS('v_gas','v_gasO')); setTxt('o_mat', gS('v_mat','v_matO')); setTxt('o_use', gS('v_useSel','v_use')); setTxt('o_zon', gS('v_zon','v_zonO'));
 
         setTxt('o_cT', gS('v_carT', 'v_carTO'));
-        let cN = gS('v_carNSel', 'v_carNO'); setTxt('o_cN', cN === '自行填寫' ? `位於${gV('v_carL')||'_'}層${gV('v_carN')||'_'}號` : (cN === '無' ? '無' : (gV('v_carNO2')||cN||'')));
-        let mN = gS('v_motoNSel', 'v_motoNO'); setTxt('o_mN', mN === '自行填寫' ? (gV('v_motoN')?gV('v_motoN')+'號':gV('v_motoNO2')||'') : mN);
+        setTxt('o_cN', gV('v_carNO2') || '');
+        setTxt('o_mN', gV('v_carN') || '');
 
         let p1 = gS('v_proj1','v_proj1O'); setTxt('o_proj1', (p1 && p1 !== '空白' && p1 !== '無') ? p1 : '');
         let p2 = gS('v_proj2','v_proj2O'); setTxt('o_proj2', (p2 && p2 !== '空白' && p2 !== '無') ? p2 : '');
@@ -2295,9 +2301,7 @@ input::placeholder{
         let addText = gV('v_addO');
         if (addText === '約____幾坪/或其他') addText = gV('v_addO') || '-';
         const manageFee = gS('v_mFSel', 'v_mF').includes('其他') ? (gV('v_mF') || '-') : dash(gS('v_mFSel', 'v_mF'));
-        const manageTime = document.getElementById('v_mTS') && document.getElementById('v_mTS').value === '早晚'
-            ? `早上${gV('v_mT1')||'-'}到${gV('v_mT2')||'-'}點`
-            : dash(gS('v_mTS', 'v_mTO'));
+        const manageTime = dash(gS('v_mTS', 'v_mTO'));
 
         const lines = [
             `【基本資料】`,
@@ -2511,6 +2515,28 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     updateSinglePhotoDisplay();
+});
+</script>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+    function syncVillaMode(){
+        document.body.classList.remove('tab-villa','tab-apartment','tab-land');
+        var active = document.querySelector('.top-tabs .tab-btn.active');
+        var txt = active ? active.innerText.replace(/^\d+\.\s*/, '').trim() : '';
+        if (txt.indexOf('透天') !== -1 || txt.indexOf('別墅') !== -1) {
+            document.body.classList.add('tab-villa');
+        } else if (txt.indexOf('公寓') !== -1 || txt.indexOf('大樓') !== -1) {
+            document.body.classList.add('tab-apartment');
+        } else if (txt.indexOf('土地') !== -1 || txt.indexOf('建地') !== -1 || txt.indexOf('農地') !== -1) {
+            document.body.classList.add('tab-land');
+        }
+    }
+    document.querySelectorAll('.top-tabs .tab-btn').forEach(function(btn){
+        btn.addEventListener('click', function(){ setTimeout(syncVillaMode, 0); });
+    });
+    syncVillaMode();
 });
 </script>
 
