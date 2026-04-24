@@ -4,7 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>永義房屋 成功莊敬店 - 物件明細建檔</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js">
+function toggleRResOther(){
+    const sel = document.getElementById('v_rRes');
+    const input = document.getElementById('v_rResOther');
+    if(!sel || !input) return;
+    input.style.display = sel.value === '其他' ? 'block' : 'none';
+}
+
+</script>
     <style>
         /* =========================================
            1. 品牌視覺與全域變數
@@ -1661,6 +1669,31 @@ body.tab-villa .public-facility-section{
     align-items: center !important;
 }
 
+
+/* ===== 僅調整：輸出圖片格子深淺度加深，不改排版/字體/邏輯 ===== */
+#exportArea .export-card{
+    border-color: rgba(0,0,0,0.11) !important;
+    box-shadow: 0 8px 22px rgba(15,23,42,0.055) !important;
+}
+#exportArea .export-card-header{
+    border-bottom-color: rgba(0,0,0,0.13) !important;
+}
+#exportArea .export-item{
+    border-bottom-color: rgba(0,0,0,0.105) !important;
+}
+#exportArea .split-divider{
+    background-color: rgba(0,0,0,0.13) !important;
+}
+#exportArea .split-title{
+    border-bottom-color: rgba(0,0,0,0.12) !important;
+}
+#exportArea .school-row{
+    border-bottom-color: rgba(0,0,0,0.105) !important;
+}
+#exportArea .export-content{
+    border-color: rgba(0,0,0,0.08) !important;
+}
+
 </style>
 </head>
 <body>
@@ -1675,8 +1708,6 @@ body.tab-villa .public-facility-section{
 
     <div class="top-tabs">
         <button class="tab-btn active">1. 透天 / 別墅</button>
-        <button class="tab-btn" onclick="alert('公寓/大樓表單建置中！')">2. 公寓 / 大樓</button>
-        
     </div>
 
     <form id="mainFormArea">
@@ -1735,12 +1766,12 @@ body.tab-villa .public-facility-section{
             <h2 class="card-title">房屋資訊</h2>
             <div class="grid-2">
                 <div class="form-group"><label>樓層</label><div class="flex-row"><label>共</label><input type="text" id="v_fTot"><label>樓</label></div></div>
-                <div class="form-group"><label>電梯</label><select id="v_elevSel" onchange="toggle(this,'v_elevO')"><option value="有電梯">有電梯</option><option value="無電梯">無電梯</option><option value="其他">其他-自行填入</option></select><input type="text" id="v_elevO" class="other-input" placeholder="自行填寫"></div>
+                <div class="form-group"><label>電梯</label><select id="v_elevSel" onchange="toggle(this,'v_elevO')"><option value="有電梯">有電梯</option><option value="無電梯" selected>無電梯</option><option value="其他">其他-自行填入</option></select><input type="text" id="v_elevO" class="other-input" placeholder="自行填寫"></div>
             </div>
             <div class="grid-2">
                 <div class="form-group">
                     <label>管理員</label>
-                    <select id="v_mTS" onchange="toggle(this, 'v_mTO')"><option value="有管理員">有管理員</option><option value="無管理員">無管理員</option><option value="其他-自行填入">其他-自行填入</option></select>
+                    <select id="v_mTS" onchange="toggle(this, 'v_mTO')"><option value="有管理員">有管理員</option><option value="無管理員" selected>無管理員</option><option value="其他-自行填入">其他-自行填入</option></select>
                     <input type="text" id="v_mTO" class="other-input" placeholder="自行填入">
                 </div>
                 <div class="form-group"><label>管理費</label><input type="number" id="v_mF" placeholder="如無留空"></div>
@@ -1759,7 +1790,7 @@ body.tab-villa .public-facility-section{
             <div class="form-group"><label>房屋座向</label><select id="v_dH" onchange="toggle(this,'v_dHO')"><option value="空白">空白</option><option value="朝東">朝東</option><option value="朝西">朝西</option><option value="朝南">朝南</option><option value="朝北">朝北</option><option value="朝東南">朝東南</option><option value="朝東北">朝東北</option><option value="朝西南">朝西南</option><option value="朝西北">朝西北</option><option value="其他">其他-自行填入</option></select><input type="text" id="v_dHO" class="other-input" placeholder="自行填入"></div>
             <div class="grid-3">
                 <div class="form-group"><label>車位(有/無)</label><select id="v_carT" onchange="toggle(this, 'v_carTO')"><option value="無車位">無車位</option><option value="單車位">單車位</option><option value="雙車位">雙車位</option><option value="三車位">三車位</option><option value="四車位">四車位</option><option value="其他-自行填入">其他-自行填入</option></select><input type="text" id="v_carTO" class="other-input" placeholder="自行填入"></div>
-                <div class="form-group"><label>車位總類(自行輸入)</label><input type="text" id="v_carNO2" placeholder=""></div>
+                <div class="form-group"><label>車位種類(自行輸入)</label><input type="text" id="v_carNO2" placeholder=""></div>
                 <div class="form-group"><label>車位格數(自行輸入) 台</label><input type="text" id="v_carN" placeholder=""></div>
             </div>
         </div>
@@ -1770,7 +1801,7 @@ body.tab-villa .public-facility-section{
                 <div class="form-group"><label>太陽能</label><select id="v_solar" onchange="toggle(this,'v_solarO')"><option value="空白">空白</option><option value="有私有太陽能">有私有</option><option value="無私有太陽能">無私有</option><option value="租賃太陽能">租賃</option><option value="社區頂樓租賃的太陽能">社區頂樓租賃</option><option value="其他">其他-自行填入</option></select><input type="text" id="v_solarO" class="other-input"></div>
                 <div class="form-group"><label>瓦斯</label><select id="v_gas" onchange="toggle(this,'v_gasO')"><option value="空白">空白</option><option value="天然瓦斯">天然瓦斯</option><option value="桶裝瓦斯">桶裝瓦斯</option><option value="無瓦斯">無瓦斯</option><option value="其他">其他-自行填入</option></select><input type="text" id="v_gasO" class="other-input"></div>
                 <div class="form-group"><label>主要建材</label><select id="v_mat" onchange="toggle(this,'v_matO')"><option value="RC鋼筋混凝土">RC鋼筋混凝土</option><option value="磚造">磚造</option><option value="加強磚造">加強磚造</option><option value="其他">其他-自行填入</option></select><input type="text" id="v_matO" class="other-input"></div>
-                <div class="form-group"><label>主要用途</label><select id="v_useSel" onchange="toggle(this,'v_use')"><option value="集合住宅">集合住宅</option><option value="其他">其他-自行填入</option></select><input type="text" id="v_use" class="other-input"></div>
+                <div class="form-group"><label>主要用途 (依謄本填寫)</label><input type="text" id="v_useSel" placeholder="填主要即可，例如：住家、停車空間、梯間，只需填住家"><input type="text" id="v_use" class="other-input"></div>
                 <div class="form-group"><label>使用分區</label><select id="v_zon" onchange="toggle(this,'v_zonO')"><option value="住宅區">住宅區</option><option value="商業區">商業區</option><option value="甲種建地">甲種建地</option><option value="乙種建地">乙種建地</option><option value="丙種建地">丙種建地</option><option value="丁種建地">丁種建地</option><option value="都計內乙工">都計內乙工</option><option value="其他">其他-自行填入</option></select><input type="text" id="v_zonO" class="other-input"></div>
             </div>
             <div class="grid-2">
@@ -1788,22 +1819,12 @@ body.tab-villa .public-facility-section{
         <div class="card">
             <h2 class="card-title">建案與公設</h2>
             <div class="grid-2">
-                <div class="form-group"><label>建案名稱</label><select id="v_proj1" onchange="toggle(this, 'v_proj1O')"><option value="無">無</option><option value="其他">其他-自行填入</option></select><input type="text" id="v_proj1O" class="other-input" placeholder="建案名..."></div>
-                <div class="form-group"><label>建商名稱</label><select id="v_proj2" onchange="toggle(this, 'v_proj2O')"><option value="無">無</option><option value="其他">其他-自行填入</option></select><input type="text" id="v_proj2O" class="other-input" placeholder="建商名..."></div>
+                <div class="form-group"><label>建案名稱</label><input type="text" id="v_proj1" placeholder="如無免填"></div>
+                <div class="form-group"><label>建商名稱</label><input type="text" id="v_proj2" placeholder="如無免填"></div>
             </div>
             <div class="form-group" style="margin-top:10px;">
                 <label>總戶數</label>
-                <input type="text" id="v_proj3O" placeholder="例：120戶">
-            </div>
-            <div class="grid-2" style="margin-top:10px;">
-                <div class="form-group">
-                    <label>每層戶數</label>
-                    <input type="text" id="v_floor_units" placeholder="例：4戶">
-                </div>
-                <div class="form-group">
-                    <label>電梯數</label>
-                    <input type="text" id="v_elevators" placeholder="例：2部">
-                </div>
+                <input type="text" id="v_proj3O" placeholder="例：8戶">
             </div>
             <div class="form-group public-facility-section" style="margin-top: 15px;">
                 <label style="border-bottom:1px solid #EEE; padding-bottom:5px;">公設點選</label>
@@ -1823,12 +1844,17 @@ body.tab-villa .public-facility-section{
             <h2 class="card-title">⚠️ 內部資料不公開 (不上圖片，僅供複製)</h2>
             <div class="grid-3">
                 <div class="form-group"><label>現況</label><select id="v_intStatus"><option value="空屋">空屋</option><option value="自用">自用</option><option value="出租中">出租中</option></select></div>
-                <div class="form-group"><label>取得原因</label><select id="v_rRes"><option value="買賣">買賣</option><option value="繼承">繼承</option><option value="贈與">贈與</option></select></div>
+                <div class="form-group"><label>取得原因</label><select id="v_rRes" onchange="toggleRResOther()"><option value="買賣">買賣</option><option value="繼承">繼承</option><option value="贈與">贈與</option><option value="其他">其他-自行輸入</option></select>
+<input type="text" id="v_rResOther" class="other-input" placeholder="請輸入" style="display:none;"></div>
                 <div class="form-group"><label>實價登錄</label><input type="text" id="v_realPrice"></div>
                 <div class="form-group"><label>登記日期</label><select id="v_rDateSel" onchange="toggle(this, 'v_rDateO')"><option value="空白">空白</option><option value="其他">填入</option></select><div class="flex-row other-input" id="v_rDateO"><input type="tel" id="v_ry"><label>年</label><input type="tel" id="v_rm"><label>月</label><input type="tel" id="v_rd"><label>日</label></div></div>
                 <div class="form-group"><label>售屋動機</label><select id="v_mo" onchange="toggle(this,'v_moO')"><option value="無">無</option><option value="轉投資">轉投資</option><option value="換屋">換屋</option><option value="工作關係">工作關係</option><option value="閒置資產">閒置資產</option><option value="其他">其他-自行填入</option></select><input type="text" id="v_moO" class="other-input"></div>
             </div>
-            <div class="form-group"><label>房屋補充說明</label><input type="text" id="v_iSup1" placeholder="※例如有漏水"></div>
+            <div class="grid-2">
+                    <div class="form-group"><label>謄本設定金額</label><input type="text" id="v_transcriptAmount"></div>
+                    <div class="form-group"><label>設定銀行</label><input type="text" id="v_setBank"></div>
+                </div>
+<div class="form-group"><label>房屋補充說明</label><input type="text" id="v_iSup1" placeholder="※例如有漏水"></div>
             <div class="form-group"><label>重要補充說明</label><input type="text" id="v_iSup2"></div>
             
             <div class="grid-2" style="margin-top: 15px;">
@@ -1836,12 +1862,13 @@ body.tab-villa .public-facility-section{
                 <div class="form-group"><label>委託編號</label><input type="text" id="v_iNo"></div>
                 <div class="form-group"><label>開發人員</label><input type="text" id="v_iDev"></div>
                 <div class="form-group"><label>服務費%</label><input type="number" id="v_iFee"></div>
-                <div class="form-group"><label>中人費</label><select id="v_iBroker" onchange="toggle(this, 'v_iBrokerO')"><option value="有">有</option><option value="無">無</option><option value="其他">自行填寫</option></select><input type="text" id="v_iBrokerO" class="other-input" placeholder="填寫中人費"></div>
+                <div class="form-group"><label>中人費</label><select id="v_iBroker" onchange="toggle(this, 'v_iBrokerO')"><option value="有">有</option><option value="無" selected>無</option><option value="其他">自行填寫</option></select><input type="text" id="v_iBrokerO" class="other-input" placeholder="填寫中人費"></div>
                 <div class="form-group"><label>房屋建號</label><div class="flex-row"><input type="text" id="v_buildNo1"><label>段</label><input type="text" id="v_buildNo2"><label>建號</label></div></div>
                 <div class="form-group"><label>房屋地號</label><div class="flex-row"><input type="text" id="v_landNo1"><label>段</label><input type="text" id="v_landNo2"><label>地號</label></div></div>
                 <div class="form-group"><label>📌地址(門牌)</label><input type="text" id="v_iAddr"></div>
                 <div class="form-group"><label>📌Google地標網址</label><input type="text" id="v_iAddrUrl"></div>
                 <div class="form-group"><label>🔑 鑰匙</label><input type="text" id="v_iKey"></div>
+                
             </div>
         </div>
     </form>
@@ -1905,10 +1932,7 @@ body.tab-villa .public-facility-section{
                                         <div class="mini-info-key">總戶數</div>
                                         <div class="mini-info-val" id="o_proj3"></div>
                                     </div>
-                                    <div class="mini-info-row">
-                                        <div class="mini-info-key">梯戶規劃</div>
-                                        <div class="mini-info-val" id="o_floor_elv"></div>
-                                    </div>
+                                    
                                 </div>
                             </div>                        </div>
                     </div>
@@ -1978,7 +2002,7 @@ body.tab-villa .public-facility-section{
                     <div class="export-card-header">🚗 車位</div>
                     <div class="export-card-body">
                         <div class="export-item school-row"><div class="export-key">車位</div><div class="export-val" id="o_cT"></div></div>
-                        <div class="export-item school-row"><div class="export-key">車位總類</div><div class="export-val" id="o_cN"></div></div>
+                        <div class="export-item school-row"><div class="export-key">車位種類</div><div class="export-val" id="o_cN"></div></div>
                         <div class="export-item school-row"><div class="export-key">車位格數</div><div class="export-val" id="o_mN"></div></div>
                     </div>
                 </div>
@@ -2228,8 +2252,8 @@ body.tab-villa .public-facility-section{
         setTxt('o_cN', gV('v_carNO2') || '');
         setTxt('o_mN', gV('v_carN') || '');
 
-        let p1 = gS('v_proj1','v_proj1O'); setTxt('o_proj1', (p1 && p1 !== '空白' && p1 !== '無') ? p1 : '');
-        let p2 = gS('v_proj2','v_proj2O'); setTxt('o_proj2', (p2 && p2 !== '空白' && p2 !== '無') ? p2 : '');
+        let p1 = gV('v_proj1'); setTxt('o_proj1', (p1 && p1 !== '空白' && p1 !== '無') ? p1 : '');
+        let p2 = gV('v_proj2'); setTxt('o_proj2', (p2 && p2 !== '空白' && p2 !== '無') ? p2 : '');
         let p3 = gV('v_proj3O'); setTxt('o_proj3', p3 || '');
         let fu = gV('v_floor_units');
         let elv = gV('v_elevators');
@@ -2359,8 +2383,8 @@ body.tab-villa .public-facility-section{
         document.querySelectorAll('#storeChecks input:checked').forEach(e => { if (e.nextElementSibling) stList.push(e.nextElementSibling.innerText); });
         if (gV('v_stO')) stList.push(gV('v_stO'));
 
-        let p1 = gS('v_proj1','v_proj1O');
-        let p2 = gS('v_proj2','v_proj2O');
+        let p1 = gV('v_proj1');
+        let p2 = gV('v_proj2');
         let projName = (p1 === '無' || p1 === '空白') ? '-' : p1;
         let builderName = (p2 === '無' || p2 === '空白') ? '-' : p2;
 
@@ -2381,8 +2405,6 @@ body.tab-villa .public-facility-section{
         }
         mN = mN === '無' ? '無' : dash(mN);
 
-        const fl = gV('v_fTot') ? `共${gV('v_fTot')}樓` : '-';
-        const sch = gS('v_schSel', 'v_sch');
         const propertyType = document.querySelector('.top-tabs .tab-btn.active')
             ? document.querySelector('.top-tabs .tab-btn.active').innerText.replace(/^\d+\.\s*/, '')
             : '透天 / 別墅';
@@ -2391,34 +2413,37 @@ body.tab-villa .public-facility-section{
         const dateText = (gV('v_by') || gV('v_bm') || gV('v_bd')) ? `${gV('v_by')||'-'}年${gV('v_bm')||'-'}月${gV('v_bd')||'-'}日` : '-';
         let addText = gV('v_addO');
         if (addText === '約____幾坪/或其他') addText = gV('v_addO') || '-';
+
+        const fl = gV('v_fTot') ? `共${gV('v_fTot')}樓` : '-';
+        const elevator = dash(gS('v_elevSel', 'v_elevO'));
         const managerStatus = dash(gS('v_mTS', 'v_mTO'));
         const manageFee = gV('v_mF') ? `${gV('v_mF')}元` : '-';
         const manageTime = dash(gV('v_mTime'));
 
+        const transcriptAmount = dash(gV('v_transcriptAmount'));
+        const setBank = dash(gV('v_setBank'));
+
         const lines = [
             `【基本資料】`,
-            `類型：${dash(propertyType)}`,
-            `現況：${dash(gV('v_intStatus'))}`,
             `案名：${dash(gV('v_name'))}`,
             `售價：${lineValue(gV('v_price'), '萬')}`,
             `格局：${dash(String(layText || '').replace(/\n/g, ''))}`,
             `屋齡：${ageText}`,
-            `完工：${dateText}`,
+            `建築完工日：${dateText}`,
             ``,
-            `【房屋坪數】`,
-            `總建坪：${lineValue(gV('v_totBuild'), '坪')}`,
-            `主建：${lineValue(gV('v_mainA'), '坪')}`,
-            `附屬：${lineValue(gV('v_subA'), '坪')}`,
-            ``,
+            `【房屋地坪】`,
             `總地坪：${lineValue(gV('v_totLand'), '坪')}`,
             `肉地：${lineValue(gV('v_landA'), '坪')}`,
             `路地：${lineValue(gV('v_landRoad'), '坪')}`,
             ``,
-            `增建：${dash(addText)}`,
+            `【房屋建坪】`,
+            `總建坪：${lineValue(gV('v_totBuild'), '坪')}`,
+            `主建：${lineValue(gV('v_mainA'), '坪')}`,
+            `附屬：${lineValue(gV('v_subA'), '坪')}`,
             ``,
             `【房屋資訊】`,
             `樓層：${fl}`,
-            `電梯：${dash(gS('v_elevSel', 'v_elevO'))}`,
+            `電梯：${elevator}`,
             `管理員：${managerStatus}`,
             `管理費：${manageFee}`,
             `管理時間：${manageTime}`,
@@ -2450,7 +2475,7 @@ body.tab-villa .public-facility-section{
             `建案名稱：${dash(projName)}`,
             `建商名稱：${dash(builderName)}`,
             `總戶數：${dash(gV('v_proj3O'))}`,
-            `梯戶規劃：${dash(((gV('v_floor_units')||'') + ((gV('v_floor_units')&&gV('v_elevators')) ? ' / ' : '') + (gV('v_elevators')||'')))}`,
+            ``,
             `【公設】`,
             `公設內容：${dash(fList.join('、'))}`,
             ``,
@@ -2458,23 +2483,32 @@ body.tab-villa .public-facility-section{
             `${dash(gV('v_feat'))}`,
             ``,
             `====================`,
-            `⚠️【內部資料不公開】`,
-            `取得原因：${dash(gV('v_rRes'))}`,
-            `日期：${dash(rDate)}`,
-            `實價登錄：${dash(gV('v_realPrice'))}`,
-            `售屋動機：${dash(gS('v_mo', 'v_moO'))}`,
-            `委託種類：${dash(gV('v_iTyp'))}`,
-            `委託編號：${dash(gV('v_iNo'))}`,
-            `服務費：${lineValue(gV('v_iFee'), '%')}`,
-            `中人費：${dash(gS('v_iBroker', 'v_iBrokerO'))}`,
-            `開發人員：${dash(gV('v_iDev'))}`,
-            `房屋建號：${dash(gV('v_buildNo1'))}段${dash(gV('v_buildNo2'))}建號`,
-            `房屋地號：${dash(gV('v_landNo1'))}段${dash(gV('v_landNo2'))}地號`,
-            `地址門牌：${dash(gV('v_iAddr'))}`,
-            `地標網址：${dash(gV('v_iAddrUrl'))}`,
-            `鑰匙：${dash(gV('v_iKey'))}`,
-            `房屋補充：${dash(gV('v_iSup1'))}`,
-            `重要補充：${dash(gV('v_iSup2'))}`
+            `🔒 【內部資料｜請勿外流】`,
+            `•類型：${dash(propertyType)}`,
+            `•現況：${dash(gV('v_intStatus'))}`,
+            `•增建：${dash(addText)}`,
+            ``,
+            `•取得原因：${dash(gV('v_rRes'))}`,
+            `•登記日期：${dash(rDate)}`,
+            `•實價登錄：${dash(gV('v_realPrice'))}`,
+            `•售屋動機：${dash(gS('v_mo', 'v_moO'))}`,
+            `•謄本設定金額：${transcriptAmount}`,
+            `•設定銀行：${setBank}`,
+            ``,
+            `•委託種類：${dash(gV('v_iTyp'))}`,
+            `•委託編號：${dash(gV('v_iNo'))}`,
+            `•服務費：${lineValue(gV('v_iFee'), '%')}`,
+            `•中人費：${dash(gS('v_iBroker', 'v_iBrokerO'))}`,
+            `•開發人員：${dash(gV('v_iDev'))}`,
+            ``,
+            `•房屋建號：${dash(gV('v_buildNo1'))}段${dash(gV('v_buildNo2'))}建號`,
+            `•房屋地號：${dash(gV('v_landNo1'))}段${dash(gV('v_landNo2'))}地號`,
+            `•地址門牌：${dash(gV('v_iAddr'))}`,
+            `•地標網址：${dash(gV('v_iAddrUrl'))}`,
+            ``,
+            `•鑰匙：${dash(gV('v_iKey'))}`,
+            `•房屋補充：${dash(gV('v_iSup1'))}`,
+            `•重要補充：${dash(gV('v_iSup2'))}`
         ];
 
         const text = lines.join('\n');
